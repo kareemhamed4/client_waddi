@@ -1,30 +1,33 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
-Widget defaultButton({
-  double width = double.infinity,
-  Color background = Colors.redAccent,
-  required VoidCallback function,
-  required BorderRadius radius,
-  bool isUpper = true,
-  required String text,
+Widget myMaterialButton({
+  required BuildContext context,
+  required Function onPressed,
+  Widget? labelWidget,
+  bool isEnabled = true,
+  Color? bgColorForNotEnabled,
+  double height = 60,
+  double radius = 33,
+  Color? bgColor,
 }) =>
-    Container(
-      width: width,
-      decoration: BoxDecoration(
-        borderRadius: radius,
-        color: background,
+    MaterialButton(
+      onPressed: () {
+        onPressed();
+      },
+      color: isEnabled ? bgColor ?? myFavColor : bgColorForNotEnabled ?? myFavColor4,
+      minWidth: double.infinity,
+      height: height,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius),
+        side: BorderSide(
+          color: myFavColor
+        )
       ),
-      child: MaterialButton(
-        onPressed: function,
-        child: Text(
-          isUpper ? text.toUpperCase() : text,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
+      child: labelWidget,
     );
 
 Widget defaultTextForm({
@@ -65,7 +68,7 @@ Widget myDivider() => Padding(
       child: Container(
         width: double.infinity,
         height: 0.5,
-        color: Colors.grey,
+        color: myFavColor4.withOpacity(0.5),
       ),
     );
 
@@ -221,5 +224,101 @@ Widget notify(context) => Padding(
             ),
           ),
         ],
+      ),
+    );
+
+Widget mySizedBox({
+  required Size size,
+  double? myHeight,
+  double? myWidth,
+}) =>
+    SizedBox(
+      height: myHeight != null ? size.height * myHeight / size.height : 0,
+      width: myWidth != null ? size.width * myWidth / size.width : 0,
+    );
+
+PreferredSizeWidget defaultAppBar({
+  required BuildContext context,
+  String? title,
+  Color? titleColor,
+}) =>
+    AppBar(
+      title: Text(
+        title ?? "",
+        style: Theme.of(context)
+            .textTheme
+            .labelLarge!
+            .copyWith(color: titleColor ?? myFavColor8,fontSize: 28),
+      ),
+    );
+
+Future<dynamic> showMyBottomSheet({
+  required BuildContext context,
+  required Widget child,
+}) =>
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      barrierColor: Colors.black38,
+      backgroundColor: Theme.of(context).cardColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (context) {
+        return child;
+      },
+    );
+
+
+Widget myTextFormField({
+  required BuildContext context,
+  TextEditingController? controller,
+  TextInputType? type,
+  bool? isPassword,
+  Function? onTap,
+  ValueChanged<String>? onChange,
+  String? Function(String?)? validate,
+  ValueChanged<String>? onSubmit,
+  Widget? suffixIcon,
+  Widget? prefixIcon,
+  Widget? icon,
+  int? maxLength,
+  int? maxLength2,
+  TextAlign? textAlign,
+  String? hint,
+}) =>
+    TextFormField(
+      obscuringCharacter: '●',
+      controller: controller,
+      keyboardType: type,
+      obscureText: isPassword ?? false,
+      onTap: () {
+        onTap;
+      },
+      onChanged: onChange,
+      onFieldSubmitted: onSubmit,
+      validator: validate,
+      textAlign: textAlign ?? TextAlign.start,
+      maxLength: maxLength,
+      textAlignVertical: TextAlignVertical.center,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(maxLength2),
+      ],
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: myFavColor5,
+        border: InputBorder.none,
+        hintText: hint ?? '',
+        hintStyle: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontSize: 16, color: myFavColor4),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
       ),
     );

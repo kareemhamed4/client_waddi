@@ -49,6 +49,16 @@ dependencies:
   email_auth: ^1.0.0
   email_otp: ^1.0.4
   http: ^0.13.5
+  #kareem
+  flutter_svg: ^1.1.6
+  font_awesome_flutter: ^10.4.0
+  dotted_border: ^2.0.0+3
+  file_picker: ^5.2.11
+
+  google_maps_flutter: ^2.2.5
+  flutter_polyline_points: ^1.0.0
+  geolocator: ^9.0.2
+  material_floating_search_bar: ^0.3.7
 
 dev_dependencies:
   flutter_test:
@@ -107,6 +117,11 @@ flutter:
     - family: Baloo2-Regular
       fonts:
         - asset: assets/fonts/Baloo2-Regular.ttf
+          weight: 400
+
+    - family: CustomIcons
+      fonts:
+        - asset: assets/fonts/CustomIcons.ttf
           weight: 400
   # fonts:
   #   - family: Schyler

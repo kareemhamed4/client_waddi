@@ -7,7 +7,25 @@ import 'package:waddy_app/shared/styles/colors.dart';
 ThemeData lightTheme = ThemeData(
   primarySwatch: buildMaterialColor(myFavColor),
   primaryColor: myFavColor,
+  colorScheme: ColorScheme.light(primary: myFavColor),
   scaffoldBackgroundColor: myFavColor7,
+  inputDecorationTheme: const InputDecorationTheme(
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+    border: OutlineInputBorder(
+      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      side: BorderSide(
+        color: myFavColor,
+      ),
+    ),
+  ),
   appBarTheme: AppBarTheme(
     color: myFavColor7,
     elevation: 0,
@@ -54,14 +72,14 @@ ThemeData lightTheme = ThemeData(
       fontSize: 27,
     ), //subtitle1
     titleLarge: TextStyle(
-      fontFamily: "Baloo2-Medium",
-      color: myFavColor8,
-      fontSize: 48,
-    ), //headline5
+        fontFamily: "Baloo2-Medium",
+        color: myFavColor8,
+        fontSize: 48,
+        height: 1.2), //headline5
     headlineMedium:
         TextStyle(fontFamily: "Baloo2-Medium", color: myFavColor8), //headline3
-    labelLarge:
-        TextStyle(fontFamily: "Baloo2-Bold", color: myFavColor7), //label
+    labelLarge: TextStyle(
+        fontFamily: "Baloo2-Bold", color: myFavColor7, fontSize: 20), //label
   ),
 );
 

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/bloc_observer.dart';
-import 'package:waddy_app/cubit/cubit.dart';
-import 'package:waddy_app/cubit/states.dart';
-import 'package:waddy_app/layout/cubit/cubit.dart';
-import 'package:waddy_app/layout/layout_screen.dart';
-import 'package:waddy_app/modules/login/waddy_login_screen.dart';
-import 'package:waddy_app/modules/onboarding/waddy_on_boarding_screen.dart';
+import 'package:waddy_app/cubit/driver/cubit.dart';
+import 'package:waddy_app/cubit/user/cubit.dart';
+import 'package:waddy_app/cubit/user/states.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/layout_screen.dart';
+import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
+import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
+import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/network/remote/dio_helper.dart';
 import 'package:waddy_app/shared/styles/themes.dart';
@@ -17,7 +20,7 @@ Future<void> main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-
+  currentLocationAsString = CacheHelper.getData(key: 'currentLocation');
   bool? isDark = CacheHelper.getData(key: 'isDark') ?? false;
   bool? onBoarding = CacheHelper.getData(key: 'firstSplash');
 
@@ -26,7 +29,7 @@ Future<void> main() async {
   String? token = CacheHelper.getData(key: 'token');
   if (onBoarding != null) {
     if (token != null) {
-      widget = const Waddylayout();
+      widget = const UserLayoutScreen();
     } else {
       widget = WaddyLoginScreen();
     }
@@ -53,15 +56,26 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) =>
-              AppCubit()..changeAppMode(fromShared: isDark),
+          create: (BuildContext context) => UserCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            )
+            ..getMyCurrentLocation(),
         ),
-        BlocProvider(create: (BuildContext context) => ShippingCubit()),
+        BlocProvider(
+          create: (BuildContext context) => DriverCubit()
+            ..changeAppMode(
+              fromShared: isDark,
+            )
+            ..getMyCurrentLocation(),
+        ),
+        BlocProvider(create: (BuildContext context) => UserLayoutCubit()),
+        BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
       ],
-      child: BlocConsumer<AppCubit, AppStates>(
+      child: BlocConsumer<UserCubit, UserStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          AppCubit cubit = BlocProvider.of(context);
+          UserCubit cubit = BlocProvider.of(context);
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: !cubit.isDark
                 ? const SystemUiOverlayStyle(
@@ -81,10 +95,10 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: lightTheme,
               darkTheme: darkTheme,
-              themeMode: AppCubit.get(context).isDark
+              themeMode: UserCubit.get(context).isDark
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: const WaddyOnBoardingScreen(),
+              home: const UserLayoutScreen(),
             ),
           );
         },

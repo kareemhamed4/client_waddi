@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:waddy_app/models/Waddy_app_model.dart';
+import 'package:waddy_app/models/user/Waddy_app_model.dart';
 
 class ApiServices {
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async {

@@ -1,6 +1,6 @@
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
-import 'package:waddy_app/modules/new_password/reset_password.dart';
+import 'package:waddy_app/modules/common/new_password/reset_password.dart';
 import 'package:waddy_app/shared/components/components.dart';
 
 class Test extends StatefulWidget {

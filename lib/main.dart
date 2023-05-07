@@ -6,9 +6,11 @@ import 'package:waddy_app/cubit/driver/cubit.dart';
 import 'package:waddy_app/cubit/user/cubit.dart';
 import 'package:waddy_app/cubit/user/states.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
+import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
+import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
 import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (BuildContext context) => UserLayoutCubit()),
         BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
+        BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
       ],
       child: BlocConsumer<UserCubit, UserStates>(
         listener: (context, state) {},
@@ -98,7 +101,7 @@ class MyApp extends StatelessWidget {
               themeMode: UserCubit.get(context).isDark
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: const UserLayoutScreen(),
+              home: const DriverLayoutScreen(),
             ),
           );
         },

@@ -11,11 +11,13 @@ class MyGoogleMap extends StatefulWidget {
   final bool isGoToMyLocationEnabled;
   final bool isTracking;
   final bool isPlaces;
+  final double zoom;
   const MyGoogleMap({
     Key? key,
     required this.isGoToMyLocationEnabled,
     required this.isTracking,
     required this.isPlaces,
+    this.zoom = 14,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
   late bool isGoToMyLocationEnabled;
   late bool isTracking;
   late bool isPlaces;
+  double zoom = 14;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -110,6 +113,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
   Widget build(BuildContext context) {
     isGoToMyLocationEnabled = widget.isGoToMyLocationEnabled;
     isTracking = widget.isTracking;
+    zoom = widget.zoom;
     return SizedBox(
       width: double.infinity,
       child: GoogleMap(
@@ -119,7 +123,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
         myLocationButtonEnabled: true,
         initialCameraPosition: CameraPosition(
           target: sourceLocation,
-          zoom: 19,
+          zoom: zoom,
           bearing: 0.0,
           tilt: 0.0,
         ),

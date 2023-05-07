@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   sqflite: ^2.2.5
-  intl: ^0.18.0
+  intl: ^0.17.0
   conditional_builder_null_safety: ^0.0.6
   bloc: ^8.1.1
   flutter_bloc: ^8.1.2
@@ -54,6 +54,13 @@ dependencies:
   font_awesome_flutter: ^10.4.0
   dotted_border: ^2.0.0+3
   file_picker: ^5.2.11
+  fluentui_system_icons: ^1.1.200
+
+  #firebase
+  # firebase_core: ^2.11.0
+  # firebase_auth: ^4.5.0
+  # cloud_firestore: ^4.6.0
+  # firebase_storage: ^11.1.2
 
   google_maps_flutter: ^2.2.5
   flutter_polyline_points: ^1.0.0

@@ -1,6 +1,4 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/components/constants.dart';
@@ -43,17 +41,7 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
     deviceHeight = size.height;
     deviceWidth = size.width;
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: AppBar(
-          backgroundColor: myFavColor,
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: myFavColor,
-            statusBarBrightness: Brightness.light,
-            statusBarIconBrightness: Brightness.light,
-          ),
-        ),
-      ),
+      appBar: buildAppBarForOnlyStatusBar(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -62,6 +50,7 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                 : const MyGoogleMap(
                     isGoToMyLocationEnabled: false,
                     isTracking: false,
+                    zoom: 11,
                     isPlaces: false,
                   ),
             Align(
@@ -264,16 +253,55 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20,top: 25),
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.pop(context);
-                },
-                child: CircleAvatar(
-                  backgroundColor: myFavColor,
-                  radius: 16,
-                  child: Icon(Icons.arrow_back_outlined,color: myFavColor7,),
-                ),
+              padding: const EdgeInsets.only(top: 25,left: 20,right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: myFavColor8.withAlpha(20),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: const Offset(0, 0),
+                        ),
+                      ]),
+                      child: CircleAvatar(
+                        backgroundColor: myFavColor7,
+                        radius: 18,
+                        child: Icon(
+                          Icons.arrow_back_outlined,
+                          color: myFavColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(boxShadow: [
+                        BoxShadow(
+                          color: myFavColor8.withAlpha(20),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset: const Offset(0, 0),
+                        ),
+                      ]),
+                      child: CircleAvatar(
+                        backgroundColor: myFavColor7,
+                        radius: 18,
+                        child: Icon(
+                          Icons.settings,
+                          color: myFavColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

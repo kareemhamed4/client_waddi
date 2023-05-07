@@ -6,8 +6,8 @@ import 'package:http/http.dart';
 import 'package:waddy_app/layout/driver/cubit/states.dart';
 import 'package:waddy_app/models/user/track_id_model.dart';
 import 'package:waddy_app/modules/driver/home/home_screen.dart';
+import 'package:waddy_app/modules/driver/inbox/inbox_screen.dart';
 import 'package:waddy_app/modules/driver/orders/orders_screen.dart';
-import 'package:waddy_app/modules/user/chat/chat_screen.dart';
 import 'package:waddy_app/modules/user/profile/profile_screen.dart';
 
 class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
@@ -19,7 +19,7 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     DriverHomeScreen(),
     DriverOrdersScreen(),
     SizedBox(),
-    ShippingChatScreen(),
+    DriverInboxScreen(),
     ShippingProfileScreen(),
   ];
 

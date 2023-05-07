@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:waddy_app/modules/driver/attachbill/attach_bill_screen.dart';
+import 'package:waddy_app/modules/driver/attach_bill/attach_bill_screen.dart';
+import 'package:waddy_app/modules/driver/create_route/create_route_screen.dart';
 import 'package:waddy_app/modules/driver/notification/notification_screen.dart';
+import 'package:waddy_app/modules/driver/reports/reports_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -88,7 +90,7 @@ class DriverHomeScreen extends StatelessWidget {
                       ],
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         navigateTo(context, const DriverNotificationScreen());
                       },
                       child: Container(
@@ -122,7 +124,10 @@ class DriverHomeScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){},
+                          onTap: () {
+                            navigateTo(
+                                context, const DriverCreateRouteScreen());
+                          },
                           child: Container(
                             width: size.width * 150 / size.width,
                             height: size.height * 100 / size.height,
@@ -132,8 +137,8 @@ class DriverHomeScreen extends StatelessWidget {
                                   color: myFavColor,
                                 ),
                                 shape: BoxShape.rectangle,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(24))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(24))),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -157,13 +162,16 @@ class DriverHomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 14,),
+                                const SizedBox(
+                                  height: 14,
+                                ),
                                 Text(
                                   "Routes",
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelLarge!
-                                      .copyWith(fontSize: 20,color: myFavColor8),
+                                      .copyWith(
+                                          fontSize: 20, color: myFavColor8),
                                 ),
                               ],
                             ),
@@ -173,7 +181,9 @@ class DriverHomeScreen extends StatelessWidget {
                       mySizedBox(size: size, myWidth: 30),
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){},
+                          onTap: () {
+                            navigateTo(context, const DriverReportScreen());
+                          },
                           child: Container(
                             width: size.width * 150 / size.width,
                             height: size.height * 100 / size.height,
@@ -183,8 +193,8 @@ class DriverHomeScreen extends StatelessWidget {
                                   color: myFavColor,
                                 ),
                                 shape: BoxShape.rectangle,
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(24))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(24))),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -208,13 +218,16 @@ class DriverHomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 14,),
+                                const SizedBox(
+                                  height: 14,
+                                ),
                                 Text(
                                   "Reports",
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelLarge!
-                                      .copyWith(fontSize: 20,color: myFavColor8),
+                                      .copyWith(
+                                          fontSize: 20, color: myFavColor8),
                                 ),
                               ],
                             ),
@@ -223,13 +236,16 @@ class DriverHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 25,),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   Row(
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){
-                            navigateTo(context, const DeliveryAttachBillScreen());
+                          onTap: () {
+                            navigateTo(
+                                context, const DeliveryAttachBillScreen());
                           },
                           child: Container(
                             width: size.width * 150 / size.width,
@@ -240,8 +256,8 @@ class DriverHomeScreen extends StatelessWidget {
                                   color: myFavColor,
                                 ),
                                 shape: BoxShape.rectangle,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(24))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(24))),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -265,13 +281,16 @@ class DriverHomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 14,),
+                                const SizedBox(
+                                  height: 14,
+                                ),
                                 Text(
                                   "Attach Bill",
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelLarge!
-                                      .copyWith(fontSize: 20,color: myFavColor8),
+                                      .copyWith(
+                                          fontSize: 20, color: myFavColor8),
                                 ),
                               ],
                             ),
@@ -281,9 +300,7 @@ class DriverHomeScreen extends StatelessWidget {
                       mySizedBox(size: size, myWidth: 30),
                       Expanded(
                         child: GestureDetector(
-                          onTap: (){
-
-                          },
+                          onTap: () {},
                           child: Container(
                             width: size.width * 150 / size.width,
                             height: size.height * 100 / size.height,
@@ -293,8 +310,8 @@ class DriverHomeScreen extends StatelessWidget {
                                   color: myFavColor,
                                 ),
                                 shape: BoxShape.rectangle,
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(24))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(24))),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -318,13 +335,16 @@ class DriverHomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 14,),
+                                const SizedBox(
+                                  height: 14,
+                                ),
                                 Text(
                                   "Help Center",
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelLarge!
-                                      .copyWith(fontSize: 20,color: myFavColor8),
+                                      .copyWith(
+                                          fontSize: 20, color: myFavColor8),
                                 ),
                               ],
                             ),
@@ -333,7 +353,9 @@ class DriverHomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 25,),
+                  const SizedBox(
+                    height: 25,
+                  ),
                 ],
               ),
             ),

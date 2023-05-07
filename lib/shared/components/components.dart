@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
@@ -15,18 +16,18 @@ Widget myMaterialButton({
   Color? bgColor,
 }) =>
     MaterialButton(
+      padding: EdgeInsets.zero,
       onPressed: () {
         onPressed();
       },
-      color: isEnabled ? bgColor ?? myFavColor : bgColorForNotEnabled ?? myFavColor4,
+      color: isEnabled
+          ? bgColor ?? myFavColor
+          : bgColorForNotEnabled ?? myFavColor4,
       minWidth: double.infinity,
       height: height,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radius),
-        side: BorderSide(
-          color: myFavColor
-        )
-      ),
+          borderRadius: BorderRadius.circular(radius),
+          side: BorderSide(color: myFavColor)),
       child: labelWidget,
     );
 
@@ -248,7 +249,7 @@ PreferredSizeWidget defaultAppBar({
         style: Theme.of(context)
             .textTheme
             .labelLarge!
-            .copyWith(color: titleColor ?? myFavColor8,fontSize: 28),
+            .copyWith(color: titleColor ?? myFavColor8, fontSize: 28),
       ),
     );
 
@@ -272,7 +273,6 @@ Future<dynamic> showMyBottomSheet({
       },
     );
 
-
 Widget myTextFormField({
   required BuildContext context,
   TextEditingController? controller,
@@ -287,38 +287,227 @@ Widget myTextFormField({
   Widget? icon,
   int? maxLength,
   int? maxLength2,
+  Color? fillColor,
   TextAlign? textAlign,
   String? hint,
+  double? radius,
 }) =>
-    TextFormField(
-      obscuringCharacter: '●',
-      controller: controller,
-      keyboardType: type,
-      obscureText: isPassword ?? false,
-      onTap: () {
-        onTap;
-      },
-      onChanged: onChange,
-      onFieldSubmitted: onSubmit,
-      validator: validate,
-      textAlign: textAlign ?? TextAlign.start,
-      maxLength: maxLength,
-      textAlignVertical: TextAlignVertical.center,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(maxLength2),
-      ],
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: myFavColor5,
-        border: InputBorder.none,
-        hintText: hint ?? '',
-        hintStyle: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(fontSize: 16, color: myFavColor4),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        suffixIcon: suffixIcon,
-        prefixIcon: prefixIcon,
+    Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(radius??0)),
+        shape: BoxShape.rectangle,
+      ),
+      child: TextFormField(
+        obscuringCharacter: '●',
+        controller: controller,
+        keyboardType: type,
+        obscureText: isPassword ?? false,
+        onTap: () {
+          onTap;
+        },
+        onChanged: onChange,
+        onFieldSubmitted: onSubmit,
+        validator: validate,
+        textAlign: textAlign ?? TextAlign.start,
+        maxLength: maxLength,
+        textAlignVertical: TextAlignVertical.center,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(maxLength2),
+        ],
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: fillColor ?? myFavColor5,
+          border: InputBorder.none,
+          hintText: hint ?? '',
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontSize: 16, color: myFavColor4),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
+        ),
       ),
     );
+
+Widget myCustomMaterialButtonLeft({
+  required BuildContext context,
+  required Function onPressed,
+  Widget? labelWidget,
+  bool isEnabled = true,
+  Color? bgColorForNotEnabled,
+  double height = 40,
+  double radius = 4,
+  Color? bgColor,
+}) =>
+    MaterialButton(
+      padding: EdgeInsets.zero,
+      onPressed: () {
+        onPressed();
+      },
+      color: isEnabled
+          ? bgColor ?? myFavColor
+          : bgColorForNotEnabled ?? myFavColor4,
+      minWidth: double.infinity,
+      height: height,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(radius),
+            bottomLeft: Radius.circular(radius),
+          ),
+          side: BorderSide(color: myFavColor)),
+      child: labelWidget,
+    );
+
+Widget myCustomMaterialButtonRight({
+  required BuildContext context,
+  required Function onPressed,
+  Widget? labelWidget,
+  bool isEnabled = true,
+  Color? bgColorForNotEnabled,
+  double height = 40,
+  double radius = 4,
+  Color? bgColor,
+}) =>
+    MaterialButton(
+      padding: EdgeInsets.zero,
+      onPressed: () {
+        onPressed();
+      },
+      color: isEnabled
+          ? bgColor ?? myFavColor
+          : bgColorForNotEnabled ?? myFavColor4,
+      minWidth: double.infinity,
+      height: height,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(radius),
+            bottomRight: Radius.circular(radius),
+          ),
+          side: BorderSide(color: myFavColor)),
+      child: labelWidget,
+    );
+
+PreferredSize buildAppBarForOnlyStatusBar({
+  double height = 0,
+  Color? leadingColor,
+}) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(height),
+    child: AppBar(
+      backgroundColor: myFavColor,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: myFavColor,
+        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,
+      ),
+      iconTheme: IconThemeData(
+        color: leadingColor ?? myFavColor2,
+      ),
+    ),
+  );
+}
+
+Widget buildChatItem(BuildContext context) {
+  return Row(
+    children: [
+      const CircleAvatar(
+        radius: 30,
+        backgroundImage: AssetImage("assets/images/ahmed.jpg"),
+      ),
+      const SizedBox(
+        width: 16,
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Ahmed Waddy",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor2, fontSize: 18),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              "🙏🏻 شكراً علي الخدمة",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor4, fontSize: 14),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+      Column(
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            decoration:
+            BoxDecoration(color: myFavColor, shape: BoxShape.circle),
+            child: Center(
+                child: Text("2",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: myFavColor7))),
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          Text(
+            "05.00 PM",
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: myFavColor4, fontSize: 14),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+Widget buildCallItem({
+  required BuildContext context,
+  required Widget icon,
+}) {
+  return Row(
+    children: [
+      const CircleAvatar(
+        radius: 30,
+        backgroundImage: AssetImage("assets/images/ahmed.jpg"),
+      ),
+      const SizedBox(
+        width: 16,
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Ahmed Waddy",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor2, fontSize: 18),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            icon,
+          ],
+        ),
+      ),
+      Icon(FluentIcons.call_16_regular,color: myFavColor,),
+    ],
+  );
+}

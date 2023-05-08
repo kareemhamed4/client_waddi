@@ -66,148 +66,21 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             defaultTabBar(
               context: context,
               tabController: tabController,
+              size: size,
             ),
             const SizedBox(
               height: 20,
             ),
-            Container(
-              height: size.height * 167 / size.height,
-              width: size.width * 330 / size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                      color: myFavColor8.withAlpha(20),
-                      spreadRadius: 2,
-                      blurRadius: 7,
-                      offset: const Offset(0, 0)),
-                ],
-              ),
-              child: Card(
-                margin: EdgeInsets.zero,
-                elevation: 0,
-                color: myFavColor7,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16))),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    color: myFavColorWithOpacity,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(16))),
-                                child: Center(
-                                    child: FaIcon(
-                                  FontAwesomeIcons.boxOpen,
-                                  color: myFavColor,
-                                )),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "SK26273729",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .copyWith(
-                                            fontSize: 18, color: myFavColor8),
-                                  ),
-                                  Text(
-                                    "On the way in delivery",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(
-                                            fontSize: 14, color: myFavColor4),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 60,
-                            height: 15,
-                            decoration: BoxDecoration(
-                              color: myFavColorWithOpacity,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(4),
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "On process",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(color: myFavColor, fontSize: 12),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      myDivider(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: myMaterialButton(
-                              context: context,
-                              onPressed: () {},
-                              height: 35,
-                              radius: 20,
-                              labelWidget: Text(
-                                "View E-Receipt",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: myFavColor),
-                              ),
-                              bgColor: myFavColor7,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 34,
-                          ),
-                          Expanded(
-                            child: myMaterialButton(
-                              context: context,
-                              onPressed: () {
-                                navigateTo(context,const TrackingScreen());
-                              },
-                              height: 35,
-                              radius: 20,
-                              labelWidget: Text(
-                                "TracK",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(color: myFavColor7),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    buildOnProcessItem(size, context),
+                separatorBuilder: (context, index) =>
+                const SizedBox(height: 20),
+                itemCount: 1,
               ),
             ),
             const SizedBox(
@@ -226,6 +99,147 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildOnProcessItem(Size size, BuildContext context) {
+    return Container(
+      height: size.height * 167 / size.height,
+      width: size.width * 330 / size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+              color: myFavColor8.withAlpha(20),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: const Offset(0, 0)),
+        ],
+      ),
+      child: Card(
+        margin: EdgeInsets.zero,
+        elevation: 0,
+        color: myFavColor7,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: myFavColorWithOpacity,
+                            shape: BoxShape.rectangle,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
+                        child: Center(
+                            child: FaIcon(
+                          FontAwesomeIcons.boxOpen,
+                          color: myFavColor,
+                        )),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "SK26273729",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(fontSize: 18, color: myFavColor8),
+                          ),
+                          Text(
+                            "On the way in delivery",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(fontSize: 14, color: myFavColor4),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: 60,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      color: myFavColorWithOpacity,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(4),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "On process",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: myFavColor, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              myDivider(),
+              Row(
+                children: [
+                  Expanded(
+                    child: myMaterialButton(
+                      context: context,
+                      onPressed: () {},
+                      height: 35,
+                      radius: 20,
+                      labelWidget: Text(
+                        "View E-Receipt",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: myFavColor),
+                      ),
+                      bgColor: myFavColor7,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 34,
+                  ),
+                  Expanded(
+                    child: myMaterialButton(
+                      context: context,
+                      onPressed: () {
+                        navigateTo(context, const TrackingScreen());
+                      },
+                      height: 35,
+                      radius: 20,
+                      labelWidget: Text(
+                        "TracK",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(color: myFavColor7),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -355,6 +369,7 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
   PreferredSizeWidget defaultTabBar({
     required BuildContext context,
     required TabController tabController,
+    required Size size,
   }) =>
       TabBar(
         padding: EdgeInsets.zero,
@@ -367,8 +382,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
         isScrollable: true,
         tabs: [
           Container(
-            height: 24,
-            width: 64,
+            height: size.height * (24/size.height),
+            width: size.width * (64/size.width),
             decoration: BoxDecoration(
               color: tabController.index == 0 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -386,8 +401,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             ),
           ),
           Container(
-            height: 24,
-            width: 64,
+            height: size.height * (24/size.height),
+            width: size.width * (64/size.width),
             decoration: BoxDecoration(
               color: tabController.index == 1 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -405,8 +420,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             ),
           ),
           Container(
-            height: 24,
-            width: 64,
+            height: size.height * (24/size.height),
+            width: size.width * (64/size.width),
             decoration: BoxDecoration(
               color: tabController.index == 2 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -424,8 +439,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             ),
           ),
           Container(
-            height: 24,
-            width: 64,
+            height: size.height * (24/size.height),
+            width: size.width * (64/size.width),
             decoration: BoxDecoration(
               color: tabController.index == 3 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),

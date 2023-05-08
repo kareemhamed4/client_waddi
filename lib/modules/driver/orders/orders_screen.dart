@@ -36,7 +36,19 @@ class DriverOrdersScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            buildProcessingOrderItem(context: context, size: size),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    buildProcessingOrderItem(context: context, size: size),
+                separatorBuilder: (context, index) => const SizedBox(
+                  height: 16,
+                ),
+                itemCount: 1,
+              ),
+            ),
             const SizedBox(
               height: 20,
             ),

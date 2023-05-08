@@ -90,163 +90,152 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          width: 35,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            color: myFavColor4,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
-                          ),
-                        ),
-                        mySizedBox(size: size, myHeight: 30),
-                        Text(
-                          "Delivery",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall!
-                              .copyWith(color: myFavColor2),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              "Scheduled at : ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(fontSize: 14, color: myFavColor2),
-                            ),
-                            Text(
-                              "08:30 pm ",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall!
-                                  .copyWith(fontSize: 14, color: myFavColor),
-                            ),
-                            FaIcon(
-                              FontAwesomeIcons.clock,
+                    padding: const EdgeInsets.symmetric(horizontal: 22,vertical: 20),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 35,
+                            height: 4,
+                            decoration: BoxDecoration(
                               color: myFavColor4,
-                              size: 16,
-                            )
-                          ],
-                        ),
-                        if (!isSheetExpanded)
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Divider(
-                                height: 0,
-                                thickness: 1,
-                                color: myFavColor4.withOpacity(0.5),
-                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(20)),
                             ),
                           ),
-                        if (sheetHeight == 400 && isSheetExpanded)
-                          const SizedBox(
-                            height: 40,
+                          mySizedBox(size: size, myHeight: 30),
+                          Text(
+                            "Delivery",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall!
+                                .copyWith(color: myFavColor2),
                           ),
-                        if (sheetHeight == 400 && isSheetExpanded)
-                          Column(
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Divider(
-                                    height: 0,
-                                    thickness: 1,
-                                    color: myFavColor4.withOpacity(0.5),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                  Text(
-                                    "DURATION",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 6,),
-                                  Text(
-                                    "3 minute",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                ],
+                              Text(
+                                "Scheduled at : ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(fontSize: 14, color: myFavColor2),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Divider(
-                                    height: 0,
-                                    thickness: 1,
-                                    color: myFavColor4.withOpacity(0.2),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                  Text(
-                                    "LOCATION NAME",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 6,),
-                                  Text(
-                                    "Cairo",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                ],
+                              Text(
+                                "08:30 pm ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(fontSize: 14, color: myFavColor),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Divider(
-                                    height: 0,
-                                    thickness: 1,
-                                    color: myFavColor4.withOpacity(0.2),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                  Text(
-                                    "ORDER ID",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 6,),
-                                  Text(
-                                    "ORD016",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Divider(
-                                    height: 0,
-                                    thickness: 1,
-                                    color: myFavColor4.withOpacity(0.2),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                  Text(
-                                    "BOXES",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 6,),
-                                  Text(
-                                    "4",
-                                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
-                                  ),
-                                  const SizedBox(height: 12,),
-                                ],
-                              ),
+                              FaIcon(
+                                FontAwesomeIcons.clock,
+                                color: myFavColor4,
+                                size: 16,
+                              )
                             ],
                           ),
-                      ],
+                          if (sheetHeight == 400 && isSheetExpanded)
+                            const SizedBox(
+                              height: 40,
+                            ),
+                          if (sheetHeight == 400 && isSheetExpanded)
+                            Column(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Divider(
+                                      height: 0,
+                                      thickness: 1,
+                                      color: myFavColor4.withOpacity(0.5),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    Text(
+                                      "DURATION",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 6,),
+                                    Text(
+                                      "3 minute",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Divider(
+                                      height: 0,
+                                      thickness: 1,
+                                      color: myFavColor4.withOpacity(0.2),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    Text(
+                                      "LOCATION NAME",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 6,),
+                                    Text(
+                                      "Cairo",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Divider(
+                                      height: 0,
+                                      thickness: 1,
+                                      color: myFavColor4.withOpacity(0.2),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    Text(
+                                      "ORDER ID",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 6,),
+                                    Text(
+                                      "ORD016",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Divider(
+                                      height: 0,
+                                      thickness: 1,
+                                      color: myFavColor4.withOpacity(0.2),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                    Text(
+                                      "BOXES",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 6,),
+                                    Text(
+                                      "4",
+                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 12,),
+                                  ],
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

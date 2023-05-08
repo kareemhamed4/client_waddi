@@ -215,79 +215,84 @@ class _TrackingScreenState extends State<TrackingScreen> {
                           myDivider(),
                         mySizedBox(size: size, myHeight: 20),
                         if (!isSheetExpanded)
-                          Stepper(
-                            key: Key(Random.secure().nextDouble().toString()),
-                            currentStep: currentStepIndex,
-                            onStepCancel: () {
-                              if (currentStepIndex > 0) {
+                          Expanded(
+                            child: Stepper(
+                              physics: const BouncingScrollPhysics(),
+                              key: Key(Random.secure().nextDouble().toString()),
+                              currentStep: currentStepIndex,
+                              onStepCancel: () {
+                                if (currentStepIndex > 0) {
+                                  setState(() {
+                                    currentStepIndex -= 1;
+                                  });
+                                }
+                              },
+                              onStepContinue: () {
+                                if (currentStepIndex <= 0) {
+                                  setState(() {
+                                    currentStepIndex += 1;
+                                  });
+                                }
+                              },
+                              controlsBuilder: (context, s) {
+                                return const SizedBox.shrink();
+                              },
+                              onStepTapped: (int index) {
                                 setState(() {
-                                  currentStepIndex -= 1;
+                                  currentStepIndex = index;
                                 });
-                              }
-                            },
-                            onStepContinue: () {
-                              if (currentStepIndex <= 0) {
-                                setState(() {
-                                  currentStepIndex += 1;
-                                });
-                              }
-                            },
-                            controlsBuilder: (context, s) {
-                              return const SizedBox.shrink();
-                            },
-                            onStepTapped: (int index) {
-                              setState(() {
-                                currentStepIndex = index;
-                              });
-                            },
-                            steps: <Step>[
-                              Step(
-                                title: Text(
-                                  'Benha train station street',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                isActive: true,
-                                content: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Location of your order shipped from',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  'December 22, 2023 | 09:44 AM',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(color: myFavColor4),
-                                ),
-                                state: StepState.indexed,
-                              ),
-                              Step(
+                              },
+                              steps: <Step>[
+                                Step(
                                   title: Text(
-                                    'El-Galaa, Shebeen El-Koum, Menoufia',
+                                    'Benha train station street',
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
+                                  isActive: true,
                                   content: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      'The destination location',
+                                      'Location of your order shipped from',
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
-                                  isActive: true,
                                   subtitle: Text(
-                                    'December 22, 2023 | 10:30 AM',
+                                    'December 22, 2023 | 09:44 AM',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(color: myFavColor4),
                                   ),
-                                  state: StepState.indexed),
-                            ],
+                                  state: StepState.indexed,
+                                ),
+                                Step(
+                                    title: Text(
+                                      'El-Galaa, Shebeen El-Koum, Menoufia',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    content: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'The destination location',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                    isActive: true,
+                                    subtitle: Text(
+                                      'December 22, 2023 | 10:30 AM',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: myFavColor4),
+                                    ),
+                                    state: StepState.indexed),
+                              ],
+                            ),
                           ),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
                           Row(
@@ -410,61 +415,41 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
                           myDivider(),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
-                          Stepper(
-                            key: Key(Random.secure().nextDouble().toString()),
-                            currentStep: currentStepIndex2,
-                            onStepCancel: () {
-                              if (currentStepIndex2 > 0) {
+                          Expanded(
+                            child: Stepper(
+                              physics: const BouncingScrollPhysics(),
+                              key: Key(Random.secure().nextDouble().toString()),
+                              currentStep: currentStepIndex2,
+                              onStepCancel: () {
+                                if (currentStepIndex2 > 0) {
+                                  setState(() {
+                                    currentStepIndex -= 1;
+                                  });
+                                }
+                              },
+                              onStepContinue: () {
+                                if (currentStepIndex2 <= 0) {
+                                  setState(() {
+                                    currentStepIndex2 += 1;
+                                  });
+                                }
+                              },
+                              controlsBuilder: (context, s) {
+                                return const SizedBox.shrink();
+                              },
+                              onStepTapped: (int index) {
                                 setState(() {
-                                  currentStepIndex -= 1;
+                                  currentStepIndex2 = index;
                                 });
-                              }
-                            },
-                            onStepContinue: () {
-                              if (currentStepIndex2 <= 0) {
-                                setState(() {
-                                  currentStepIndex2 += 1;
-                                });
-                              }
-                            },
-                            controlsBuilder: (context, s) {
-                              return const SizedBox.shrink();
-                            },
-                            onStepTapped: (int index) {
-                              setState(() {
-                                currentStepIndex2 = index;
-                              });
-                            },
-                            steps: <Step>[
-                              Step(
-                                title: Text(
-                                  'Your order is shipped',
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                isActive: true,
-                                content: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Add you wand additional info',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  'December 22, 2023 | 09:44 AM',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(color: myFavColor4),
-                                ),
-                                state: StepState.complete,
-                              ),
-                              Step(
+                              },
+                              steps: <Step>[
+                                Step(
                                   title: Text(
-                                    'Benha train station street',
+                                    'Your order is shipped',
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
+                                  isActive: true,
                                   content: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
@@ -473,44 +458,46 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
-                                  isActive: true,
                                   subtitle: Text(
-                                    'December 22, 2023 | 10:30 AM',
+                                    'December 22, 2023 | 09:44 AM',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(color: myFavColor4),
                                   ),
-                                  state: StepState.complete),
-                              Step(
-                                title: Text(
-                                  'El-Galaa, Shebeen El-Koum , Menoufia',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  state: StepState.complete,
                                 ),
-                                isActive: false,
-                                content: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Waiting',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ),
-                                subtitle: Text(
-                                  'December 22, 2023 | 09:44 AM',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(color: myFavColor4),
-                                ),
-                                state: StepState.disabled,
-                              ),
-                              Step(
+                                Step(
+                                    title: Text(
+                                      'Benha train station street',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    content: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'Add you wand additional info',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                    isActive: true,
+                                    subtitle: Text(
+                                      'December 22, 2023 | 10:30 AM',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: myFavColor4),
+                                    ),
+                                    state: StepState.complete),
+                                Step(
                                   title: Text(
-                                    'Delivered',
+                                    'El-Galaa, Shebeen El-Koum , Menoufia',
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
+                                  isActive: false,
                                   content: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
@@ -519,16 +506,41 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
-                                  isActive: false,
                                   subtitle: Text(
-                                    'December 22, 2023 | 10:30 AM',
+                                    'December 22, 2023 | 09:44 AM',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(color: myFavColor4),
                                   ),
-                                  state: StepState.disabled),
-                            ],
+                                  state: StepState.disabled,
+                                ),
+                                Step(
+                                    title: Text(
+                                      'Delivered',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    content: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        'Waiting',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                    isActive: false,
+                                    subtitle: Text(
+                                      'December 22, 2023 | 10:30 AM',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: myFavColor4),
+                                    ),
+                                    state: StepState.disabled),
+                              ],
+                            ),
                           ),
                       ],
                     ),

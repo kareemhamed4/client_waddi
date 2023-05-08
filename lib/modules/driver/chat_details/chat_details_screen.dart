@@ -13,7 +13,7 @@ class DriverChatDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 37, horizontal: 16),
+          padding: const EdgeInsets.only(top:37,left:16,right:16,bottom: 8),
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [

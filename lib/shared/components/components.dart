@@ -256,11 +256,16 @@ PreferredSizeWidget defaultAppBar({
 Future<dynamic> showMyBottomSheet({
   required BuildContext context,
   required Widget child,
+  required Size size,
 }) =>
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       barrierColor: Colors.black38,
+      useSafeArea: true,
+      constraints: BoxConstraints(
+        maxHeight: size.height*0.75
+      ),
       backgroundColor: Theme.of(context).cardColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

@@ -1,11 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/modules/user/home/home_screen.dart';
+import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/user/login/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/login/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/constants.dart';
+import 'package:waddy_app/shared/network/local/cache_helper.dart';
 import 'package:waddy_app/test.dart';
 
 //ignore: must_be_immutable
@@ -21,58 +22,27 @@ class WaddyLoginScreen extends StatelessWidget {
     return BlocProvider(
         create: (BuildContext context) => WaddyLoginCubit(),
         child: BlocConsumer<WaddyLoginCubit, WaddyLoginStates>(
-          listener: (context, state) {
-            if (state is LoginLoadingState) {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      backgroundColor: Colors.white,
-                      content: AnimatedContainer(
-                        duration: const Duration(seconds: 2),
-                        curve: Curves.easeIn,
-                        child: Row(
-                          children: const [
-                            CupertinoActivityIndicator(
-                              color: Colors.redAccent,
-                            ),
-                            SizedBox(
-                              width: 15.0,
-                            ),
-                            Text(
-                              'wait',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            } else if (state is LoginSuccessState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Container(
-                    alignment: Alignment.center,
-                    height: 50,
-                    child: const Text('Valid email'),
-                  ),
-                ),
-              );
-              Navigator.pop(context);
-              navigateToAndFinish(context, const UserHomeScreen());
-            } else if (state is FailedToLoginState) {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    backgroundColor: Colors.red,
-                    content: Text(state.message),
-                  );
-                },
-              );
-            }
+          listener: (context, state) => {
+            if (state is LoginSuccessState)
+              {
+                if (state.loginModel.user != null)
+                  {
+                    CacheHelper.saveData(
+                        key: "token", value: state.loginModel.token)
+                        .then((value) {
+                      token = state.loginModel.token;
+                      navigateToAndFinish(
+                          context, const ChooseLoginOrSignupScreen());
+                    }),
+                  }
+                else
+                  {
+                    buildSuccessToast(context: context,title: "",description: "${state.loginModel}",)
+                  }
+              }
           },
           builder: (context, state) {
+            WaddyLoginCubit cubit = BlocProvider.of(context);
             return Scaffold(
               appBar: AppBar(),
               body: Padding(
@@ -136,10 +106,9 @@ class WaddyLoginScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  WaddyLoginCubit.get(context).login(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  );
+                                  cubit.userModel(
+                                      email: emailController.text,
+                                      password: passwordController.text);
                                 }
                               },
                             ),

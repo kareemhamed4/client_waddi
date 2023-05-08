@@ -1,3 +1,5 @@
+import 'package:waddy_app/models/user/login_model.dart';
+
 abstract class WaddyLoginStates {}
 
 class WaddyLoginInitialState extends WaddyLoginStates{}
@@ -16,8 +18,6 @@ class WaddyLoginErrorState extends WaddyLoginStates{
   WaddyLoginErrorState(this.error);
 }
 
-class LoginLoadingState extends WaddyLoginStates{}
-class LoginSuccessState extends WaddyLoginStates{}
 class FailedToLoginState extends WaddyLoginStates{
   final String message;
 
@@ -28,3 +28,11 @@ class FailedToLoginState extends WaddyLoginStates{
 class WaddyChangePasswordVisibilityState extends WaddyLoginStates{}
 
 class WaddyForgetPasswordState extends WaddyLoginStates{}
+
+class LoginLoadingState extends WaddyLoginStates {}
+class LoginSuccessState extends WaddyLoginStates {
+  final LoginModel loginModel;
+
+  LoginSuccessState(this.loginModel);
+}
+class LoginErrorState extends WaddyLoginStates {}

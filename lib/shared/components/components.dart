@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -234,8 +236,8 @@ Widget mySizedBox({
   double? myWidth,
 }) =>
     SizedBox(
-      height: myHeight != null ? size.height * myHeight/780 : 0,
-      width: myWidth != null ? size.width * myWidth/360 : 0,
+      height: myHeight != null ? size.height * myHeight / 780 : 0,
+      width: myWidth != null ? size.width * myWidth / 360 : 0,
     );
 
 PreferredSizeWidget defaultAppBar({
@@ -263,9 +265,7 @@ Future<dynamic> showMyBottomSheet({
       isScrollControlled: true,
       barrierColor: Colors.black38,
       useSafeArea: true,
-      constraints: BoxConstraints(
-        maxHeight: size.height*0.75
-      ),
+      constraints: BoxConstraints(maxHeight: size.height * 0.75),
       backgroundColor: Theme.of(context).cardColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -303,7 +303,9 @@ Widget myTextFormField({
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(radius??0),),
+        borderRadius: BorderRadius.all(
+          Radius.circular(radius ?? 0),
+        ),
         shape: BoxShape.rectangle,
       ),
       child: TextFormField(
@@ -322,21 +324,26 @@ Widget myTextFormField({
         inputFormatters: [
           LengthLimitingTextInputFormatter(maxLength2),
         ],
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18,color: textColor ?? myFavColor8),
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(fontSize: 18, color: textColor ?? myFavColor8),
         decoration: InputDecoration(
           filled: true,
           fillColor: fillColor ?? myFavColor5,
-          border: fillColor == null ? InputBorder.none : OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(radius??0)),
-            borderSide: BorderSide(
-              color: myFavColor,
-            ),
-          ),
+          border: fillColor == null
+              ? InputBorder.none
+              : OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(radius ?? 0)),
+                  borderSide: BorderSide(
+                    color: myFavColor,
+                  ),
+                ),
           hintText: hint ?? '',
           hintStyle: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(fontSize: 16, color: hintColor ??myFavColor4),
+              .copyWith(fontSize: 16, color: hintColor ?? myFavColor4),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
@@ -463,7 +470,7 @@ Widget buildChatItem(BuildContext context) {
             width: 20,
             height: 20,
             decoration:
-            BoxDecoration(color: myFavColor, shape: BoxShape.circle),
+                BoxDecoration(color: myFavColor, shape: BoxShape.circle),
             child: Center(
                 child: Text("2",
                     style: Theme.of(context)
@@ -519,51 +526,63 @@ Widget buildCallItem({
           ],
         ),
       ),
-      Icon(FluentIcons.call_16_regular,color: myFavColor,),
+      Icon(
+        FluentIcons.call_16_regular,
+        color: myFavColor,
+      ),
     ],
   );
 }
 
 Widget buildTransactionHistoryItem({
   required BuildContext context,
-}) => Row(
-  crossAxisAlignment: CrossAxisAlignment.center,
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
+}) =>
     Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CircleAvatar(
-          backgroundColor: myFavColorWithOpacity,
-          radius: 25,
-          child: Center(
-              child: Image.asset(
+        Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: myFavColorWithOpacity,
+              radius: 25,
+              child: Center(
+                  child: Image.asset(
                 "assets/icons/wallet.png",
                 height: 20,
                 width: 20,
               )),
-        ),
-        const SizedBox(width: 12,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "New Order Made !",
-              style: Theme.of(context).textTheme.bodyLarge,
             ),
-            Text(
-              "You have created a new\nshipping order",
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(height: 1.2),
+            const SizedBox(
+              width: 12,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "New Order Made !",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Text(
+                  "You have created a new\nshipping order",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(height: 1.2),
+                ),
+              ],
             ),
           ],
         ),
+        Text(
+          "2 hours ago",
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: myFavColor),
+        ),
       ],
-    ),
-    Text(
-      "2 hours ago",
-      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
-    ),
-  ],
-);
+    );
 
 Widget myTextButton({
   required BuildContext context,
@@ -571,13 +590,52 @@ Widget myTextButton({
   required Function onPressed,
 }) =>
     TextButton(
-        onPressed: () {
-          onPressed();
-        },
-        child: Text(
-          label,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: myFavColor2,fontSize: 20),
-        ));
+      onPressed: () {
+        onPressed();
+      },
+      child: Text(
+        label,
+        style: Theme.of(context)
+            .textTheme
+            .titleLarge!
+            .copyWith(color: myFavColor2, fontSize: 20),
+      ),
+    );
+
+void buildErrorToast({
+  required BuildContext context,
+  required String title,
+  required String description,
+}) =>
+    CherryToast.error(
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16),
+      ),
+      description: Text(
+        description,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8,fontSize: 12),
+      ),
+      animationType: AnimationType.fromRight,
+      animationDuration: Duration(milliseconds: 1000),
+      autoDismiss: true,
+    ).show(context);
+
+void buildSuccessToast({
+  required BuildContext context,
+  required String title,
+  required String description,
+}) =>
+    CherryToast.success(
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16),
+      ),
+      description: Text(
+        description,
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8,fontSize: 12),
+      ),
+      animationType: AnimationType.fromRight,
+      animationDuration: Duration(milliseconds: 1000),
+      autoDismiss: true,
+    ).show(context);

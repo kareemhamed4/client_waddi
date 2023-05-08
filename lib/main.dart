@@ -9,6 +9,7 @@ import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
+import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
 import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
@@ -101,7 +102,7 @@ class MyApp extends StatelessWidget {
               themeMode: UserCubit.get(context).isDark
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: const DriverLayoutScreen(),
+              home: const ChooseLoginOrSignupScreen(),
             ),
           );
         },

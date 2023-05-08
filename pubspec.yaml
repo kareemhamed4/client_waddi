@@ -55,6 +55,8 @@ dependencies:
   dotted_border: ^2.0.0+3
   file_picker: ^5.2.11
   fluentui_system_icons: ^1.1.200
+  intl_phone_number_input: ^0.7.1
+  flutter_switch: ^0.3.2
 
   #firebase
   # firebase_core: ^2.11.0

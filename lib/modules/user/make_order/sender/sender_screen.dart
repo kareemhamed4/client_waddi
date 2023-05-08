@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:waddy_app/modules/user/make_order/receiver/receiver_screen.dart';
 import 'package:waddy_app/other_screens/component.dart';
-import 'package:waddy_app/other_screens/order/recevier_data.dart';
 
-class SenderDate extends StatefulWidget {
-  const SenderDate({super.key});
+class FillSenderDateScreen extends StatefulWidget {
+  const FillSenderDateScreen({super.key});
 
   @override
-  State<SenderDate> createState() => _SenderDateState();
+  State<FillSenderDateScreen> createState() => _FillSenderDateScreenState();
 }
 
 var form_key_sender = GlobalKey<FormState>();
@@ -19,7 +19,7 @@ var saddress_controller = TextEditingController();
 
 
 
-class _SenderDateState extends State<SenderDate> {
+class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +39,7 @@ class _SenderDateState extends State<SenderDate> {
                 SizedBox(
                   height: 15,
                 ),
-                
+
                 // sender name
                 defaultFormField(
                   controller: sname_controller,
@@ -130,7 +130,7 @@ class _SenderDateState extends State<SenderDate> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RecevierData(),
+                          builder: (context) => FillReceiverDataScreen(),
                         ),
                       );
                     }
@@ -144,6 +144,4 @@ class _SenderDateState extends State<SenderDate> {
       ),
     );
   }
-
-
 }

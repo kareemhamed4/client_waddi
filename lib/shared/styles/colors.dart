@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 Color myFavColor = HexColor("#FF4B54"); //orange
 Color myFavColorWithOpacity = HexColor("#ffdbdd"); //rose
+Color rose = HexColor("#ffc9cc"); //rose
 Color myFavColor2 = HexColor("#252C4B"); //deep blue
 Color myFavColor3 = HexColor("#252C4B"); //semi white
 Color myFavColor4 = HexColor("#9E9E9E"); //grey

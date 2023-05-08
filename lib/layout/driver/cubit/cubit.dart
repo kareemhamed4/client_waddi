@@ -8,7 +8,7 @@ import 'package:waddy_app/models/user/track_id_model.dart';
 import 'package:waddy_app/modules/driver/home/home_screen.dart';
 import 'package:waddy_app/modules/driver/inbox/inbox_screen.dart';
 import 'package:waddy_app/modules/driver/orders/orders_screen.dart';
-import 'package:waddy_app/modules/user/profile/profile_screen.dart';
+import 'package:waddy_app/modules/driver/profile/profile_screen.dart';
 
 class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
   DriverLayoutCubit() : super(DriverInitialState());
@@ -20,7 +20,7 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     DriverOrdersScreen(),
     SizedBox(),
     DriverInboxScreen(),
-    ShippingProfileScreen(),
+    DriverProfileScreen(),
   ];
 
   void changeBottom(int index) {

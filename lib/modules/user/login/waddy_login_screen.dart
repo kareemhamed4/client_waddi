@@ -59,7 +59,7 @@ class WaddyLoginScreen extends StatelessWidget {
                 ),
               );
               Navigator.pop(context);
-              navigateToAndFinish(context, const ShippingHomeScreen());
+              navigateToAndFinish(context, const UserHomeScreen());
             } else if (state is FailedToLoginState) {
               showDialog(
                 context: context,

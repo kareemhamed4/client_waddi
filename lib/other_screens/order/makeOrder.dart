@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:waddy_app/modules/user/make_order/confirm_order/confirm_order_screen.dart';
 import 'package:waddy_app/other_screens/component.dart';
-import 'package:waddy_app/other_screens/order/confirm_order.dart';
 
 
 class ordertest extends StatefulWidget {

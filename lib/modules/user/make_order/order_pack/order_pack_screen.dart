@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:waddy_app/modules/user/make_order/payment/payment_screen.dart';
 import 'package:waddy_app/other_screens/component.dart';
-import 'package:waddy_app/other_screens/order/payment.dart';
 
 
-class Package extends StatefulWidget {
-  const Package({super.key});
+class OrderPackageScreen extends StatefulWidget {
+  const OrderPackageScreen({super.key});
 
   @override
-  State<Package> createState() => _PackageState();
+  State<OrderPackageScreen> createState() => _OrderPackageScreenState();
 }
 
 var form_key_package = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ List<String> servicesList = [
   'Name 2',
 ];
 
-class _PackageState extends State<Package> {
+class _OrderPackageScreenState extends State<OrderPackageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -313,7 +313,7 @@ class _PackageState extends State<Package> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Payment(),
+                          builder: (context) => const PaymentScreen(),
                         ),
                       );
                     }

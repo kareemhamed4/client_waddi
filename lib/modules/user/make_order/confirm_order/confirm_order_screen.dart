@@ -387,7 +387,7 @@ class ConfirmedOrder extends StatelessWidget {
             defaultButton(
               function: () {
 
-                
+
               },
               text: 'confirm order',
             ),

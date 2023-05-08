@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ShippingChatScreen extends StatelessWidget {
-  const ShippingChatScreen({Key? key}) : super(key: key);
+class UserChatScreen extends StatelessWidget {
+  const UserChatScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

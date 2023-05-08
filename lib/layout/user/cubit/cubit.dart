@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/user/track_id_model.dart';
 import 'package:waddy_app/modules/user/chat/chat_screen.dart';
 import 'package:waddy_app/modules/user/home/home_screen.dart';
-import 'package:waddy_app/modules/user/my_order/my_order_screen.dart';
+import 'package:waddy_app/modules/user/my_orders/my_order_screen.dart';
 import 'package:waddy_app/modules/user/profile/profile_screen.dart';
 
 class UserLayoutCubit extends Cubit<UserLayoutStates> {
@@ -16,17 +18,17 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
 
   int currentIndex = 0;
   List<Widget> screens = const [
-    ShippingHomeScreen(),
-    ShippingMyOrderScreen(),
-    ShippingChatScreen(),
-    ShippingProfileScreen(),
+    UserHomeScreen(),
+    UserMyOrderScreen(),
+    UserChatScreen(),
+    UserProfileScreen(),
   ];
   List<BottomNavigationBarItem> bottomItems = [
-    const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+    const BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
     const BottomNavigationBarItem(
-        icon: Icon(Icons.my_library_books_outlined), label: 'my Order'),
-    const BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'inBox'),
-    const BottomNavigationBarItem(icon: Icon(Icons.person), label: 'profile'),
+        icon: Icon(CustomIcons.doc_text_inv), label: 'My Order'),
+    const BottomNavigationBarItem(icon: Icon(CustomIcons.chat), label: 'Inbox'),
+    const BottomNavigationBarItem(icon: Icon(CustomIcons.user_alt), label: 'Profile'),
   ];
 
   void changeBottom(int index) {

@@ -4,14 +4,14 @@ import 'package:waddy_app/modules/user/tracking/tracking_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class ShippingMyOrderScreen extends StatefulWidget {
-  const ShippingMyOrderScreen({Key? key}) : super(key: key);
+class UserMyOrderScreen extends StatefulWidget {
+  const UserMyOrderScreen({Key? key}) : super(key: key);
 
   @override
-  State<ShippingMyOrderScreen> createState() => _ShippingMyOrderScreenState();
+  State<UserMyOrderScreen> createState() => _UserMyOrderScreenState();
 }
 
-class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
+class _UserMyOrderScreenState extends State<UserMyOrderScreen>
     with TickerProviderStateMixin {
   late TabController tabController;
 
@@ -52,12 +52,16 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: myTextFormField(
                 context: context,
+                radius: 10,
                 hint: "Enter Track ID Number",
                 prefixIcon: Icon(
                   Icons.search,
                   color: myFavColor4,
                 ),
-                suffixIcon: Image.asset("assets/icons/scan.png"),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset("assets/icons/scan_red.png",width: 20,height: 20,),
+                ),
               ),
             ),
             const SizedBox(
@@ -106,8 +110,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
 
   Widget buildOnProcessItem(Size size, BuildContext context) {
     return Container(
-      height: size.height * 167 / size.height,
-      width: size.width * 330 / size.width,
+      height: size.height * 167/780,
+      width: size.width * 330/360,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
@@ -250,8 +254,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
     required BuildContext context,
   }) {
     return Container(
-      height: size.height * 167 / size.height,
-      width: size.width * 330 / size.width,
+      height: size.height * 167 / 780,
+      width: size.width * 330 / 360,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
@@ -382,8 +386,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
         isScrollable: true,
         tabs: [
           Container(
-            height: size.height * (24/size.height),
-            width: size.width * (64/size.width),
+            height: size.height * (24/780),
+            width: size.width * (64/360),
             decoration: BoxDecoration(
               color: tabController.index == 0 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -401,8 +405,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             ),
           ),
           Container(
-            height: size.height * (24/size.height),
-            width: size.width * (64/size.width),
+            height: size.height * (24/780),
+            width: size.width * (64/360),
             decoration: BoxDecoration(
               color: tabController.index == 1 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -420,8 +424,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             ),
           ),
           Container(
-            height: size.height * (24/size.height),
-            width: size.width * (64/size.width),
+            height: size.height * (24/780),
+            width: size.width * (64/360),
             decoration: BoxDecoration(
               color: tabController.index == 2 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -439,8 +443,8 @@ class _ShippingMyOrderScreenState extends State<ShippingMyOrderScreen>
             ),
           ),
           Container(
-            height: size.height * (24/size.height),
-            width: size.width * (64/size.width),
+            height: size.height * (24/780),
+            width: size.width * (64/360),
             decoration: BoxDecoration(
               color: tabController.index == 3 ? myFavColor : myFavColor7,
               borderRadius: const BorderRadius.all(Radius.circular(20)),

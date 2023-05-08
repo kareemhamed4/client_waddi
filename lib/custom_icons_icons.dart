@@ -24,10 +24,38 @@
 ///         Author:    Designmodo for Smashing Magazine
 ///         License:   CC BY ()
 ///         Homepage:  http://designmodo.com/linecons-free/
+/// * Material Design Icons, Copyright (C) Google, Inc
+///         Author:    Google
+///         License:   Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+///         Homepage:  https://design.google.com/icons/
+/// * Typicons, (c) Stephen Hutchings 2012
+///         Author:    Stephen Hutchings
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://typicons.com/
+/// * Entypo, Copyright (C) 2012 by Daniel Bruce
+///         Author:    Daniel Bruce
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://www.entypo.com
+/// * Zocial, Copyright (C) 2012 by Sam Collins
+///         Author:    Sam Collins
+///         License:   MIT (http://opensource.org/licenses/mit-license.php)
+///         Homepage:  http://zocial.smcllns.com/
+/// * Linearicons Free, Copyright (C) Linearicons.com
+///         Author:    Perxis
+///         License:   CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+///         Homepage:  https://linearicons.com
 /// * Font Awesome 5, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
+/// * MFG Labs, Copyright (C) 2012 by Daniel Bruce
+///         Author:    MFG Labs
+///         License:   SIL (http://scripts.sil.org/OFL)
+///         Homepage:  http://www.mfglabs.com/
+/// * Octicons, Copyright (C) 2020 by GitHub Inc.
+///         Author:    GitHub
+///         License:   MIT (http://opensource.org/licenses/mit-license.php)
+///         Homepage:  https://primer.style/octicons/
 ///
 import 'package:flutter/widgets.dart';
 
@@ -41,6 +69,28 @@ class CustomIcons {
   static const IconData chat = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData phone = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData wallet = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData phone_missed = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData phone_forwarded = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bell = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData lock_1 = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData lock_open = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logout = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logout_2 = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calendar = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calendar_2 = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData lock_filled = IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData truck_1 = IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData lock = IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData printer = IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData user = IconData(0xe82a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData download = IconData(0xf019, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logout_1 = IconData(0xf02d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData truck = IconData(0xf0d1, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData unlock_alt = IconData(0xf13e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData doc_text_inv = IconData(0xf15c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData share_alt = IconData(0xf1e0, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData calendar_1 = IconData(0xf389, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData shield_alt = IconData(0xf3ed, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData user_alt = IconData(0xf406, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData map_marked = IconData(0xf59f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

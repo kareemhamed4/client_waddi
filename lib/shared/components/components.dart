@@ -234,8 +234,8 @@ Widget mySizedBox({
   double? myWidth,
 }) =>
     SizedBox(
-      height: myHeight != null ? size.height * myHeight / size.height : 0,
-      width: myWidth != null ? size.width * myWidth / size.width : 0,
+      height: myHeight != null ? size.height * myHeight/780 : 0,
+      width: myWidth != null ? size.width * myWidth/360 : 0,
     );
 
 PreferredSizeWidget defaultAppBar({
@@ -283,7 +283,7 @@ Widget myTextFormField({
   TextEditingController? controller,
   TextInputType? type,
   bool? isPassword,
-  Function? onTap,
+  VoidCallback? onTap,
   ValueChanged<String>? onChange,
   String? Function(String?)? validate,
   ValueChanged<String>? onSubmit,
@@ -293,24 +293,26 @@ Widget myTextFormField({
   int? maxLength,
   int? maxLength2,
   Color? fillColor,
+  Color? hintColor,
+  Color? textColor,
   TextAlign? textAlign,
   String? hint,
   double? radius,
+  bool? isEnabled = true,
 }) =>
     Container(
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(radius??0)),
+        borderRadius: BorderRadius.all(Radius.circular(radius??0),),
         shape: BoxShape.rectangle,
       ),
       child: TextFormField(
         obscuringCharacter: '●',
         controller: controller,
+        enabled: isEnabled ?? true,
         keyboardType: type,
         obscureText: isPassword ?? false,
-        onTap: () {
-          onTap;
-        },
+        onTap: onTap,
         onChanged: onChange,
         onFieldSubmitted: onSubmit,
         validator: validate,
@@ -320,16 +322,21 @@ Widget myTextFormField({
         inputFormatters: [
           LengthLimitingTextInputFormatter(maxLength2),
         ],
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18,color: textColor ?? myFavColor8),
         decoration: InputDecoration(
           filled: true,
           fillColor: fillColor ?? myFavColor5,
-          border: InputBorder.none,
+          border: fillColor == null ? InputBorder.none : OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(radius??0)),
+            borderSide: BorderSide(
+              color: myFavColor,
+            ),
+          ),
           hintText: hint ?? '',
           hintStyle: Theme.of(context)
               .textTheme
               .bodyMedium!
-              .copyWith(fontSize: 16, color: myFavColor4),
+              .copyWith(fontSize: 16, color: hintColor ??myFavColor4),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
@@ -516,3 +523,61 @@ Widget buildCallItem({
     ],
   );
 }
+
+Widget buildTransactionHistoryItem({
+  required BuildContext context,
+}) => Row(
+  crossAxisAlignment: CrossAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Row(
+      children: [
+        CircleAvatar(
+          backgroundColor: myFavColorWithOpacity,
+          radius: 25,
+          child: Center(
+              child: Image.asset(
+                "assets/icons/wallet.png",
+                height: 20,
+                width: 20,
+              )),
+        ),
+        const SizedBox(width: 12,),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "New Order Made !",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              "You have created a new\nshipping order",
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(height: 1.2),
+            ),
+          ],
+        ),
+      ],
+    ),
+    Text(
+      "2 hours ago",
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor),
+    ),
+  ],
+);
+
+Widget myTextButton({
+  required BuildContext context,
+  required String label,
+  required Function onPressed,
+}) =>
+    TextButton(
+        onPressed: () {
+          onPressed();
+        },
+        child: Text(
+          label,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(color: myFavColor2,fontSize: 20),
+        ));

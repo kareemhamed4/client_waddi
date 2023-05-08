@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/other_screens/component.dart';
 
-class Security extends StatefulWidget {
-  const Security({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<Security> createState() => _SecurityState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _SecurityState extends State<Security> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
 
   bool ispasswordshow = true;
@@ -43,7 +43,7 @@ class _SecurityState extends State<Security> {
               ),
               SizedBox(height: 20,),
               defaultFormField(
-                controller: old_password_controller, 
+                controller: old_password_controller,
                 type: TextInputType.visiblePassword,
                 label: 'Old Password',
                 prefix: Icons.lock,
@@ -56,7 +56,7 @@ class _SecurityState extends State<Security> {
                   });
                 },
                 ispassword: ispasswordshow,
-                ),
+              ),
               SizedBox(height: 20,),
               defaultFormField(
                 controller: new_password_controller,
@@ -110,19 +110,19 @@ class _SecurityState extends State<Security> {
               SizedBox(height:40 ,),
 
               defaultButton(
-                function: (){
-                  
-                }, 
-                text: 'save'
-                ),
-                SizedBox(height: 20,),
+                  function: (){
+
+                  },
+                  text: 'save'
+              ),
+              SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Forget Password?',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500
+                        fontWeight: FontWeight.w500
                     ),
                   )
                 ],
@@ -132,6 +132,6 @@ class _SecurityState extends State<Security> {
         ),
       ),
     );
- 
+
   }
 }

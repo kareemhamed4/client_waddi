@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:waddy_app/other_screens/component.dart';
+import 'package:waddy_app/shared/components/components.dart';
 
 class ConfirmedOrder extends StatelessWidget {
   var sender_name = TextEditingController();
@@ -384,12 +384,10 @@ class ConfirmedOrder extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-            defaultButton(
-              function: () {
-
-
-              },
-              text: 'confirm order',
+            myMaterialButton(
+              onPressed: () {},
+              labelWidget: Text('confirm order'),
+              context: context,
             ),
           ],
         ),

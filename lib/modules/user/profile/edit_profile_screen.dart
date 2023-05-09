@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:waddy_app/other_screens/component.dart';
-
+import 'package:waddy_app/shared/components/components.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -29,40 +28,46 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              defaultFormField(
+              myTextFormField(
+                context: context,
                 controller: new_full_name_controller,
-                label: 'Full Name',
-                suffix: Icons.person,
+                hint: 'Full Name',
+                suffixIcon:Icon( Icons.person),
               ),
               SizedBox(height: 20,),
-              defaultFormField(
+              myTextFormField(
+                context: context,
                 controller: new_mail_controller,
-                label: 'Mail',
-                suffix: Icons.mail,
+                hint: 'Mail',
+                suffixIcon:Icon( Icons.mail),
               ),
               SizedBox(height: 20,),
-              defaultFormField(
+              myTextFormField(
+                context: context,
                 controller: new_gender_controller,
-                label: 'Gender',
+                hint: 'Gender',
               ),
               SizedBox(height: 20,),
-              defaultFormField(
+              myTextFormField(
+                context: context,
                 controller: new_phone_controller,
-                label: 'Phone',
-                suffix: Icons.phone_android,
+                hint: 'Phone',
+                suffixIcon:Icon( Icons.phone_android),
               ),
               SizedBox(height: 20,),
-              defaultFormField(
+              myTextFormField(
+                context: context,
                 controller: new_address_controller,
-                label: 'Address',
-                suffix: Icons.location_pin,
+                hint: 'Address',
+                suffixIcon:Icon( Icons.location_pin),
               ),
               SizedBox(height:40 ,),
-              defaultButton(
-                  function: (){
+              myMaterialButton(
+                  onPressed: (){
 
                   },
-                  text: 'update'
+                  context: context,
+                  labelWidget: Text('update')
               ),
             ],
           ),

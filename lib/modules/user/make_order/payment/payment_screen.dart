@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/user/make_order/confirm_order/confirm_order_screen.dart';
 import 'package:waddy_app/modules/user/make_order/receiver/receiver_screen.dart';
 import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
-import 'package:waddy_app/other_screens/component.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
 
 
 class PaymentScreen extends StatefulWidget {
@@ -42,11 +45,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   height: 15,
                 ),
                 // card number
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: cardNumber_controller,
                   type: TextInputType.number,
-                  label: 'Card Number',
-                  prefix: Icons.numbers_outlined,
+                  hint: 'Card Number',
+                  prefixIcon: Icon(Icons.numbers_outlined,),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'card number is empty';
@@ -58,11 +62,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   height: 15,
                 ),
                 // name in card
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: nameincard_controller,
                   type: TextInputType.name,
-                  label: 'Name In Card',
-                  prefix: Icons.abc,
+                  hint: 'Name In Card',
+                  prefixIcon: Icon(Icons.abc,),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'name in card is empty';
@@ -74,9 +79,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   height: 15,
                 ),
                 // expiry date
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: expirydate_controller,
-                  label: 'Expiry date',
+                  hint: 'Expiry date',
                   type: TextInputType.datetime,
                   validate: (String? value) {
                     if (value!.isEmpty) {
@@ -89,9 +95,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   height: 15,
                 ),
                 // security code
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: securitycode_controller,
-                  label: 'Security Code',
+                  hint: 'Security Code',
                   type: TextInputType.visiblePassword,
                   validate: (String? value) {
                     if (value!.isEmpty) {
@@ -106,8 +113,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   height: 30,
                 ),
 
-                defaultButton(
-                  function: () {
+                myMaterialButton(
+                  context: context,
+                  onPressed: () {
                     if (form_key_payment.currentState!.validate()) {
                       Navigator.push(
                         context,
@@ -130,7 +138,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       );
                     }
                   },
-                  text: 'pay',
+                  labelWidget: Text("pay"),
                 ),
 
               ],

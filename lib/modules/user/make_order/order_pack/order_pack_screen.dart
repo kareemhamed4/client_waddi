@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/user/make_order/payment/payment_screen.dart';
-import 'package:waddy_app/other_screens/component.dart';
+import 'package:waddy_app/shared/components/components.dart';
 
 
 class OrderPackageScreen extends StatefulWidget {
@@ -99,11 +99,12 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: defaultFormField(
+                      child: myTextFormField(
+                        context: context,
                         controller: weight_controller,
                         type: TextInputType.number,
-                        label: 'Weight',
-                        prefix: Icons.monitor_weight_rounded,
+                        hint: 'Weight',
+                        prefixIcon: Icon(Icons.monitor_weight_rounded),
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'weight is empty';
@@ -146,10 +147,11 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: defaultFormField(
+                      child: myTextFormField(
+                        context: context,
                         controller: length_controller,
                         type: TextInputType.number,
-                        label: 'Length',
+                        hint: 'Length',
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'length is empty';
@@ -183,10 +185,11 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: defaultFormField(
+                      child: myTextFormField(
+                        context: context,
                         controller: width_controller,
                         type: TextInputType.number,
-                        label: 'Width',
+                        hint: 'Width',
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'width is empty';
@@ -220,10 +223,11 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: defaultFormField(
+                      child: myTextFormField(
+                        context: context,
                         controller: height_controller,
                         type: TextInputType.number,
-                        label: 'Height',
+                        hint: 'Height',
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'height is empty';
@@ -298,17 +302,19 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                   height: 15,
                 ),
                 // notes
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: notes_controller,
                   type: TextInputType.name,
-                  label: 'Notes',
+                  hint: 'Notes',
                 ),
                 SizedBox(
                   height: 30,
                 ),
 
-                defaultButton(
-                  function: () {
+                myMaterialButton(
+                  context: context,
+                  onPressed: () {
                     if (form_key_package.currentState!.validate()) {
                       Navigator.push(
                         context,
@@ -318,7 +324,7 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                       );
                     }
                   },
-                  text: 'next',
+                  labelWidget: Text("next"),
                 ),
               ],
             ),

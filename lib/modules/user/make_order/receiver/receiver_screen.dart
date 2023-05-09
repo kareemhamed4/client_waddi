@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/user/make_order/order_pack/order_pack_screen.dart';
-import 'package:waddy_app/other_screens/component.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
 
 
 class FillReceiverDataScreen extends StatefulWidget {
@@ -41,11 +45,12 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                   height: 15,
                 ),
                 // recevier name
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: rname_controller,
                   type: TextInputType.name,
-                  label: 'Recevier Name',
-                  prefix: Icons.person,
+                  hint: 'Recevier Name',
+                  prefixIcon: Icon(Icons.person),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'name is empty';
@@ -57,11 +62,12 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                   height: 15,
                 ),
                 // recevier phone
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: rphone_controller,
                   type: TextInputType.phone,
-                  label: 'Phone',
-                  prefix: Icons.phone_iphone_outlined,
+                  hint: 'Phone',
+                  prefixIcon: Icon(Icons.phone_iphone_outlined),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'phone is empty';
@@ -73,11 +79,12 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                   height: 15,
                 ),
                 // recevier email
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: remail_controller,
                   type: TextInputType.emailAddress,
-                  label: 'Email',
-                  prefix: Icons.email,
+                  hint: 'Email',
+                  prefixIcon: Icon(Icons.email),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'email is empty';
@@ -89,11 +96,12 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                   height: 15,
                 ),
                 // postel code
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: rpostelcode_controller,
                   type: TextInputType.number,
-                  label: 'Postel Code',
-                  prefix: Icons.contact_mail_rounded,
+                  hint: 'Postel Code',
+                  prefixIcon: Icon(Icons.contact_mail_rounded),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'Postel Code is empty';
@@ -105,11 +113,12 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                   height: 15,
                 ),
                 // recevier address
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: raddress_controller,
                   type: TextInputType.streetAddress,
-                  label: 'Address',
-                  prefix: Icons.location_on,
+                  hint: 'Address',
+                  prefixIcon: Icon(Icons.location_on),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'address is empty';
@@ -122,8 +131,9 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                   height: 30,
                 ),
 
-                defaultButton(
-                  function: () {
+                myMaterialButton(
+                  context: context,
+                  onPressed: () {
                     if (form_key_recevier.currentState!.validate()) {
                       Navigator.push(
                         context,
@@ -133,7 +143,7 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                       );
                     }
                   },
-                  text: 'next',
+                  labelWidget: Text("next"),
                 ),
 
               ],

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/user/make_order/receiver/receiver_screen.dart';
-import 'package:waddy_app/other_screens/component.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/components.dart';
 
 class FillSenderDateScreen extends StatefulWidget {
   const FillSenderDateScreen({super.key});
@@ -41,11 +45,12 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                 ),
 
                 // sender name
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: sname_controller,
                   type: TextInputType.name,
-                  label: 'Sender Name',
-                  prefix: Icons.person,
+                  hint: 'Sender Name',
+                  prefixIcon:Icon( Icons.person),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'name is empty';
@@ -57,11 +62,12 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                   height: 15,
                 ),
                 // sender phone
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: sphone_controller,
                   type: TextInputType.phone,
-                  label: 'Phone',
-                  prefix: Icons.phone_iphone_outlined,
+                  hint: 'Phone',
+                  prefixIcon:Icon( Icons.phone_iphone_outlined),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'phone is empty';
@@ -73,11 +79,12 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                   height: 15,
                 ),
                 // sender email
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: semail_controller,
                   type: TextInputType.emailAddress,
-                  label: 'Email',
-                  prefix: Icons.email,
+                  hint: 'Email',
+                  prefixIcon:Icon( Icons.email),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'email is empty';
@@ -89,11 +96,12 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                   height: 15,
                 ),
                 // postel code
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: spostelcode_controller,
                   type: TextInputType.number,
-                  label: 'Postel Code',
-                  prefix: Icons.contact_mail_rounded,
+                  hint: 'Postel Code',
+                  prefixIcon:Icon( Icons.contact_mail_rounded),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'Postel Code is empty';
@@ -105,11 +113,12 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                   height: 15,
                 ),
                 // sender address
-                defaultFormField(
+                myTextFormField(
+                  context: context,
                   controller: saddress_controller,
                   type: TextInputType.streetAddress,
-                  label: 'Address',
-                  prefix: Icons.location_on,
+                  hint: 'Address',
+                  prefixIcon:Icon( Icons.location_on),
                   validate: (String? value) {
                     if (value!.isEmpty) {
                       return 'address is empty';
@@ -124,8 +133,9 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                   height: 30,
                 ),
 
-                defaultButton(
-                  function: () {
+                myMaterialButton(
+                  context: context,
+                  onPressed: () {
                     if (form_key_sender.currentState!.validate()) {
                       Navigator.push(
                         context,
@@ -135,7 +145,7 @@ class _FillSenderDateScreenState extends State<FillSenderDateScreen> {
                       );
                     }
                   },
-                  text: 'next',
+                  labelWidget: Text("next"),
                 ),
               ],
             ),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:waddy_app/modules/user/profile/edit_profile_screen.dart';
-import 'package:waddy_app/modules/user/profile/reset_password_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -135,7 +133,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ResetPasswordScreen(),
+                    builder: (context) => SizedBox(),
                   ),
                 );
               },

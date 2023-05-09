@@ -606,8 +606,10 @@ void buildErrorToast({
   required BuildContext context,
   required String title,
   required String description,
+  bool? showTitle,
 }) =>
     CherryToast.error(
+      displayTitle: showTitle ?? true,
       title: Text(
         title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16),
@@ -616,7 +618,7 @@ void buildErrorToast({
         description,
         style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8,fontSize: 12),
       ),
-      animationType: AnimationType.fromRight,
+      animationType: AnimationType.fromTop,
       animationDuration: Duration(milliseconds: 1000),
       autoDismiss: true,
     ).show(context);

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/models/user/login_model.dart';
@@ -7,11 +8,13 @@ import 'package:waddy_app/shared/network/remote/dio_helper.dart';
 
 class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
   WaddyLoginCubit() : super(WaddyLoginInitialState());
+
   static WaddyLoginCubit get(context) => BlocProvider.of(context);
 
 
   IconData suffix = Icons.visibility;
   bool isPassword = true;
+
   void changePasswordVisibility() {
     isPassword = !isPassword;
     suffix = isPassword ? Icons.visibility_off : Icons.visibility;
@@ -20,21 +23,32 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
 
   LoginModel? loginModel;
 
-  void userModel({
+  void userLogin({
     required String email,
     required String password,
   }) {
-    emit(LoginLoadingState());
+    emit(UserLoginLoadingState());
     DioHelper.postData(
       url: LOGIN,
       baseUrl: BASEURL,
       data: {'email': email, 'password': password},
     ).then((value) {
       loginModel = LoginModel.fromJson(value.data);
-      emit(LoginSuccessState(loginModel!));
+      emit(UserLoginSuccessState(loginModel!));
     }).catchError((error) {
-      debugPrint(error.toString());
-      emit(LoginErrorState());
+      if (error is DioError) {
+        if (error.response?.statusCode == 400) {
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(UserLoginErrorState(errorMessage));
+        } else {
+          // Handle other DioError cases
+          emit(UserLoginErrorState('An error occurred. Please try again.'));
+        }
+      } else {
+        // Handle non-DioError cases
+        emit(UserLoginErrorState('An error occurred. Please try again.'));
+      }
     });
   }
 }

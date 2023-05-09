@@ -23,22 +23,26 @@ class WaddyLoginScreen extends StatelessWidget {
         create: (BuildContext context) => WaddyLoginCubit(),
         child: BlocConsumer<WaddyLoginCubit, WaddyLoginStates>(
           listener: (context, state) => {
-            if (state is LoginSuccessState)
+            if (state is UserLoginSuccessState)
               {
                 if (state.loginModel.user != null)
                   {
                     CacheHelper.saveData(
-                        key: "token", value: state.loginModel.token)
+                            key: "token", value: state.loginModel.token)
                         .then((value) {
-                      token = state.loginModel.token;
+                      userToken = state.loginModel.token;
                       navigateToAndFinish(
                           context, const ChooseLoginOrSignupScreen());
                     }),
                   }
-                else
-                  {
-                    buildSuccessToast(context: context,title: "",description: "${state.loginModel}",)
-                  }
+              }
+            else if (state is UserLoginErrorState)
+              {
+                buildErrorToast(
+                    title: "Oops!",
+                    context: context,
+                    description: state.error,
+                )
               }
           },
           builder: (context, state) {
@@ -54,10 +58,8 @@ class WaddyLoginScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Login to your Account',
-                            style: Theme.of(context).textTheme.titleLarge
-                          ),
+                          Text('Login to your Account',
+                              style: Theme.of(context).textTheme.titleLarge),
                           const SizedBox(
                             height: 30.0,
                           ),
@@ -97,23 +99,39 @@ class WaddyLoginScreen extends StatelessWidget {
                             height: 40.0,
                           ),
                           ConditionalBuilder(
-                            condition: state is! WaddyLoadingState,
+                            condition: state is! UserLoginLoadingState,
                             builder: (context) => myMaterialButton(
                               context: context,
-                              labelWidget: Text(
-                                "Sign in",
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  cubit.userModel(
+                                  cubit.userLogin(
                                       email: emailController.text,
                                       password: passwordController.text);
                                 }
                               },
+                              labelWidget: Text(
+                                "LOGIN",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge,
+                              ),
                             ),
-                            fallback: (context) => const Center(
-                                child: CircularProgressIndicator()),
+                            fallback: (context) => myMaterialButton(
+                              context: context,
+                              onPressed: () {
+                                null;
+                              },
+                              labelWidget: const Center(
+                                child: SizedBox(
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 20.0,

@@ -1,10 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
-const BASEURL = "http://192.168.56.1:8080/";
+const BASEURL = "http://192.168.1.12:8080/";
 
 const LOGIN = "auth/login";
-const USERREGISTER = "auth/register?type=comapny";
-const DRIVERREGISTER = "auth/register?type=personal";
+const USERREGISTER = "auth/register?type=personal";
+const DRIVERREGISTER = "auth/register?type=comapny";
 const FORGETPASSWORD = "auth/forget";
 const VERIFYOTP = "auth/verifyotp";
 const UPDATEPASSWORD = "auth/updatepassword";

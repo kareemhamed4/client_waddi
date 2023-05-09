@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/models/user/login_model.dart';
 import 'package:waddy_app/modules/common/register/cubit/states.dart';
 import 'package:waddy_app/shared/network/end_point.dart';
 import 'package:waddy_app/shared/network/remote/dio_helper.dart';
@@ -10,7 +9,6 @@ class SignUpCubit extends Cubit<SignUpStates> {
 
   static SignUpCubit get(context) => BlocProvider.of(context);
 
-  LoginModel? signupModel;
   void userRegister({
     required String firstName,
     required String lastName,
@@ -34,8 +32,12 @@ class SignUpCubit extends Cubit<SignUpStates> {
         'address': address,
       },
     ).then((value) {
-      signupModel = LoginModel.fromJson(value.data);
-      emit(UserSignUpSuccessState(signupModel!));
+      if (value.statusCode == 201 &&
+          value.data.toString().contains("Created")) {
+        emit(UserSignUpSuccessState(value.data.toString()));
+      } else {
+        emit(UserSignUpErrorState('An error occurred. Please try again.'));
+      }
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
@@ -82,8 +84,10 @@ class SignUpCubit extends Cubit<SignUpStates> {
         'postalcode': postalcode,
       },
     ).then((value) {
-      signupModel = LoginModel.fromJson(value.data);
-      emit(DriverSignUpSuccessState(signupModel!));
+      if (value.statusCode == 201 &&
+          value.data.toString().contains("Created")) {
+        emit(DriverSignUpSuccessState(value.data.toString()));
+      }
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {

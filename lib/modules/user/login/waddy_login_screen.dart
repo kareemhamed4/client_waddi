@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/user/login/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/login/cubit/states.dart';
@@ -32,7 +33,7 @@ class WaddyLoginScreen extends StatelessWidget {
                         .then((value) {
                       userToken = state.loginModel.token;
                       navigateToAndFinish(
-                          context, const ChooseLoginOrSignupScreen());
+                          context, const UserLayoutScreen());
                     }),
                   }
               }

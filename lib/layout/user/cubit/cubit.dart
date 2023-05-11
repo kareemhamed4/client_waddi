@@ -7,8 +7,8 @@ import 'package:http/http.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/user/track_id_model.dart';
-import 'package:waddy_app/modules/user/chat/chat_screen.dart';
 import 'package:waddy_app/modules/user/home/home_screen.dart';
+import 'package:waddy_app/modules/user/inbox/inbox_screen.dart';
 import 'package:waddy_app/modules/user/my_orders/my_order_screen.dart';
 import 'package:waddy_app/modules/user/profile/profile_screen.dart';
 
@@ -20,7 +20,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   List<Widget> screens = const [
     UserHomeScreen(),
     UserMyOrderScreen(),
-    UserChatScreen(),
+    UserInboxScreen(),
     UserProfileScreen(),
   ];
   List<BottomNavigationBarItem> bottomItems = [

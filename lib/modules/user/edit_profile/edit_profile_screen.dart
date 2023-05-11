@@ -4,8 +4,8 @@ import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class DriverEditProfileScreen extends StatelessWidget {
-  const DriverEditProfileScreen({Key? key}) : super(key: key);
+class UserEditProfileScreen extends StatelessWidget {
+  const UserEditProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

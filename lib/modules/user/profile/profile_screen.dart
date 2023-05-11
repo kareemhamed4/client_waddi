@@ -1,208 +1,333 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/custom_icons_icons.dart';
+import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
+import 'package:waddy_app/modules/driver/edit_profile/edit_profile_screen.dart';
+import 'package:waddy_app/modules/user/edit_password/edit_password_screen.dart';
+import 'package:waddy_app/modules/user/edit_profile/edit_profile_screen.dart';
+import 'package:waddy_app/modules/user/notification_setting/notification_setting_screen.dart';
+import 'package:waddy_app/modules/user/privacy/privacy_policy_screen.dart';
+import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
-class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
-
-  @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
-}
-
-class _UserProfileScreenState extends State<UserProfileScreen> {
-  String name = 'name';
-  String gmail = 'gmail@gmail.com';
+class UserProfileScreen extends StatelessWidget {
+  const UserProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Color.fromRGBO(255, 75, 84, 1),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Stack(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    children: const [
-                      CircleAvatar(
-                        radius: 40,
-                        // backgroundImage: AssetImage('images/Picsart_22-10-19_19-44-32-361.jpg'),
-                        backgroundColor: Colors.blue,
-                      ),
-                      CircleAvatar(
-                        radius: 10,
-                        // ignore: sort_child_properties_last
-                        child: Icon(
-                          Icons.edit,
-                          size: 12,
-                          color: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              mySizedBox(size: size, myHeight: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: Text(
+                  "Profile",
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(fontSize: 28, color: myFavColor2),
+                ),
+              ),
+              mySizedBox(size: size, myHeight: 22),
+              Align(
+                alignment: Alignment.center,
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    const CircleAvatar(
+                      radius: 55,
+                      backgroundImage: AssetImage("assets/images/ahmed.jpg"),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        navigateTo(
+                          context,
+                          const DriverEditProfileScreen(),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 4.0, bottom: 4.0),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: myFavColor7,
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                              ),
+                            ),
+                            Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: myFavColor,
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                              ),
+                              child: Center(
+                                  child: FaIcon(
+                                    FontAwesomeIcons.pen,
+                                    color: myFavColor7,
+                                    size: 10,
+                                  )),
+                            ),
+                          ],
                         ),
-                        backgroundColor: Color.fromRGBO(255, 75, 84, 1),
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '$name',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '$gmail',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              height: 1,
-              color: Colors.grey[300],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            MaterialButton(
-              height: 40,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UserProfileScreen(),
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(Icons.person),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    'Edit Profile',
-                    style: TextStyle(
-                      fontSize: 16,
+              mySizedBox(size: size, myHeight: 16),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Ahmed Hossam",
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "ahmed_hossam25@gmail.com",
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontSize: 16, color: myFavColor2, height: 1),
+                ),
+              ),
+              mySizedBox(size: size, myHeight: 20),
+              myDivider(),
+              mySizedBox(size: size, myHeight: 20),
+              ListTile(
+                onTap: () {
+                  navigateTo(
+                    context,
+                    const UserEditProfileScreen(),
+                  );
+                },
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                leading: Container(
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: myFavColor6,
+                      )),
+                  child: Center(
+                    child: Icon(
+                      CustomIcons.user,
+                      color: myFavColor6,
+                      size: 15,
                     ),
                   ),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.arrow_forward_ios_sharp),
-                ],
+                ),
+                title: Text(
+                  "Edit Profile",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 20, color: myFavColor2),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: myFavColor2,
+                  size: 20,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            MaterialButton(
-              height: 40,
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.notifications),
-                  SizedBox(
-                    width: 15,
+              ListTile(
+                onTap: () {
+                  navigateTo(
+                    context,
+                    const UserNotificationSettingScreen(),
+                  );
+                },
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Icon(
+                    CustomIcons.bell,
+                    color: myFavColor6,
+                    size: 20,
                   ),
-                  Text(
-                    'Notification',
-                    style: TextStyle(
-                      fontSize: 16,
+                ),
+                title: Text(
+                  "Notification",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 20, color: myFavColor2),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: myFavColor2,
+                  size: 20,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  navigateTo(
+                    context,
+                    UserEditPasswordScreen(),
+                  );
+                },
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Icon(
+                    CustomIcons.shield_alt,
+                    color: myFavColor6,
+                    size: 20,
+                  ),
+                ),
+                title: Text(
+                  "Security",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 20, color: myFavColor2),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: myFavColor2,
+                  size: 20,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  navigateTo(
+                    context,
+                    const UserPrivacyScreen(),
+                  );
+                },
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 4),
+                  child: Icon(
+                    CustomIcons.lock_open,
+                    color: myFavColor6,
+                    size: 25,
+                  ),
+                ),
+                title: Text(
+                  "Privacy Policy",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 20, color: myFavColor2),
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  color: myFavColor2,
+                  size: 20,
+                ),
+              ),
+              ListTile(
+                onTap: () {
+                  showMyBottomSheet(
+                    context: context,
+                    size: size,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 26),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          mySizedBox(size: size,myHeight: 8),
+                          Container(
+                            width: 35,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: myFavColor4,
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(20)),
+                            ),
+                          ),
+                          mySizedBox(size: size,myHeight: 30),
+                          Text(
+                            "Logout",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(fontSize: 28, color: myFavColor),
+                          ),
+                          mySizedBox(size: size,myHeight: 10),
+                          myDivider(),
+                          mySizedBox(size: size,myHeight: 10),
+                          Text(
+                            "Are you sure you want to logout ?",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 24, color: myFavColor8),
+                          ),
+                          mySizedBox(size: size,myHeight: 30),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: myMaterialButton(
+                                  context: context,
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  height: 50,
+                                  bgColor: rose,
+                                  labelWidget: Text("Cancel",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor)),
+                                ),
+                              ),
+                              mySizedBox(size: size,myWidth: 28),
+                              Expanded(
+                                child: myMaterialButton(
+                                  context: context,
+                                  onPressed: () {
+                                    navigateToAndFinish(
+                                      context,
+                                      const ChooseLoginOrSignupScreen(),
+                                    );
+                                  },
+                                  height: 50,
+                                  labelWidget: Text("Yes, Logout",style: Theme.of(context).textTheme.labelLarge,),
+                                ),
+                              ),
+                            ],
+                          ),
+                          mySizedBox(size: size,myHeight: 40),
+                        ],
+                      ),
                     ),
+                  );
+                },
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                leading: Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: Icon(
+                    CustomIcons.logout,
+                    color: myFavColor,
+                    size: 25,
                   ),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.arrow_forward_ios_sharp),
-                ],
+                ),
+                title: Text(
+                  "Logout",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontSize: 20, color: myFavColor),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            MaterialButton(
-              height: 40,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SizedBox(),
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  Icon(Icons.security),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    'Security',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.arrow_forward_ios_sharp),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            MaterialButton(
-              height: 40,
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(Icons.policy),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    'Privacy Policy',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  Expanded(child: SizedBox()),
-                  Icon(Icons.arrow_forward_ios_sharp),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            MaterialButton(
-              height: 40,
-              onPressed: () {},
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color: Color.fromRGBO(255, 75, 84, 1),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    'Logout',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromRGBO(255, 75, 84, 1),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -6,7 +6,7 @@ class GetUserOrdersInitialState extends GetUserOrdersStates {}
 
 class GetUserOrdersLoadingState extends GetUserOrdersStates {}
 class GetUserOrdersSuccessState extends GetUserOrdersStates {
-  final UserOrders userOrders;
+  final List<UserOrders> userOrders;
   GetUserOrdersSuccessState(this.userOrders);
 }
 class GetUserOrdersErrorState extends GetUserOrdersStates {

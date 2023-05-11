@@ -12,6 +12,7 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
   static GetUserOrdersCubit get(context) => BlocProvider.of(context);
 
   UserOrders? orderDetails;
+  List<UserOrders> ordersList = [];
   void getOrders() {
     emit(GetUserOrdersLoadingState());
     DioHelper.getData(
@@ -19,14 +20,51 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
       baseUrl: BASEURL,
       token: userToken,
     ).then((value) {
-      orderDetails = UserOrders.fromJson(value.data);
-      emit(GetUserOrdersSuccessState(orderDetails!));
+      List<dynamic> ordersJson = value.data;
+      ordersList = ordersJson
+          .map((orderJson) => UserOrders.fromJson(orderJson))
+          .toList();
+      emit(GetUserOrdersSuccessState(ordersList));
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 401) {
           final responseData = error.response?.data;
           final errorMessage = responseData['msg'];
           emit(GetUserOrdersErrorState(errorMessage));
+        } else {
+          // Handle other DioError cases
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(GetUserOrdersErrorState(errorMessage));
+        }
+      } else {
+        final responseData = error.response?.data;
+        final errorMessage = responseData['msg'];
+        emit(GetUserOrdersErrorState(errorMessage));
+      }
+    });
+  }
+
+  List<UserOrders> searchedOrdersList = [];
+  Future<void> getOrdersByTrackId({
+    required String trackId,
+}) async{
+    emit(GetUserOrdersLoadingState());
+    DioHelper.getData(
+      url: "$USERSEARCHTRACKID$trackId",
+      baseUrl: BASEURL,
+      token: userToken,
+    ).then((value) {
+      List<dynamic> ordersJson = value.data;
+      searchedOrdersList = ordersJson
+          .map((orderJson) => UserOrders.fromJson(orderJson))
+          .toList();
+      emit(GetUserOrdersSuccessState(searchedOrdersList));
+    }).catchError((error) {
+      if (error is DioError) {
+        if (error.response?.statusCode == 404) {
+          final errorMessage = error.response?.data.toString();
+          emit(GetUserOrdersErrorState(errorMessage!));
         } else {
           // Handle other DioError cases
           final responseData = error.response?.data;
@@ -114,6 +152,7 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
       baseUrl: BASEURL,
     ).then((value) {
       emit(DeleteOrderSuccessState());
+      getOrders();
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 404) {

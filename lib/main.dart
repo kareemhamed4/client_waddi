@@ -10,13 +10,14 @@ import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/common/forget_password/cubit/cubit.dart';
+import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/common/new_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
 import 'package:waddy_app/modules/common/otp/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/register/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
+import 'package:waddy_app/modules/user/make_order/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => UpdatePasswordCubit()),
         BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserData()),
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
+        BlocProvider(create: (BuildContext context) => MakeOrderCubit()),
       ],
       child: BlocConsumer<UserCubit, UserStates>(
         listener: (context, state) {},

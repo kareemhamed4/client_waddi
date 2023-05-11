@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/models/common/order_details.dart';
 import 'package:waddy_app/modules/user/make_order/cubit/states.dart';
+import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/end_point.dart';
 import 'package:waddy_app/shared/network/remote/dio_helper.dart';
 
@@ -34,6 +35,7 @@ class MakeOrderCubit extends Cubit<MakeOrderStates> {
     DioHelper.postData(
       url: MAKEORDER,
       baseUrl: BASEURL,
+      token: userToken,
       data: {
         'senderName': senderName,
         'senderPhone': senderPhone,
@@ -51,6 +53,7 @@ class MakeOrderCubit extends Cubit<MakeOrderStates> {
         'services': services,
         'paymentId': paymentId,
         'deliverTime': deliverTime,
+        "notes": notes,
       },
     ).then((value) {
       orderDetails = OrderDetails.fromJson(value.data);

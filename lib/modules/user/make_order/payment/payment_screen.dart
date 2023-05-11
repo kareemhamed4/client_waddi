@@ -3,9 +3,6 @@ import 'package:waddy_app/modules/user/make_order/confirm_order/confirm_order_sc
 import 'package:waddy_app/modules/user/make_order/receiver/receiver_screen.dart';
 import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
 
 
 class PaymentScreen extends StatefulWidget {

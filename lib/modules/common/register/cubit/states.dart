@@ -1,4 +1,4 @@
-import 'package:waddy_app/models/user/login_model.dart';
+import 'package:waddy_app/models/common/login_model.dart';
 
 abstract class SignUpStates {}
 

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/user/make_order/order_pack/order_pack_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
 
 
 class FillReceiverDataScreen extends StatefulWidget {

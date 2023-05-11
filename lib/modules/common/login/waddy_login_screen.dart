@@ -1,11 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
+import 'package:waddy_app/modules/common/login/cubit/cubit.dart';
+import 'package:waddy_app/modules/common/login/cubit/states.dart';
 import 'package:waddy_app/modules/common/register/register.dart';
-import 'package:waddy_app/modules/user/login/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/login/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
@@ -23,27 +24,36 @@ class WaddyLoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => WaddyLoginCubit(),
       child: BlocConsumer<WaddyLoginCubit, WaddyLoginStates>(
-        listener: (context, state) => {
-          if (state is UserLoginSuccessState)
-            {
-              if (state.loginModel.user != null)
-                {
-                  CacheHelper.saveData(
-                          key: "token", value: state.loginModel.token)
-                      .then((value) {
-                    userToken = state.loginModel.token;
-                    navigateToAndFinish(context, const UserLayoutScreen());
-                  }),
-                }
+        listener: (context, state) {
+          if (state is UserLoginSuccessState) {
+            if (state.loginModel.user != null) {
+              if (state.loginModel.user!.companyName == null) {
+                CacheHelper.saveData(
+                  key: "token",
+                  value: state.loginModel.token,
+                ).then((value) {
+                  userToken = state.loginModel.token;
+                }).then((value) {
+                  navigateToAndFinish(context, const UserLayoutScreen());
+                });
+              } else {
+                CacheHelper.saveData(
+                  key: "token",
+                  value: state.loginModel.token,
+                ).then((value) {
+                  driverToken = state.loginModel.token;
+                }).then((value) {
+                  navigateToAndFinish(context, const DriverLayoutScreen());
+                });
+              }
             }
-          else if (state is UserLoginErrorState)
-            {
-              buildErrorToast(
-                title: "Oops!",
-                context: context,
-                description: state.error,
-              )
-            }
+          } else if (state is UserLoginErrorState) {
+            buildErrorToast(
+              title: "Oops!",
+              context: context,
+              description: state.error,
+            );
+          }
         },
         builder: (context, state) {
           WaddyLoginCubit cubit = BlocProvider.of(context);
@@ -137,7 +147,8 @@ class WaddyLoginScreen extends StatelessWidget {
                         Center(
                           child: TextButton(
                             onPressed: () {
-                              navigateTo(context, const WaddyForgetPasswordScreen());
+                              navigateTo(
+                                  context, const WaddyForgetPasswordScreen());
                             },
                             child: const Text(
                               'Forgot Password ?',

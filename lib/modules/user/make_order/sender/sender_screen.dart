@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/user/make_order/receiver/receiver_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/components.dart';
 
 class FillSenderDateScreen extends StatefulWidget {
   const FillSenderDateScreen({super.key});

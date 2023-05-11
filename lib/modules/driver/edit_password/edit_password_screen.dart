@@ -7,8 +7,10 @@ import 'package:waddy_app/modules/driver/edit_password/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
+//ignore: must_be_immutable
 class DriverEditPasswordScreen extends StatelessWidget {
-  const DriverEditPasswordScreen({Key? key}) : super(key: key);
+  DriverEditPasswordScreen({Key? key}) : super(key: key);
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,6 @@ class DriverEditPasswordScreen extends StatelessWidget {
     TextEditingController oldPasswordController = TextEditingController();
     TextEditingController newPasswordController = TextEditingController();
     TextEditingController confirmNewPasswordController = TextEditingController();
-    var formKey = GlobalKey<FormState>();
     return BlocConsumer<EditPasswordForAuthDriverCubit,EditPasswordForAuthDriverStates>(
       listener: (context,state){},
       builder: (context,state){
@@ -175,12 +176,6 @@ class DriverEditPasswordScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    myMaterialButton(
-                      context: context,
-                      onPressed: () {},
-                      height: 50,
-                      labelWidget: Text("Save",style: Theme.of(context).textTheme.labelLarge,),
                     ),
                     mySizedBox(
                       size: size,

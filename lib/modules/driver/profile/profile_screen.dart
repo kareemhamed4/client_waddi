@@ -179,7 +179,7 @@ class DriverProfileScreen extends StatelessWidget {
                 onTap: () {
                   navigateTo(
                     context,
-                    const DriverEditPasswordScreen(),
+                    DriverEditPasswordScreen(),
                   );
                 },
                 contentPadding: const EdgeInsets.symmetric(horizontal: 6),

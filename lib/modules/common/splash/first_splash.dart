@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
+import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
 

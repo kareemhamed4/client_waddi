@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
+import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/common/register/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/register/cubit/states.dart';
-import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 
 class RegisterScreen extends StatefulWidget {

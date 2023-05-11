@@ -6,7 +6,6 @@ import 'package:waddy_app/cubit/driver/cubit.dart';
 import 'package:waddy_app/cubit/user/cubit.dart';
 import 'package:waddy_app/cubit/user/states.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
-import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';

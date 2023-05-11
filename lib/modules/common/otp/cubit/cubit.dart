@@ -9,6 +9,7 @@ class VerifyOTPCubit extends Cubit<VerifyOTPStates> {
 
   static VerifyOTPCubit get(context) => BlocProvider.of(context);
 
+  String? userId;
   void verifyOTP({
     required String email,
     required String otp,
@@ -24,8 +25,8 @@ class VerifyOTPCubit extends Cubit<VerifyOTPStates> {
     ).then((value) {
       if (value.statusCode == 200) {
         final responseData = value.data;
-        final userID = responseData['userId'];
-        emit(VerifyOTPSuccessState(userID));
+        userId = responseData['userId'];
+        emit(VerifyOTPSuccessState(userId!));
       }
     }).catchError((error) {
       if (error is DioError) {
@@ -35,7 +36,9 @@ class VerifyOTPCubit extends Cubit<VerifyOTPStates> {
           emit(VerifyOTPErrorState(errorMessage));
         } else {
           // Handle other DioError cases
-          emit(VerifyOTPErrorState('An error occurred. Please try again.'));
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(VerifyOTPErrorState(errorMessage));
         }
       } else {
         // Handle non-DioError cases

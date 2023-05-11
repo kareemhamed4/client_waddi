@@ -1,12 +1,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/register/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/register/cubit/states.dart';
+import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/constants.dart';
-import 'package:waddy_app/shared/network/local/cache_helper.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -50,6 +50,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           navigateToAndFinish(context, const UserLayoutScreen());
         }
         else if (state is UserSignUpErrorState) {
+          buildErrorToast(
+            title: "Oops!",
+            context: context,
+            description: state.error,
+          );
+        }
+        else if (state is DriverSignUpSuccessState) {
+          navigateToAndFinish(context, const DriverLayoutScreen());
+        }
+        else if (state is DriverSignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
@@ -514,18 +524,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   SizedBox(
                                     height: 30,
                                   ),
-                                  myMaterialButton(
-                                    context: context,
-                                    onPressed: () {
-                                      if (form2_key.currentState!.validate()) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => SizedBox()),
-                                        );
-                                      }
-                                    },
-                                    labelWidget: Text("regist"),
+                                  ConditionalBuilder(
+                                    condition: state is! DriverSignUpLoadingState,
+                                    builder: (context) => myMaterialButton(
+                                      context: context,
+                                      onPressed: () {
+                                        if (form2_key.currentState!.validate()) {
+                                          cubit.driverRegister(
+                                            firstName: fname2_controller.text,
+                                            lastName: lname2_controller.text,
+                                            email: email2_controller.text,
+                                            password: password2_controller.text,
+                                            confirmPassword:
+                                            confirm2_controller.text,
+                                            phone: phone2_controller.text,
+                                            companyName: cname_controller.text,
+                                            industry: cindustry_controller.text,
+                                            governorate: cgovernrate_controller.text,
+                                            postalcode: cpostel_controller.text
+                                          );
+                                        }
+                                      },
+                                      labelWidget: Text(
+                                        "Register",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
+                                    ),
+                                    fallback: (context) => myMaterialButton(
+                                      context: context,
+                                      onPressed: () {
+                                        null;
+                                      },
+                                      labelWidget: const Center(
+                                        child: SizedBox(
+                                          width: 22,
+                                          height: 22,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 3,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -541,7 +583,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         ),
                                       ),
                                       MaterialButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          navigateTo(context, WaddyLoginScreen());
+                                        },
                                         child: Text(
                                           'sign in',
                                           style: TextStyle(

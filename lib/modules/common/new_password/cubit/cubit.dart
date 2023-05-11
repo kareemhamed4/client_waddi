@@ -35,7 +35,9 @@ class UpdatePasswordCubit extends Cubit<UpdatePasswordStates> {
           emit(UpdatePasswordErrorState(errorMessage));
         } else {
           // Handle other DioError cases
-          emit(UpdatePasswordErrorState('An error occurred. Please try again.'));
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(UpdatePasswordErrorState(errorMessage));
         }
       } else {
         // Handle non-DioError cases

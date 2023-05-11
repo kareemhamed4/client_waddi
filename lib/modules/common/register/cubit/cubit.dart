@@ -46,7 +46,9 @@ class SignUpCubit extends Cubit<SignUpStates> {
           emit(UserSignUpErrorState(errorMessage));
         } else {
           // Handle other DioError cases
-          emit(UserSignUpErrorState('An error occurred. Please try again.'));
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(UserSignUpErrorState(errorMessage));
         }
       } else {
         // Handle non-DioError cases
@@ -96,7 +98,9 @@ class SignUpCubit extends Cubit<SignUpStates> {
           emit(DriverSignUpErrorState(errorMessage));
         } else {
           // Handle other DioError cases
-          emit(DriverSignUpErrorState('An error occurred. Please try again.'));
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(DriverSignUpErrorState(errorMessage));
         }
       } else {
         // Handle non-DioError cases

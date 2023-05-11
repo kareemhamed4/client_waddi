@@ -20,20 +20,27 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordStates> {
         'email': email,
       },
     ).then((value) {
-      emit(ForgetPasswordSuccessState());
+      if (value.statusCode == 200 &&
+          value.data.toString().contains("OK")) {
+        emit(ForgetPasswordSuccessState(value.data.toString()));
+      } else {
+        emit(ForgetPasswordErrorState('An error occurred. Please try again.'));
+      }
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
           final responseData = error.response?.data;
           final errorMessage = responseData['msg'];
-          emit(UserSignUpErrorState(errorMessage));
+          emit(ForgetPasswordErrorState(errorMessage));
         } else {
           // Handle other DioError cases
-          emit(UserSignUpErrorState('An error occurred. Please try again.'));
+          final responseData = error.response?.data;
+          final errorMessage = responseData['msg'];
+          emit(ForgetPasswordErrorState(errorMessage));
         }
       } else {
         // Handle non-DioError cases
-        emit(UserSignUpErrorState('An error occurred. Please try again.'));
+        emit(ForgetPasswordErrorState('An error occurred. Please try again.'));
       }
     });
   }

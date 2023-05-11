@@ -15,6 +15,7 @@ import 'package:waddy_app/modules/common/new_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
 import 'package:waddy_app/modules/common/otp/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/register/cubit/cubit.dart';
+import 'package:waddy_app/modules/driver/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
@@ -85,6 +86,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => VerifyOTPCubit()),
         BlocProvider(create: (BuildContext context) => UpdatePasswordCubit()),
         BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserData()),
+        BlocProvider(create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
       ],
       child: BlocConsumer<UserCubit, UserStates>(
         listener: (context, state) {},

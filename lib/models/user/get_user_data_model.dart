@@ -6,6 +6,9 @@ class UserInfo {
   String? phone;
   String? password;
   String? address;
+  String? companyName;
+  String? industry;
+  String? governorate;
   int? role;
   String? userImg;
   int? iV;
@@ -18,6 +21,9 @@ class UserInfo {
         this.phone,
         this.password,
         this.address,
+        this.companyName,
+        this.industry,
+        this.governorate,
         this.role,
         this.userImg,
         this.iV});
@@ -30,6 +36,9 @@ class UserInfo {
     phone = json['phone'];
     password = json['password'];
     address = json['address'];
+    companyName = json['companyName'];
+    industry = json['industry'];
+    governorate = json['governorate'];
     role = json['role'];
     userImg = json['userImg'];
     iV = json['__v'];

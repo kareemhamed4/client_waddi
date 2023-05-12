@@ -6,6 +6,7 @@ import 'package:waddy_app/modules/common/new_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/new_password/cubit/states.dart';
 import 'package:waddy_app/modules/common/otp/cubit/cubit.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -16,6 +17,7 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordState extends State<ResetPassword> {
   bool isPassword = true;
+  bool isChecked = false;
 
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
@@ -24,6 +26,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocConsumer<UpdatePasswordCubit,UpdatePasswordStates>(
       listener: (context,state){
         if (state is UpdatePasswordSuccessState) {
@@ -55,76 +58,70 @@ class _ResetPasswordState extends State<ResetPassword> {
                 child: Form(
                   key: formKey,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Image(
-                        image: AssetImage('assets/images/reset-pass.png'),
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      const Text(
-                        'Create your new password',
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey,
+                      const Align(
+                        alignment: Alignment.center,
+                        child: Image(
+                          image: AssetImage('assets/images/reset-pass.png'),
                         ),
                       ),
-                      const SizedBox(
-                        height: 30.0,
+                      mySizedBox(size: size, myHeight: 50),
+                      Text(
+                        'Create Your New Password',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: myFavColor2, fontSize: 18,
+                        ),
                       ),
-                      defaultTextForm(
-                          controller: passController,
-                          type: TextInputType.visiblePassword,
-                          text: 'new password',
-                          prefix: Icons.lock,
-                          isSecure: isPassword,
-                          suffix:
-                          isPassword ? Icons.visibility : Icons.visibility_off,
-                          suffixAction: () {
-                            setState(() {
-                              isPassword = !isPassword;
-                            });
-                          },
-                          valid: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'must not be empty';
-                            } else {
-                              return null;
-                            }
-                          }),
-                      const SizedBox(
-                        height: 30.0,
+                      mySizedBox(size: size, myHeight: 16),
+                      myTextFormField(
+                        context: context,
+                        controller: passController,
+                        type: TextInputType.visiblePassword,
+                        hint: 'New password',
+                        suffixIcon: Icon(Icons.visibility_off_outlined,color: myFavColor4,),
+                        validate: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Password must not be empty';
+                          }
+                          return null;
+                        },
                       ),
-                      defaultTextForm(
-                          controller: confirmPassController,
-                          type: TextInputType.visiblePassword,
-                          text: 'confirm password',
-                          prefix: Icons.lock,
-                          isSecure: isPassword,
-                          suffix:
-                          isPassword ? Icons.visibility : Icons.visibility_off,
-                          suffixAction: () {
-                            setState(() {
-                              isPassword = !isPassword;
-                            });
-                          },
-                          valid: (String? value) {
-                            if (value!.isEmpty) {
-                              return 'must not be empty';
-                            } else {
-                              return null;
-                            }
-                          }),
-                      const SizedBox(
-                        height: 30.0,
+                      mySizedBox(size: size, myHeight: 30),
+                      myTextFormField(
+                        context: context,
+                        controller: confirmPassController,
+                        type: TextInputType.visiblePassword,
+                        hint: 'Confirm new password',
+                        suffixIcon: Icon(Icons.visibility_off_outlined,color: myFavColor4,),
+                        validate: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Password must be matched';
+                          }
+                          return null;
+                        },
                       ),
+                      mySizedBox(size: size, myHeight: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            activeColor: myFavColor,
+                            checkColor: myFavColor7,
+                            onChanged: (value){
+                              isChecked = value!;
+                            },
+                          ),
+                          Text('Remember me', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16)),
+                        ],
+                      ),
+                      mySizedBox(size: size, myHeight: 30),
                       ConditionalBuilder(
                         condition: state is! UpdatePasswordLoadingState,
                         builder: (context) => myMaterialButton(
                           context: context,
+                          height: 50,
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               cubit.updatePassword(

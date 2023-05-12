@@ -5,6 +5,7 @@ import 'package:waddy_app/modules/common/forget_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/forget_password/cubit/states.dart';
 import 'package:waddy_app/modules/common/otp/waddy_verify.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
 class WaddyForgetPasswordScreen extends StatefulWidget {
   const WaddyForgetPasswordScreen({super.key});
@@ -22,6 +23,7 @@ class _WaddyForgetPasswordScreenState extends State<WaddyForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocConsumer<ForgetPasswordCubit,ForgetPasswordStates>(
       listener: (context,state){
         if (state is ForgetPasswordSuccessState) {
@@ -49,113 +51,78 @@ class _WaddyForgetPasswordScreenState extends State<WaddyForgetPasswordScreen> {
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    const Image(
-                      image: AssetImage('assets/images/forget-pass.png'),
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    const Text(
-                      'We will send a code in message to reset your password',
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.grey,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      const Image(
+                        image: AssetImage('assets/images/forget-pass.png'),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    //Text Form Field Component For Email Address
-                    defaultTextForm(
-                      controller: emailController,
-                      type: TextInputType.emailAddress,
-                      text: 'Email Address',
-                      prefix: Icons.email,
-                      valid: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'email must not be empty';
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    // Button Component ---------------------
-                    ConditionalBuilder(
-                      condition: state is! ForgetPasswordLoadingState,
-                      builder: (context) => myMaterialButton(
+                      mySizedBox(size: size,myHeight: 30),
+                      Text(
+                        'We will send a code in message to reset your password',
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 22),
+                        textAlign: TextAlign.center,
+                      ),
+                      mySizedBox(size: size,myHeight: 60),
+                      myTextFormField(
                         context: context,
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            cubit.forgetPassword(
-                              email: emailController.text,
-                            );
+                        controller: emailController,
+                        type: TextInputType.emailAddress,
+                        hint: 'Email',
+                        prefixIcon: Icon(Icons.email,color: myFavColor4,),
+                        validate: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Email must not be empty';
                           }
+                          return null;
                         },
-                        labelWidget: Text(
-                          "Send Code",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge,
-                        ),
                       ),
-                      fallback: (context) => myMaterialButton(
-                        context: context,
-                        onPressed: () {
-                          null;
-                        },
-                        labelWidget: const Center(
-                          child: SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 3,
+                      mySizedBox(size: size,myHeight: 60),
+                      ConditionalBuilder(
+                        condition: state is! ForgetPasswordLoadingState,
+                        builder: (context) => myMaterialButton(
+                          height: 50,
+                          context: context,
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              cubit.forgetPassword(
+                                email: emailController.text,
+                              );
+                            }
+                          },
+                          labelWidget: Text(
+                            "Send Code",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge,
+                          ),
+                        ),
+                        fallback: (context) => myMaterialButton(
+                          context: context,
+                          onPressed: () {
+                            null;
+                          },
+                          labelWidget: const Center(
+                            child: SizedBox(
+                              width: 22,
+                              height: 22,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 30.0,
-                    ),
-                    /*defaultTextForm(
-                     controller: otpController,
-                     type: TextInputType.phone,
-                     text: 'Verify Code',
-                     prefix: Icons.verified,
-                     valid: (String? value){
-                       if(value!.isEmpty) {
-                         return 'email must not be empty';
-                       } else {
-                         return null;
-                       }
-                     },
-                   ),
-                   const SizedBox(
-                     height: 30.0,
-                   ),
-                   defaultButton(
-                     function: (){
-                       verifyOTP();
-                       if(formKey.currentState!.validate())
-                       {
-                         WaddyLoginCubit.get(context).userLogin(otp: otpController.text);
-                       }
-                     },
-                     radius: BorderRadius.circular(20.0),
-                     text: 'Send Code',
-
-                   ),*/
-                  ],
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

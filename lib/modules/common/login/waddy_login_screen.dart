@@ -11,6 +11,7 @@ import 'package:waddy_app/modules/user/register/register.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
 class WaddyLoginScreen extends StatelessWidget {
@@ -19,9 +20,11 @@ class WaddyLoginScreen extends StatelessWidget {
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   bool isPassword = true;
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return BlocProvider(
       create: (BuildContext context) => WaddyLoginCubit(),
       child: BlocConsumer<WaddyLoginCubit, WaddyLoginStates>(
@@ -34,13 +37,12 @@ class WaddyLoginScreen extends StatelessWidget {
                   value: state.clientModel.token,
                 ).then((value) {
                   userToken = state.clientModel.token;
-                }).then((value){
-                    context.read<UserProfileCubit>().getUserData().then((value){
+                }).then((value) {
+                  context.read<UserProfileCubit>().getUserData().then((value) {
                     navigateToAndFinish(context, const UserLayoutScreen());
                   });
                 });
-              }
-              else if(state.clientModel.user!.role == 2000){
+              } else if (state.clientModel.user!.role == 2000) {
                 CacheHelper.saveData(
                   key: "token",
                   value: state.clientModel.token,
@@ -77,41 +79,51 @@ class WaddyLoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 30.0,
                         ),
-                        defaultTextForm(
+                        myTextFormField(
+                          context: context,
                           controller: emailController,
                           type: TextInputType.emailAddress,
-                          text: 'Email',
-                          prefix: Icons.email,
-                          valid: (String? value) {
+                          hint: 'Email or user name',
+                          prefixIcon: Icon(Icons.email,color: myFavColor4,),
+                          validate: (String? value) {
                             if (value!.isEmpty) {
-                              return 'email must not be empty';
+                              return 'Email must not be empty';
                             }
                             return null;
                           },
                         ),
-                        const SizedBox(
-                          height: 15.0,
-                        ),
-                        defaultTextForm(
+                        mySizedBox(size: size,myHeight: 38),
+                        myTextFormField(
+                            context: context,
                             controller: passwordController,
                             type: TextInputType.number,
-                            text: 'Password',
-                            prefix: Icons.lock,
-                            valid: (String? value) {
+                            hint: 'Password',
+                            prefixIcon: Icon(Icons.lock,color: myFavColor4,),
+                            validate: (String? value) {
                               if (value!.isEmpty) {
-                                return 'Password is too short';
+                                return 'Password must not be empty';
                               }
                               return null;
                             },
-                            suffix: WaddyLoginCubit.get(context).suffix,
-                            isSecure: WaddyLoginCubit.get(context).isPassword,
-                            suffixAction: () {
-                              WaddyLoginCubit.get(context)
-                                  .changePasswordVisibility();
-                            }),
-                        const SizedBox(
-                          height: 40.0,
+                            suffixIcon: Icon(Icons.visibility_off_outlined,color: myFavColor4,),
+                            isPassword: true,
                         ),
+                        mySizedBox(size: size,myHeight: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: isChecked,
+                                activeColor: myFavColor,
+                                checkColor: myFavColor7,
+                                onChanged: (value){
+                                  isChecked = value!;
+                                },
+                            ),
+                            Text('Remember me', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16)),
+                          ],
+                        ),
+                        mySizedBox(size: size,myHeight: 16),
                         ConditionalBuilder(
                           condition: state is! UserLoginLoadingState,
                           builder: (context) => myMaterialButton(
@@ -119,8 +131,8 @@ class WaddyLoginScreen extends StatelessWidget {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 cubit.userLogin(
-                                    email: emailController.text,
-                                    password: passwordController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
                                 );
                               }
                             },
@@ -146,36 +158,34 @@ class WaddyLoginScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
+                        mySizedBox(size: size,myHeight: 22),
                         Center(
                           child: TextButton(
                             onPressed: () {
                               navigateTo(
                                   context, const WaddyForgetPasswordScreen());
                             },
-                            child: const Text(
-                              'Forgot Password ?',
-                              style: TextStyle(
-                                color: Colors.redAccent,
-                              ),
+                            child: Text(
+                              'Forget the password ?',
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor,fontSize: 16),
                             ),
                           ),
                         ),
+                        mySizedBox(size: size,myHeight: 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Don\'t have account ?'),
+                            Text(
+                                'Don\'t have account ?',
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4,fontSize: 16)
+                            ),
                             TextButton(
                               onPressed: () {
                                 navigateTo(context, const RegisterScreen());
                               },
-                              child: const Text(
+                              child: Text(
                                 'Register',
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                ),
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor,fontSize: 16)
                               ),
                             ),
                           ],

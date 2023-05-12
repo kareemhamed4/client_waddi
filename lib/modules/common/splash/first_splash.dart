@@ -1,62 +1,58 @@
-import 'dart:async';
+import 'dart:io';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
-import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/network/local/cache_helper.dart';
+import 'package:flutter/services.dart';
+import 'package:waddy_app/modules/common/splash/second_splash_screen.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
-class FirstSplash extends StatefulWidget {
-  const FirstSplash({Key? key}) : super(key: key);
-
-  @override
-  State<FirstSplash> createState() => _FirstSplashState();
-}
-
-class _FirstSplashState extends State<FirstSplash> {
-  void onSubmit() {
-    CacheHelper.saveData(key: 'firstSplash', value: true).then((value) {
-      if (value!) {
-        navigateToAndFinish(context, WaddyLoginScreen());
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 3), () {
-      onSubmit();
-    });
-  }
+class FirstSplashScreen extends StatelessWidget {
+  const FirstSplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.red,
-            Colors.redAccent,
+    Size size = MediaQuery.of(context).size;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarIconBrightness: Brightness.light,
+      ),
+      child: AnimatedSplashScreen(
+        nextScreen: const SecondSplashScreen(),
+        splash: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/splash-1.png",
+                  width: size.width * 247/375,
+                  height: size.height * 275/812,
+                ),
+              ],
+            ),
+            if(Platform.isAndroid)
+              SizedBox(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(
+                  color: myFavColor7,
+                  strokeWidth: 3,
+                ),
+              ),
+            if(Platform.isIOS)
+              CupertinoActivityIndicator(
+                color: myFavColor7,
+                radius: 15,
+              ),
           ],
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Image(
-            image: AssetImage('assets/images/splash-1.png'),
-            height: 300.0,
-            width: 300.0,
-          ),
-          CircularProgressIndicator(
-            color: Colors.white,
-            strokeWidth: 3.0,
-          ),
-        ],
+        splashIconSize: size.height * 400/812,
+        backgroundColor: myFavColor,
       ),
     );
   }

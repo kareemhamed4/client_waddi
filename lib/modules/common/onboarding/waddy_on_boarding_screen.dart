@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
 class BoardingModel {
   final String image;
@@ -25,15 +26,15 @@ class _WaddyOnBoardingScreen extends State<WaddyOnBoardingScreen> {
   List<BoardingModel> boarding = [
     BoardingModel(
       image: 'assets/images/on-boarding-1.png',
-      title: 'The Best App ForShipping & Delivery In Egypt',
+      title: 'The Best App For\nShipping & Delivery\nIn Egypt',
     ),
     BoardingModel(
       image: 'assets/images/on-boarding-2.png',
-      title: 'You are our Priority, shipping fast, easy and safe',
+      title: 'You are our Priority,\nshipping fast, easy\nand safe',
     ),
     BoardingModel(
       image: 'assets/images/on-boarding-3.png',
-      title: 'Welcome to Waddi and enjoy our service',
+      title: 'Welcome to Waddi\nand enjoy our\nservice',
     ),
   ];
 
@@ -41,35 +42,35 @@ class _WaddyOnBoardingScreen extends State<WaddyOnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                physics: const BouncingScrollPhysics(),
-                controller: boardController,
-                itemBuilder: (context, index) =>
-                    buildBoardingItem(boarding[index]),
-                itemCount: boarding.length,
-                onPageChanged: (int index) {
-                  if (index == boarding.length - 1) {
-                    setState(() {
-                      isLast = true;
-                    });
-                  } else {
-                    setState(() {
-                      isLast = false;
-                    });
-                  }
-                },
-              ),
+      body: Column(
+        children: [
+          mySizedBox(size: size, myHeight: 120),
+          Expanded(
+            child: PageView.builder(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              controller: boardController,
+              itemBuilder: (context, index) =>
+                  buildBoardingItem(boarding[index]),
+              itemCount: boarding.length,
+              onPageChanged: (int index) {
+                if (index == boarding.length - 1) {
+                  setState(() {
+                    isLast = true;
+                  });
+                } else {
+                  setState(() {
+                    isLast = false;
+                  });
+                }
+              },
             ),
-            const SizedBox(
-              height: 15.0,
-            ),
-            Row(
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22),
+            child: Column(
               children: [
                 SmoothPageIndicator(
                   controller: boardController,
@@ -82,52 +83,51 @@ class _WaddyOnBoardingScreen extends State<WaddyOnBoardingScreen> {
                     activeDotColor: Colors.red,
                   ),
                 ),
-                const Spacer(),
-                FloatingActionButton(
-                  child: const Icon(
-                    Icons.arrow_forward_ios,
-                  ),
-                  onPressed: () {
-                    if (isLast) {
-                      navigateToAndFinish(context, WaddyLoginScreen());
-                    } else {
-                      boardController.nextPage(
+                mySizedBox(size: size, myHeight: 58),
+                myMaterialButton(
+                    context: context,
+                    onPressed: () {
+                      if (isLast) {
+                        navigateToAndFinish(context, WaddyLoginScreen());
+                      } else {
+                        boardController.nextPage(
                           duration: const Duration(
                             milliseconds: 750,
                           ),
-                          curve: Curves.fastLinearToSlowEaseIn);
-                    }
-                  },
-                ),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                        );
+                      }
+                    },
+                    labelWidget: Text(isLast ? "Get Started" : "Next",
+                        style: Theme.of(context).textTheme.labelLarge)),
+                mySizedBox(size: size, myHeight: 58),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget buildBoardingItem(BoardingModel model) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Image(
-              image: AssetImage(
-                model.image,
-              ),
-              fit: BoxFit.fitWidth,
+          Image(
+            image: AssetImage(
+              model.image,
             ),
+            fit: BoxFit.fitWidth,
           ),
           const SizedBox(
-            height: 20.0,
+            height: 58.0,
           ),
-          Text(
-            model.title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 30.0,
-            ),
-          ),
+          Text(model.title,
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor2, fontSize: 35, height: 1.2)),
           const SizedBox(
             height: 15.0,
           ),

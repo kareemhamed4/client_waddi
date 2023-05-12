@@ -1,74 +1,58 @@
-import 'dart:async';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
-class SecondSplashScreen extends StatefulWidget {
+class SecondSplashScreen extends StatelessWidget {
   const SecondSplashScreen({Key? key}) : super(key: key);
 
   @override
-  State<SecondSplashScreen> createState() => _SecondSplashScreenState();
-}
-
-class _SecondSplashScreenState extends State<SecondSplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 3), () {
-      navigateToAndFinish(context, const WaddyOnBoardingScreen());
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/splash2-bg.png'),
-              fit: BoxFit.cover,
+    Size size = MediaQuery.of(context).size;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+      child: AnimatedSplashScreen(
+        nextScreen: const WaddyOnBoardingScreen(),
+        splash: Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.bottomLeft,
+          children: [
+            Image.asset(
+              "assets/images/splash2-bg.png",
+              width: size.width,
+              height: size.height,
+              fit: BoxFit.fitHeight,
             ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Welcome To',
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
+            Container(
+              color: myFavColor8.withOpacity(0.4),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20,bottom: 60),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Welcome To 👋",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor7,fontSize: 40),),
+                  mySizedBox(size: size,myHeight: 5),
+                  Text("WADDI",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor,fontSize: 80),),
+                  mySizedBox(size: size,myHeight: 5),
+                  Text("The Best App For Shipping & Delivery\nIn Egypt",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor7,fontSize: 20),),
+                ],
               ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                'WADDI',
-                style: TextStyle(
-                  fontSize: 60.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.redAccent,
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                'The Best App For Shipping & Delivery '
-                'In Egypt',
-                style: TextStyle(
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
+        splashIconSize: size.height,
+        backgroundColor: myFavColor,
       ),
     );
   }

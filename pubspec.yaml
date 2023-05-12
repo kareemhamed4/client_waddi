@@ -60,6 +60,7 @@ dependencies:
   cherry_toast: ^1.2.1
   pretty_dio_logger: any
   flutter_slidable: ^2.0.0
+  rive: ^0.10.4
 
   #firebase
   # firebase_core: ^2.11.0
@@ -99,6 +100,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/fonts/
+    - assets/rive/
 
 
   # assets:

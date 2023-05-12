@@ -1,6 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/user/make_order/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/make_order/cubit/states.dart';
 import 'package:waddy_app/modules/user/make_order/payment/payment_screen.dart';
@@ -42,7 +44,13 @@ class ConfirmedOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MakeOrderCubit,MakeOrderStates>(
-      listener: (context,state){},
+      listener: (context,state){
+        if(state is MakeOrderSuccessState){
+          navigateToAndFinish(context, const UserLayoutScreen()).then((value){
+            context.read<UserLayoutCubit>().changeBottom(1, context);
+          });
+        }
+      },
       builder: (context,state){
         MakeOrderCubit cubit = BlocProvider.of(context);
         return Scaffold(
@@ -421,7 +429,7 @@ class ConfirmedOrder extends StatelessWidget {
                       );
                     },
                     labelWidget: Text(
-                      "Register",
+                      "Confirm Order",
                       style: Theme.of(context)
                           .textTheme
                           .labelLarge,

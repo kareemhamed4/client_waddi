@@ -14,6 +14,16 @@ class GetUserOrdersErrorState extends GetUserOrdersStates {
   GetUserOrdersErrorState(this.error);
 }
 
+class GetUserSearchedOrdersLoadingState extends GetUserOrdersStates {}
+class GetUserSearchedOrdersSuccessState extends GetUserOrdersStates {
+  final UserOrders userOrders;
+  GetUserSearchedOrdersSuccessState(this.userOrders);
+}
+class GetUserSearchedOrdersErrorState extends GetUserOrdersStates {
+  final String error;
+  GetUserSearchedOrdersErrorState(this.error);
+}
+
 
 class UpdateOrderLoadingState extends GetUserOrdersStates {}
 class UpdateOrderSuccessState extends GetUserOrdersStates {

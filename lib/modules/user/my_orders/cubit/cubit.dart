@@ -12,6 +12,7 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
   static GetUserOrdersCubit get(context) => BlocProvider.of(context);
 
   UserOrders? orderDetails;
+  UserOrders? searchedOrderDetails;
   List<UserOrders> ordersList = [];
   void getOrders() {
     emit(GetUserOrdersLoadingState());
@@ -45,38 +46,24 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
     });
   }
 
-  List<UserOrders> searchedOrdersList = [];
-  Future<void> getOrdersByTrackId({
+  void getOrdersByTrackId({
     required String trackId,
-}) async{
-    emit(GetUserOrdersLoadingState());
+  }) {
+    emit(GetUserSearchedOrdersLoadingState());
     DioHelper.getData(
       url: "$USERSEARCHTRACKID$trackId",
       baseUrl: BASEURL,
       token: userToken,
     ).then((value) {
-      List<dynamic> ordersJson = value.data;
-      searchedOrdersList = ordersJson
-          .map((orderJson) => UserOrders.fromJson(orderJson))
-          .toList();
-      emit(GetUserOrdersSuccessState(searchedOrdersList));
+      searchedOrderDetails = UserOrders.fromJson(value.data['order']);
+      emit(GetUserSearchedOrdersSuccessState(searchedOrderDetails!));
     }).catchError((error) {
-      if (error is DioError) {
-        if (error.response?.statusCode == 404) {
-          final errorMessage = error.response?.data.toString();
-          emit(GetUserOrdersErrorState(errorMessage!));
-        } else {
-          // Handle other DioError cases
-          final responseData = error.response?.data;
-          final errorMessage = responseData['msg'];
-          emit(GetUserOrdersErrorState(errorMessage));
-        }
-      } else {
-        final responseData = error.response?.data;
-        final errorMessage = responseData['msg'];
-        emit(GetUserOrdersErrorState(errorMessage));
-      }
+      // Handle error cases and emit GetUserSearchedOrdersErrorState
     });
+  }
+
+  void clearSearchedOrderDetails() {
+    searchedOrderDetails = null;
   }
 
   void updateOrder({
@@ -142,9 +129,9 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
     });
   }
 
-  void deleteOrder({
+  Future<void> deleteOrder({
     required String orderId,
-  }) {
+  }) async{
     emit(DeleteOrderLoadingState());
     DioHelper.deleteData(
       url: "$DELETEORDER$orderId",

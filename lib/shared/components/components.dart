@@ -75,15 +75,17 @@ Widget myDivider() => Padding(
       ),
     );
 
-void navigateTo(context, widget) {
+Future<void> navigateTo(context, widget) async{
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => widget),
   );
 }
 
-void navigateToAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
-    context, MaterialPageRoute(builder: (context) => widget), (route) => false);
+Future<void> navigateToAndFinish(context, widget) async{
+  Navigator.pushAndRemoveUntil(
+      context, MaterialPageRoute(builder: (context) => widget), (route) => false);
+}
 
 Widget notify(context) => Padding(
       padding: const EdgeInsets.all(10.0),
@@ -299,6 +301,7 @@ Widget myTextFormField({
   String? hint,
   double? radius,
   bool? isEnabled = true,
+  TextInputAction? textInputAction,
 }) =>
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -316,6 +319,7 @@ Widget myTextFormField({
         obscureText: isPassword ?? false,
         onTap: onTap,
         onChanged: onChange,
+        textInputAction: textInputAction ?? TextInputAction.done,
         onFieldSubmitted: onSubmit,
         validator: validate,
         textAlign: textAlign ?? TextAlign.start,

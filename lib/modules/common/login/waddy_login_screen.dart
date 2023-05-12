@@ -33,6 +33,7 @@ class WaddyLoginScreen extends StatelessWidget {
                   value: state.loginModel.token,
                 ).then((value) {
                   userToken = state.loginModel.token;
+                  print(userToken);
                 }).then((value) {
                   navigateToAndFinish(context, const UserLayoutScreen());
                 });

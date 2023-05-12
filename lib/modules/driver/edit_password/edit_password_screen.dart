@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
+import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
 import 'package:waddy_app/modules/driver/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/edit_password/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
@@ -11,15 +12,26 @@ import 'package:waddy_app/shared/styles/colors.dart';
 class DriverEditPasswordScreen extends StatelessWidget {
   DriverEditPasswordScreen({Key? key}) : super(key: key);
   var formKey = GlobalKey<FormState>();
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmNewPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TextEditingController oldPasswordController = TextEditingController();
-    TextEditingController newPasswordController = TextEditingController();
-    TextEditingController confirmNewPasswordController = TextEditingController();
     return BlocConsumer<EditPasswordForAuthDriverCubit,EditPasswordForAuthDriverStates>(
-      listener: (context,state){},
+      listener: (context,state){
+        if(state is EditPasswordSuccessState){
+          Navigator.pop(context);
+        }
+        if(state is EditPasswordErrorState){
+          buildErrorToast(
+            title: "Oops!",
+            context: context,
+            description: state.error,
+          );
+        }
+      },
       builder: (context,state){
         EditPasswordForAuthDriverCubit cubit = BlocProvider.of(context);
         return Scaffold(
@@ -154,7 +166,7 @@ class DriverEditPasswordScreen extends StatelessWidget {
                           }
                         },
                         labelWidget: Text(
-                          "Register",
+                          "Change Password",
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge,
@@ -185,7 +197,9 @@ class DriverEditPasswordScreen extends StatelessWidget {
                       child: myTextButton(
                           context: context,
                           label: "Forgot Password?",
-                          onPressed: (){}
+                          onPressed: (){
+                            navigateTo(context, const WaddyForgetPasswordScreen());
+                          }
                       ),
                     ),
                   ],

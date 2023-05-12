@@ -2,26 +2,43 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
-import 'package:waddy_app/modules/driver/edit_password/cubit/cubit.dart';
-import 'package:waddy_app/modules/driver/edit_password/cubit/states.dart';
+import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
+import 'package:waddy_app/modules/user/edit_password/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/edit_password/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 //ignore: must_be_immutable
 class UserEditPasswordScreen extends StatelessWidget {
   UserEditPasswordScreen({Key? key}) : super(key: key);
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmNewPasswordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TextEditingController oldPasswordController = TextEditingController();
-    TextEditingController newPasswordController = TextEditingController();
-    TextEditingController confirmNewPasswordController = TextEditingController();
-    return BlocConsumer<EditPasswordForAuthDriverCubit,EditPasswordForAuthDriverStates>(
-      listener: (context,state){},
+    return BlocConsumer<EditPasswordForAuthUserCubit,EditPasswordForAuthUserStates>(
+      listener: (context,state){
+        if(state is EditPasswordSuccessState){
+          Navigator.pop(context);
+          buildSuccessToast(
+            title: "OK",
+            context: context,
+            description: "Password Changed Successfully",
+          );
+        }
+        if(state is EditPasswordErrorState){
+          buildErrorToast(
+            title: "Oops!",
+            context: context,
+            description: state.error,
+          );
+        }
+      },
       builder: (context,state){
-        EditPasswordForAuthDriverCubit cubit = BlocProvider.of(context);
+        EditPasswordForAuthUserCubit cubit = BlocProvider.of(context);
         return Scaffold(
           appBar: defaultAppBar(
               context: context,
@@ -146,7 +163,7 @@ class UserEditPasswordScreen extends StatelessWidget {
                         context: context,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            cubit.editPasswordForAuthDriver(
+                            cubit.editPasswordForAuthUser(
                               oldPassword: oldPasswordController.text,
                               newPassword: newPasswordController.text,
                               newConfirmPassword: confirmNewPasswordController.text,
@@ -154,7 +171,7 @@ class UserEditPasswordScreen extends StatelessWidget {
                           }
                         },
                         labelWidget: Text(
-                          "Register",
+                          "Change password",
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge,
@@ -185,7 +202,9 @@ class UserEditPasswordScreen extends StatelessWidget {
                       child: myTextButton(
                           context: context,
                           label: "Forgot Password?",
-                          onPressed: (){}
+                          onPressed: (){
+                            navigateTo(context, const WaddyForgetPasswordScreen());
+                          }
                       ),
                     ),
                   ],

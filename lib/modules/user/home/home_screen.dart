@@ -22,7 +22,6 @@ class UserHomeScreen extends StatelessWidget {
     return BlocConsumer<UserProfileCubit,UserProfileStates>(
       listener:(context,state){},
       builder:(context,state){
-        UserProfileCubit cubit = BlocProvider.of(context);
         var model = UserProfileCubit.get(context).userInfo;
         fName = model != null ? model.firstName! : " ";
         lName = model != null ? model.lastName! : " ";

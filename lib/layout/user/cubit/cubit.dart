@@ -9,6 +9,7 @@ import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/user/track_id_model.dart';
 import 'package:waddy_app/modules/user/home/home_screen.dart';
 import 'package:waddy_app/modules/user/inbox/inbox_screen.dart';
+import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/my_order_screen.dart';
 import 'package:waddy_app/modules/user/profile/profile_screen.dart';
 
@@ -31,8 +32,11 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     const BottomNavigationBarItem(icon: Icon(CustomIcons.user_alt), label: 'Profile'),
   ];
 
-  void changeBottom(int index) {
+  void changeBottom(int index,BuildContext context) {
     currentIndex = index;
+    if(index == 1){
+      context.read<GetUserOrdersCubit>().getOrders();
+    }
     emit(ChangeBottomNavBarUserState());
   }
 

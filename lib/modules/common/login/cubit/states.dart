@@ -1,4 +1,4 @@
-import 'package:waddy_app/models/common/login_model.dart';
+import 'package:waddy_app/models/user/client_login_model.dart';
 
 abstract class WaddyLoginStates {}
 
@@ -8,8 +8,8 @@ class WaddyChangePasswordVisibilityState extends WaddyLoginStates{}
 // user login
 class UserLoginLoadingState extends WaddyLoginStates {}
 class UserLoginSuccessState extends WaddyLoginStates {
-  final LoginModel loginModel;
-  UserLoginSuccessState(this.loginModel);
+  final ClientModel clientModel;
+  UserLoginSuccessState(this.clientModel);
 }
 class UserLoginErrorState extends WaddyLoginStates {
   final String error;

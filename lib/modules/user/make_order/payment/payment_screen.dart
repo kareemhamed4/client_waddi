@@ -6,7 +6,9 @@ import 'package:waddy_app/shared/components/components.dart';
 
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  final bool isOrderEdit;
+  final String? orderId;
+  const PaymentScreen({super.key,required this.isOrderEdit,this.orderId});
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -24,6 +26,8 @@ var securitycode_controller = TextEditingController();
 class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
+    bool isOrderEdit = widget.isOrderEdit;
+    String? orderId = widget.orderId ?? "";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 75, 84, 1),
@@ -130,6 +134,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             recevier_postel: rpostelcode_controller,
                             card_number: cardNumber_controller,
                             name_card: nameincard_controller,
+                            isOrderEdit: isOrderEdit,
+                            orderId: orderId,
                           ),
                         ),
                       );

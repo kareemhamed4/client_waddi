@@ -1,4 +1,5 @@
 import 'package:waddy_app/models/user/get_user_orders.dart';
+import 'package:waddy_app/models/user/order_details.dart';
 
 abstract class GetUserOrdersStates {}
 
@@ -22,17 +23,6 @@ class GetUserSearchedOrdersSuccessState extends GetUserOrdersStates {
 class GetUserSearchedOrdersErrorState extends GetUserOrdersStates {
   final String error;
   GetUserSearchedOrdersErrorState(this.error);
-}
-
-
-class UpdateOrderLoadingState extends GetUserOrdersStates {}
-class UpdateOrderSuccessState extends GetUserOrdersStates {
-  final UserOrders userOrders;
-  UpdateOrderSuccessState(this.userOrders);
-}
-class UpdateOrderErrorState extends GetUserOrdersStates {
-  final String error;
-  UpdateOrderErrorState(this.error);
 }
 
 class DeleteOrderLoadingState extends GetUserOrdersStates {}

@@ -4,7 +4,9 @@ import 'package:waddy_app/shared/components/components.dart';
 
 
 class OrderPackageScreen extends StatefulWidget {
-  const OrderPackageScreen({super.key});
+  final bool isOrderEdit;
+  final String? orderId;
+  const OrderPackageScreen({super.key,required this.isOrderEdit,this.orderId});
 
   @override
   State<OrderPackageScreen> createState() => _OrderPackageScreenState();
@@ -35,6 +37,8 @@ List<String> servicesList = [
 class _OrderPackageScreenState extends State<OrderPackageScreen> {
   @override
   Widget build(BuildContext context) {
+    bool isOrderEdit = widget.isOrderEdit;
+    String? orderId = widget.orderId ?? "";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 75, 84, 1),
@@ -319,7 +323,7 @@ class _OrderPackageScreenState extends State<OrderPackageScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PaymentScreen(),
+                          builder: (context) => PaymentScreen(isOrderEdit: isOrderEdit,orderId: orderId,),
                         ),
                       );
                     }

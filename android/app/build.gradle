@@ -65,6 +65,10 @@ android {
 flutter {
     source '../..'
 }
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

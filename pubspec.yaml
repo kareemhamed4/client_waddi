@@ -63,10 +63,10 @@ dependencies:
   rive: ^0.10.4
 
   #firebase
-  # firebase_core: ^2.11.0
-  # firebase_auth: ^4.5.0
-  # cloud_firestore: ^4.6.0
-  # firebase_storage: ^11.1.2
+  firebase_core: ^2.11.0
+  firebase_auth: ^4.5.0
+  cloud_firestore: ^4.6.0
+  firebase_storage: ^11.1.2
 
   google_maps_flutter: ^2.2.5
   flutter_polyline_points: ^1.0.0

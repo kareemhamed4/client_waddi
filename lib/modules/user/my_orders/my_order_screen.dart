@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rive/rive.dart';
 import 'package:waddy_app/models/user/get_user_orders.dart';
+import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/states.dart';
 import 'package:waddy_app/modules/user/tracking/tracking_screen.dart';
@@ -387,7 +388,9 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       ]),
       endActionPane: ActionPane(motion: const StretchMotion(), children: [
         SlidableAction(
-          onPressed: ((context) {}),
+          onPressed: ((context) {
+            navigateTo(context, FillSenderDateScreen(isOrderEdit: true,orderId: orders.sId,));
+          }),
           backgroundColor: myFavColor4.withOpacity(0.4),
           icon: Icons.edit_outlined,
         ),

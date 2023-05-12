@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/modules/user/check_rate/check_rate_screen.dart';
 import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
 import 'package:waddy_app/modules/user/notification/notification_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
@@ -155,7 +156,7 @@ class UserHomeScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             navigateTo(
-                                context, const FillSenderDateScreen());
+                                context, const FillSenderDateScreen(isOrderEdit: false,));
                           },
                           child: Container(
                             width: size.width * 150 / size.width,
@@ -209,7 +210,7 @@ class UserHomeScreen extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             navigateTo(
-                                context, const SizedBox());
+                                context, const CheckRateScreen());
                           },
                           child: Container(
                             width: size.width * 150 / size.width,

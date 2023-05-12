@@ -1,4 +1,4 @@
-import 'package:waddy_app/models/common/login_model.dart';
+import 'package:waddy_app/models/user/client_login_model.dart';
 
 abstract class SignUpStates {}
 
@@ -16,12 +16,12 @@ class UserSignUpErrorState extends SignUpStates {
 }
 
 //Driver SignUp
-class DriverSignUpLoadingState extends SignUpStates {}
-class DriverSignUpSuccessState extends SignUpStates {
+class CompanySignUpLoadingState extends SignUpStates {}
+class CompanySignUpSuccessState extends SignUpStates {
   final String status;
-  DriverSignUpSuccessState(this.status);
+  CompanySignUpSuccessState(this.status);
 }
-class DriverSignUpErrorState extends SignUpStates {
+class CompanySignUpErrorState extends SignUpStates {
   final String error;
-  DriverSignUpErrorState(this.error);
+  CompanySignUpErrorState(this.error);
 }

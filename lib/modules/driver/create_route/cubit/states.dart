@@ -1,4 +1,4 @@
-import 'package:waddy_app/models/common/order_details.dart';
+import 'package:waddy_app/models/user/order_details.dart';
 
 abstract class RouteStates {}
 

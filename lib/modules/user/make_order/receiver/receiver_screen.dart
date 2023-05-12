@@ -4,7 +4,9 @@ import 'package:waddy_app/shared/components/components.dart';
 
 
 class FillReceiverDataScreen extends StatefulWidget {
-  const FillReceiverDataScreen({super.key});
+  final bool isOrderEdit;
+  final String? orderId;
+  const FillReceiverDataScreen({super.key,required this.isOrderEdit,this.orderId});
 
   @override
   State<FillReceiverDataScreen> createState() => _FillReceiverDataScreenState();
@@ -23,6 +25,8 @@ var raddress_controller = TextEditingController();
 class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
   @override
   Widget build(BuildContext context) {
+    bool isOrderEdit = widget.isOrderEdit;
+    String? orderId = widget.orderId ?? "";
     return  Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(255, 75, 84, 1),
@@ -134,7 +138,7 @@ class _FillReceiverDataScreenState extends State<FillReceiverDataScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OrderPackageScreen(),
+                          builder: (context) => OrderPackageScreen(isOrderEdit: isOrderEdit,orderId: orderId,),
                         ),
                       );
                     }

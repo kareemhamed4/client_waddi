@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
-import 'package:waddy_app/modules/common/register/register.dart';
+import 'package:waddy_app/modules/user/register/register.dart';
 import 'package:waddy_app/shared/components/components.dart';
 
 class ChooseLoginOrSignupScreen extends StatelessWidget {

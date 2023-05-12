@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/modules/common/register/cubit/states.dart';
+import 'package:waddy_app/modules/user/register/cubit/states.dart';
 import 'package:waddy_app/shared/network/end_point.dart';
 import 'package:waddy_app/shared/network/remote/dio_helper.dart';
 
@@ -57,7 +57,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     });
   }
 
-  void driverRegister({
+  void companyRegister({
     required String firstName,
     required String lastName,
     required String email,
@@ -69,9 +69,9 @@ class SignUpCubit extends Cubit<SignUpStates> {
     required String governorate,
     required String postalcode,
   }) {
-    emit(UserSignUpLoadingState());
+    emit(CompanySignUpLoadingState());
     DioHelper.postData(
-      url: DRIVERREGISTER,
+      url: COMPANYREGISTER,
       baseUrl: BASEURL,
       data: {
         'firstName': firstName,
@@ -88,23 +88,23 @@ class SignUpCubit extends Cubit<SignUpStates> {
     ).then((value) {
       if (value.statusCode == 201 &&
           value.data.toString().contains("Created")) {
-        emit(DriverSignUpSuccessState(value.data.toString()));
+        emit(CompanySignUpSuccessState(value.data.toString()));
       }
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
           final responseData = error.response?.data;
           final errorMessage = responseData['msg'];
-          emit(DriverSignUpErrorState(errorMessage));
+          emit(CompanySignUpErrorState(errorMessage));
         } else {
           // Handle other DioError cases
           final responseData = error.response?.data;
           final errorMessage = responseData['msg'];
-          emit(DriverSignUpErrorState(errorMessage));
+          emit(CompanySignUpErrorState(errorMessage));
         }
       } else {
         // Handle non-DioError cases
-        emit(DriverSignUpErrorState('An error occurred. Please try again.'));
+        emit(CompanySignUpErrorState('An error occurred. Please try again.'));
       }
     });
   }

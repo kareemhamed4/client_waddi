@@ -12,7 +12,7 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
   static UserProfileCubit get(context) => BlocProvider.of(context);
 
   UserInfo? userInfo;
-  void getUserData() {
+  Future<void> getUserData() async{
     emit(GetUserInfoLoadingState());
 
     DioHelper.getData(

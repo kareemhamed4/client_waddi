@@ -6,7 +6,8 @@ import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
 import 'package:waddy_app/modules/common/login/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
-import 'package:waddy_app/modules/common/register/register.dart';
+import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/register/register.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
@@ -26,23 +27,25 @@ class WaddyLoginScreen extends StatelessWidget {
       child: BlocConsumer<WaddyLoginCubit, WaddyLoginStates>(
         listener: (context, state) {
           if (state is UserLoginSuccessState) {
-            if (state.loginModel.user != null) {
-              if (state.loginModel.user!.companyName == null) {
+            if (state.clientModel.user != null) {
+              if (state.clientModel.user!.role == 1000) {
                 CacheHelper.saveData(
                   key: "token",
-                  value: state.loginModel.token,
+                  value: state.clientModel.token,
                 ).then((value) {
-                  userToken = state.loginModel.token;
-                  print(userToken);
-                }).then((value) {
-                  navigateToAndFinish(context, const UserLayoutScreen());
+                  userToken = state.clientModel.token;
+                }).then((value){
+                    context.read<UserProfileCubit>().getUserData().then((value){
+                    navigateToAndFinish(context, const UserLayoutScreen());
+                  });
                 });
-              } else {
+              }
+              else if(state.clientModel.user!.role == 2000){
                 CacheHelper.saveData(
                   key: "token",
-                  value: state.loginModel.token,
+                  value: state.clientModel.token,
                 ).then((value) {
-                  driverToken = state.loginModel.token;
+                  driverToken = state.clientModel.token;
                 }).then((value) {
                   navigateToAndFinish(context, const DriverLayoutScreen());
                 });

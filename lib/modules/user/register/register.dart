@@ -1,11 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/layout/driver/layout_screen.dart';
-import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
-import 'package:waddy_app/modules/common/register/cubit/cubit.dart';
-import 'package:waddy_app/modules/common/register/cubit/states.dart';
+import 'package:waddy_app/modules/user/register/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/register/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -46,8 +44,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpStates>(
       listener: (context, state) {
-        if (state is UserSignUpSuccessState) {
-          navigateToAndFinish(context, const UserLayoutScreen());
+        if (state is UserSignUpSuccessState || state is CompanySignUpSuccessState) {
+          Navigator.pop(context);
+          buildSuccessToast(
+              context: context,
+              title: "Account Created",
+              description: "Can login now!"
+          );
         }
         else if (state is UserSignUpErrorState) {
           buildErrorToast(
@@ -56,10 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             description: state.error,
           );
         }
-        else if (state is DriverSignUpSuccessState) {
-          navigateToAndFinish(context, const DriverLayoutScreen());
-        }
-        else if (state is DriverSignUpErrorState) {
+        else if (state is CompanySignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
@@ -525,12 +525,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 30,
                                   ),
                                   ConditionalBuilder(
-                                    condition: state is! DriverSignUpLoadingState,
+                                    condition: state is! CompanySignUpLoadingState,
                                     builder: (context) => myMaterialButton(
                                       context: context,
                                       onPressed: () {
                                         if (form2_key.currentState!.validate()) {
-                                          cubit.driverRegister(
+                                          cubit.companyRegister(
                                             firstName: fname2_controller.text,
                                             lastName: lname2_controller.text,
                                             email: email2_controller.text,

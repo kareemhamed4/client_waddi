@@ -11,6 +11,8 @@ import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 
 class ConfirmedOrder extends StatelessWidget {
+  final bool isOrderEdit;
+  final String? orderId;
   var sender_name = TextEditingController();
   var sender_phone = TextEditingController();
   var sender_email = TextEditingController();
@@ -39,13 +41,15 @@ class ConfirmedOrder extends StatelessWidget {
     required this.recevier_address,
     required this.name_card,
     required this.card_number,
+    required this.isOrderEdit,
+    this.orderId,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MakeOrderCubit,MakeOrderStates>(
       listener: (context,state){
-        if(state is MakeOrderSuccessState){
+        if(state is MakeOrderSuccessState || state is UpdateOrderSuccessState){
           navigateToAndFinish(context, const UserLayoutScreen()).then((value){
             context.read<UserLayoutCubit>().changeBottom(1, context);
           });
@@ -408,7 +412,26 @@ class ConfirmedOrder extends StatelessWidget {
                   builder: (context) => myMaterialButton(
                     context: context,
                     onPressed: () {
-                      cubit.makeOrder(
+                      !isOrderEdit ? cubit.makeOrder(
+                        senderName: sname_controller.text,
+                        senderPhone: sphone_controller.text,
+                        senderEmail: semail_controller.text,
+                        senderPostalCode: spostelcode_controller.text,
+                        senderAddress: saddress_controller.text,
+                        receivedName: rname_controller.text,
+                        receivedPhone: rphone_controller.text,
+                        receivedEmail: remail_controller.text,
+                        receivedPostalCode: rpostelcode_controller.text,
+                        receivedAddress: raddress_controller.text,
+                        category: "kareem",
+                        weight: 25,
+                        dimension: ["25","50"],
+                        services: 1,
+                        paymentId: cardNumber_controller.text,
+                        deliverTime: "12/12/2025",
+                        notes: 'kareem hamed',
+                      ) : cubit.updateOrder(
+                        orderId: orderId!,
                         senderName: sname_controller.text,
                         senderPhone: sphone_controller.text,
                         senderEmail: semail_controller.text,

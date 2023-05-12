@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/driver/edit_profile/edit_profile_screen.dart';
 import 'package:waddy_app/modules/user/edit_password/edit_password_screen.dart';
@@ -11,6 +12,8 @@ import 'package:waddy_app/modules/user/privacy/privacy_policy_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/constants.dart';
+import 'package:waddy_app/shared/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -312,11 +315,17 @@ class UserProfileScreen extends StatelessWidget {
                                   Expanded(
                                     child: myMaterialButton(
                                       context: context,
-                                      onPressed: () {
-                                        navigateToAndFinish(
-                                          context,
-                                          const ChooseLoginOrSignupScreen(),
-                                        );
+                                      onPressed: () async{
+                                        await CacheHelper.removeData(key: "token").then((value){
+                                          context.read<UserLayoutCubit>().changeBottom(0, context);
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) => const ChooseLoginOrSignupScreen(),
+                                            ),
+                                                (Route<dynamic> route) => false,
+                                          );
+                                        });
                                       },
                                       height: 50,
                                       labelWidget: Text("Yes, Logout",style: Theme.of(context).textTheme.labelLarge,),

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "345743230552",
+    "project_id": "waddi-fdad1",
+    "storage_bucket": "waddi-fdad1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345743230552:android:044902b493d703c2446c2d",
+        "android_client_info": {
+          "package_name": "com.example.waddy_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345743230552-u1nqvedttvs2mn95rgcvsh3jj6k71ji8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.waddy_app",
+            "certificate_hash": "9a82304ba669934505649f19d8128ed777a410b4"
+          }
+        },
+        {
+          "client_id": "345743230552-qqkoga85fkhq7pqoea5hajthnjjfllc3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWbOAY29-3YVO-CDtUQn9n9fGKw4-5Y4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345743230552-qqkoga85fkhq7pqoea5hajthnjjfllc3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -23,7 +23,7 @@ class UserEditProfileScreen extends StatelessWidget {
     birthController.text = "12/27/1999";
     emailController.text = model != null ? model.email! : " ";
     phoneController.text = model != null ? model.phone! : " ";
-    addressController.text = model != null ? model.address! : " ";
+    addressController.text = model != null ? model.address ?? model.governorate! : " ";
 
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<UserProfileCubit,UserProfileStates>(

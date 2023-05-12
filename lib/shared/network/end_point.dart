@@ -2,9 +2,10 @@
 
 const BASEURL = "http://192.168.1.12:8080/";
 
+//user endPoints
 const LOGIN = "auth/login";
 const USERREGISTER = "auth/register?type=personal";
-const DRIVERREGISTER = "auth/register?type=comapny";
+const COMPANYREGISTER = "auth/register?type=comapny";
 const FORGETPASSWORD = "auth/forget";
 const VERIFYOTP = "auth/verifyotp";
 const UPDATEPASSWORD = "auth/updatepassword";
@@ -16,10 +17,12 @@ const USERSEARCHORDERID ="client/order/";
 const USERSEARCHTRACKID ="client/order/track/";
 const UPDATEORDER = "client/order/";
 const DELETEORDER = "client/order/";
-const DRIVERGETALLORDERS = "delegate/orders";
-const DRIVERGETHISORDERS = 'delegate/delegate_orders';
-const DRIVERTAKEORDERBYID = 'delegate/take_order/';
-const DRIVERGETCURRENTORDER = 'delegate/orders/';
-const DRIVERSEARCHORDERBYID = 'delegate/orders/';
-const DRIVERCONFIRMORDER = 'delegate/confirm_order/';
-const DRIVERSENDORDERPROOF = 'delegate/proof/';
+
+//delegate endPoints
+const DELEGATEGETALLORDERS = "delegate/orders";
+const DELEGATEGETHISORDERS = 'delegate/delegate_orders';
+const DELEGATETAKEORDERBYID = 'delegate/take_order/';
+const DELEGATEGETCURRENTORDER = 'delegate/orders/';
+const DELEGATESEARCHORDERBYID = 'delegate/orders/';
+const DELEGATECONFIRMORDER = 'delegate/confirm_order/';
+const DELEGATESENDORDERPROOF = 'delegate/proof/';

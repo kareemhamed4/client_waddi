@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/register/cubit/states.dart';
+import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/network/end_point.dart';
 import 'package:waddy_app/shared/network/remote/dio_helper.dart';
 
@@ -9,7 +14,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
 
   static SignUpCubit get(context) => BlocProvider.of(context);
 
-  void userRegister({
+  Future<void> userRegister({
     required String firstName,
     required String lastName,
     required String email,
@@ -17,7 +22,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     required String confirmPassword,
     required String phone,
     required String address,
-  }) {
+  }) async{
     emit(UserSignUpLoadingState());
     DioHelper.postData(
       url: USERREGISTER,
@@ -57,7 +62,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     });
   }
 
-  void companyRegister({
+  Future<void> companyRegister({
     required String firstName,
     required String lastName,
     required String email,
@@ -68,7 +73,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     required String phone,
     required String governorate,
     required String postalcode,
-  }) {
+  }) async{
     emit(CompanySignUpLoadingState());
     DioHelper.postData(
       url: COMPANYREGISTER,
@@ -106,6 +111,126 @@ class SignUpCubit extends Cubit<SignUpStates> {
         // Handle non-DioError cases
         emit(CompanySignUpErrorState('An error occurred. Please try again.'));
       }
+    });
+  }
+
+  void userRegisterWithFB({
+    required String email,
+    required String password,
+    required String name,
+    required String image,
+    required String phone,
+    required BuildContext context,
+  }) {
+    emit(SignUpWithFBLoadingState());
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
+        .then((value) {
+      createCreate(
+        uId: value.user!.uid,
+        name: name,
+        email: email,
+        phone: phone,
+        image: image,
+      );
+    }).catchError((error) {
+      buildErrorToast(
+        context: context,
+        title: "Oops",
+        description: error.toString(),
+      );
+      emit(SignUpWithFBErrorState());
+    });
+  }
+
+  void createCreate({
+    required String email,
+    required String name,
+    required String image,
+    required String phone,
+    required String uId,
+  }) {
+    UserModel model = UserModel(
+      uId: uId,
+      name: name,
+      email: email,
+      phone: phone,
+      image: image,
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(uId)
+        .set(model.toMap())
+        .then((value) {
+      emit(UserCreateWithFBSuccessState());
+    }).catchError((error) {
+      debugPrint(error.toString());
+      emit(UserCreateWithFBErrorState(error.toString()));
+    });
+  }
+
+  void companyRegisterWithFB({
+    required String email,
+    required String password,
+    required String name,
+    required String companyName,
+    required String image,
+    required String phone,
+    required BuildContext context,
+  }) {
+    emit(SignUpWithFBLoadingState());
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
+        .then((value) {
+      createCreateForCompany(
+        uId: value.user!.uid,
+        name: name,
+        companyName: companyName,
+        email: email,
+        phone: phone,
+        image: image,
+      );
+    }).catchError((error) {
+      buildErrorToast(
+        context: context,
+        title: "Oops",
+        description: error.toString(),
+      );
+      emit(SignUpWithFBErrorState());
+    });
+  }
+
+  void createCreateForCompany({
+    required String email,
+    required String name,
+    required String companyName,
+    required String uId,
+    required String image,
+    required String phone,
+  }) {
+    UserModel model = UserModel(
+      uId: uId,
+      name: name,
+      companyName: companyName,
+      email: email,
+      phone: phone,
+      image: image,
+    );
+    FirebaseFirestore.instance
+        .collection('Companies')
+        .doc(uId)
+        .set(model.toMap())
+        .then((value) {
+      emit(UserCreateWithFBSuccessState());
+    }).catchError((error) {
+      debugPrint(error.toString());
+      emit(UserCreateWithFBErrorState(error.toString()));
     });
   }
 }

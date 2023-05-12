@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
-import 'package:waddy_app/modules/driver/edit_profile/edit_profile_screen.dart';
 import 'package:waddy_app/modules/user/edit_password/edit_password_screen.dart';
 import 'package:waddy_app/modules/user/edit_profile/edit_profile_screen.dart';
 import 'package:waddy_app/modules/user/notification_setting/notification_setting_screen.dart';
@@ -12,7 +11,6 @@ import 'package:waddy_app/modules/user/privacy/privacy_policy_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/constants.dart';
 import 'package:waddy_app/shared/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -70,10 +68,7 @@ class UserProfileScreen extends StatelessWidget {
                           ),
                         GestureDetector(
                           onTap: () {
-                            navigateTo(
-                              context,
-                              const DriverEditProfileScreen(),
-                            );
+                            UserProfileCubit.get(context).getProfileImage();
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 4.0, bottom: 4.0),

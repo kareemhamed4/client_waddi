@@ -57,4 +57,22 @@ class User {
     userImg = json['userImg'];
     iV = json['__v'];
   }
+
+  Map<String,dynamic> toMap(){
+    return {
+      "_id": sId,
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "phone": phone,
+      "password": password,
+      "address": address,
+      "companyName": companyName,
+      "industry": industry,
+      "governorate": governorate,
+      "role": role,
+      "userImg": userImg,
+      "__v": iV,
+    };
+  }
 }

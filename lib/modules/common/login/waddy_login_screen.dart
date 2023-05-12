@@ -120,7 +120,8 @@ class WaddyLoginScreen extends StatelessWidget {
                               if (formKey.currentState!.validate()) {
                                 cubit.userLogin(
                                     email: emailController.text,
-                                    password: passwordController.text);
+                                    password: passwordController.text,
+                                );
                               }
                             },
                             labelWidget: Text(

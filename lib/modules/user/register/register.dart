@@ -44,22 +44,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, SignUpStates>(
       listener: (context, state) {
-        if (state is UserSignUpSuccessState || state is CompanySignUpSuccessState) {
+        if (state is UserSignUpSuccessState) {
+          context.read<SignUpCubit>().userRegisterWithFB(
+              name: "${fname_controller.text} ${lname_controller.text}",
+              email: email_controller.text,
+              phone: phone_controller.text,
+              image: "https://img.freepik.com/free-photo/pleased-european-woman-with-curly-hair-keeps-hands-cheeks-smiles-pleasantly-keeps-eyes-closed-recalls-pleasant-memories-wears-shirt-isolated-beige-background-happy-feelings-concept_273609-62609.jpg",
+              password: password_controller.text,
+              context: context);
           Navigator.pop(context);
           buildSuccessToast(
               context: context,
               title: "Account Created",
-              description: "Can login now!"
-          );
-        }
-        else if (state is UserSignUpErrorState) {
+              description: "Can login now!");
+        } else if (state is CompanySignUpSuccessState) {
+          context.read<SignUpCubit>().companyRegisterWithFB(
+              name: "${fname2_controller.text} ${lname2_controller.text}",
+              companyName: cname_controller.text,
+              email: email2_controller.text,
+              phone: phone2_controller.text,
+              image: "https://img.freepik.com/free-photo/pleased-european-woman-with-curly-hair-keeps-hands-cheeks-smiles-pleasantly-keeps-eyes-closed-recalls-pleasant-memories-wears-shirt-isolated-beige-background-happy-feelings-concept_273609-62609.jpg",
+              password: password2_controller.text,
+              context: context);
+          Navigator.pop(context);
+          buildSuccessToast(
+              context: context,
+              title: "Account Created",
+              description: "Can login now!");
+        } else if (state is UserSignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
             description: state.error,
           );
-        }
-        else if (state is CompanySignUpErrorState) {
+        } else if (state is CompanySignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
@@ -236,14 +254,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 30,
                                   ),
                                   ConditionalBuilder(
-                                    condition: state is! UserSignUpLoadingState,
+                                    condition:
+                                        (state is! UserSignUpLoadingState &&
+                                            state is! SignUpWithFBLoadingState),
                                     builder: (context) => myMaterialButton(
                                       context: context,
                                       onPressed: () {
                                         if (formKey.currentState!.validate()) {
-                                          cubit.userRegister(
+                                          cubit
+                                              .userRegister(
                                             firstName: fname_controller.text,
-                                            lastName: fname_controller.text,
+                                            lastName: lname_controller.text,
                                             email: email_controller.text,
                                             password: password_controller.text,
                                             confirmPassword:
@@ -525,23 +546,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 30,
                                   ),
                                   ConditionalBuilder(
-                                    condition: state is! CompanySignUpLoadingState,
+                                    condition:
+                                        (state is! CompanySignUpLoadingState &&
+                                            state is! SignUpWithFBLoadingState),
                                     builder: (context) => myMaterialButton(
                                       context: context,
                                       onPressed: () {
-                                        if (form2_key.currentState!.validate()) {
-                                          cubit.companyRegister(
+                                        if (form2_key.currentState!
+                                            .validate()) {
+                                          cubit
+                                              .companyRegister(
                                             firstName: fname2_controller.text,
                                             lastName: lname2_controller.text,
                                             email: email2_controller.text,
                                             password: password2_controller.text,
                                             confirmPassword:
-                                            confirm2_controller.text,
+                                                confirm2_controller.text,
                                             phone: phone2_controller.text,
                                             companyName: cname_controller.text,
                                             industry: cindustry_controller.text,
-                                            governorate: cgovernrate_controller.text,
-                                            postalcode: cpostel_controller.text
+                                            governorate:
+                                                cgovernrate_controller.text,
+                                            postalcode: cpostel_controller.text,
                                           );
                                         }
                                       },
@@ -584,7 +610,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                       MaterialButton(
                                         onPressed: () {
-                                          navigateTo(context, WaddyLoginScreen());
+                                          navigateTo(
+                                              context, WaddyLoginScreen());
                                         },
                                         child: Text(
                                           'sign in',

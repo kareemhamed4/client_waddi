@@ -13,3 +13,7 @@ class GetDriverInfoErrorState extends DriverProfileStates {
   final String error;
   GetDriverInfoErrorState(this.error);
 }
+
+class ProfileImagePickedSuccessState extends DriverProfileStates {}
+
+class ProfileImagePickedErrorState extends DriverProfileStates {}

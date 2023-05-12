@@ -15,6 +15,18 @@ class UserSignUpErrorState extends SignUpStates {
   UserSignUpErrorState(this.error);
 }
 
+//user signup with firebase
+class SignUpWithFBLoadingState extends SignUpStates {}
+class SignUpWithFBSuccessState extends SignUpStates {}
+class SignUpWithFBErrorState extends SignUpStates {}
+
+class UserCreateWithFBSuccessState extends SignUpStates {}
+class UserCreateWithFBErrorState extends SignUpStates {
+  final String error;
+
+  UserCreateWithFBErrorState(this.error);
+}
+
 //Driver SignUp
 class CompanySignUpLoadingState extends SignUpStates {}
 class CompanySignUpSuccessState extends SignUpStates {

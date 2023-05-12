@@ -13,3 +13,7 @@ class GetUserInfoErrorState extends UserProfileStates {
   final String error;
   GetUserInfoErrorState(this.error);
 }
+
+class ProfileImagePickedSuccessState extends UserProfileStates {}
+
+class ProfileImagePickedErrorState extends UserProfileStates {}

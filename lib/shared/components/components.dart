@@ -2,6 +2,7 @@
 
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -740,4 +741,107 @@ PreferredSizeWidget defaultTabBar({
           ),
         ),
       ],
+    );
+
+Widget myDropDownButton({
+  required BuildContext context,
+  required List<String> dropMenuItems,
+  required String selectedValue,
+  String? validateText,
+  Widget? prefix,
+  String? hintText,
+  Color? hintColor,
+  Color? textColor,
+  void Function(String?)? onChange,
+  String Function(String?)? validator,
+}) =>
+    DropdownButtonFormField2(
+      decoration: InputDecoration(
+        //Add isDense true and zero Padding.
+        //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        hintStyle: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontSize: 16, color: hintColor ?? myFavColor4),
+        //Add more decoration as you want here
+        //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+      ),
+      isExpanded: true,
+      hint: Row(
+        children: [
+          if (prefix != null) prefix,
+          if (prefix != null)
+            const SizedBox(
+              width: 20,
+            ),
+          Flexible(
+            child: Text(
+              hintText??"",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontSize: 16, color: hintColor ?? myFavColor4),
+            ),
+          ),
+        ],
+      ),
+      style: Theme.of(context)
+          .textTheme
+          .bodyLarge!
+          .copyWith(fontSize: 18, color: textColor ?? myFavColor8),
+      iconStyleData: IconStyleData(
+        icon: Icon(
+          Icons.keyboard_arrow_down_outlined,
+          color: myFavColor2,
+        ),
+      ),
+      buttonStyleData: ButtonStyleData(
+        height: 48,
+        padding: EdgeInsets.only(right: 10,left: 0),
+        decoration: BoxDecoration(
+          color: myFavColor5,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        )
+      ),
+      dropdownStyleData: DropdownStyleData(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: myFavColor5,
+        ),
+      ),
+      items: dropMenuItems
+          .map((item) => DropdownMenuItem<String>(
+        value: item,
+        onTap: () {
+          selectedValue = item;
+        },
+        child: Text(
+          item,
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontSize: 18, color: textColor ?? myFavColor8),
+        ),
+      ))
+          .toList(),
+      validator: (value) {
+        if (value == null) {
+          return validateText;
+        }
+        return null;
+      },
+      onChanged: onChange,
+      onSaved: (value) {
+        selectedValue = value.toString();
+      },
     );

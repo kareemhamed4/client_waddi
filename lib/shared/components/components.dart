@@ -645,3 +645,99 @@ void buildSuccessToast({
       animationDuration: Duration(milliseconds: 1000),
       autoDismiss: true,
     ).show(context);
+
+
+PreferredSizeWidget defaultTabBar({
+  required BuildContext context,
+  required TabController tabController,
+  required Size size,
+  required List<String> itemsName,
+}) =>
+    TabBar(
+      padding: EdgeInsets.zero,
+      indicatorPadding: EdgeInsets.zero,
+      labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+      controller: tabController,
+      physics: const BouncingScrollPhysics(),
+      indicatorColor: Colors.transparent,
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
+      isScrollable: true,
+      tabs: [
+        Container(
+          height: size.height * (24 / 780),
+          width: size.width * (64 / 360),
+          decoration: BoxDecoration(
+            color: tabController.index == 0 ? myFavColor : myFavColor7,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            border: Border.all(
+              color: myFavColor,
+            ),
+          ),
+          child: Tab(
+            child: Text(
+              itemsName[0],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: tabController.index == 0 ? myFavColor7 : myFavColor,
+                  fontSize: 12),
+            ),
+          ),
+        ),
+        Container(
+          height: size.height * (24 / 780),
+          width: size.width * (64 / 360),
+          decoration: BoxDecoration(
+            color: tabController.index == 1 ? myFavColor : myFavColor7,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            border: Border.all(
+              color: myFavColor,
+            ),
+          ),
+          child: Tab(
+            child: Text(
+              itemsName[1],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: tabController.index == 1 ? myFavColor7 : myFavColor,
+                  fontSize: 12),
+            ),
+          ),
+        ),
+        Container(
+          height: size.height * (24 / 780),
+          width: size.width * (64 / 360),
+          decoration: BoxDecoration(
+            color: tabController.index == 2 ? myFavColor : myFavColor7,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            border: Border.all(
+              color: myFavColor,
+            ),
+          ),
+          child: Tab(
+            child: Text(
+              itemsName[2],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: tabController.index == 2 ? myFavColor7 : myFavColor,
+                  fontSize: 12),
+            ),
+          ),
+        ),
+        Container(
+          height: size.height * (24 / 780),
+          width: size.width * (64 / 360),
+          decoration: BoxDecoration(
+            color: tabController.index == 3 ? myFavColor : myFavColor7,
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            border: Border.all(
+              color: myFavColor,
+            ),
+          ),
+          child: Tab(
+            child: Text(
+              itemsName[3],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: tabController.index == 3 ? myFavColor7 : myFavColor,
+                  fontSize: 12),
+            ),
+          ),
+        ),
+      ],
+    );

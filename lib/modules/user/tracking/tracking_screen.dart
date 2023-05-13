@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/constants.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/components/my_google_map.dart';
-import 'package:waddy_app/shared/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class TrackingScreen extends StatefulWidget {

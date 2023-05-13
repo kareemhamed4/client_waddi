@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/register/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/network/end_point.dart';
-import 'package:waddy_app/shared/network/remote/dio_helper.dart';
+import 'package:waddy_app/network/end_point.dart';
+import 'package:waddy_app/network/remote/dio_helper.dart';
 
 class SignUpCubit extends Cubit<SignUpStates> {
   SignUpCubit() : super(SignUpInitialState());

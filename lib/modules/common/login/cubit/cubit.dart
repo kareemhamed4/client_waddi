@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/models/user/client_login_model.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
-import 'package:waddy_app/shared/network/end_point.dart';
-import 'package:waddy_app/shared/network/remote/dio_helper.dart';
+import 'package:waddy_app/network/end_point.dart';
+import 'package:waddy_app/network/remote/dio_helper.dart';
 
 class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
   WaddyLoginCubit() : super(WaddyLoginInitialState());

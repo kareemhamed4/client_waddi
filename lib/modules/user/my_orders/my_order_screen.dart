@@ -105,6 +105,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                         context: context,
                         tabController: tabController,
                         size: size,
+                        itemsName: ["All","Pending","on Process","Delivered"],
                       ),
                       const SizedBox(
                         height: 20,
@@ -743,100 +744,6 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       ),
     );
   }
-
-  PreferredSizeWidget defaultTabBar({
-    required BuildContext context,
-    required TabController tabController,
-    required Size size,
-  }) =>
-      TabBar(
-        padding: EdgeInsets.zero,
-        indicatorPadding: EdgeInsets.zero,
-        labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-        controller: tabController,
-        physics: const BouncingScrollPhysics(),
-        indicatorColor: Colors.transparent,
-        overlayColor: MaterialStateProperty.all(Colors.transparent),
-        isScrollable: true,
-        tabs: [
-          Container(
-            height: size.height * (24 / 780),
-            width: size.width * (64 / 360),
-            decoration: BoxDecoration(
-              color: tabController.index == 0 ? myFavColor : myFavColor7,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: myFavColor,
-              ),
-            ),
-            child: Tab(
-              child: Text(
-                "All",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: tabController.index == 0 ? myFavColor7 : myFavColor,
-                    fontSize: 12),
-              ),
-            ),
-          ),
-          Container(
-            height: size.height * (24 / 780),
-            width: size.width * (64 / 360),
-            decoration: BoxDecoration(
-              color: tabController.index == 1 ? myFavColor : myFavColor7,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: myFavColor,
-              ),
-            ),
-            child: Tab(
-              child: Text(
-                "Pending",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: tabController.index == 1 ? myFavColor7 : myFavColor,
-                    fontSize: 12),
-              ),
-            ),
-          ),
-          Container(
-            height: size.height * (24 / 780),
-            width: size.width * (64 / 360),
-            decoration: BoxDecoration(
-              color: tabController.index == 2 ? myFavColor : myFavColor7,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: myFavColor,
-              ),
-            ),
-            child: Tab(
-              child: Text(
-                "On Process",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: tabController.index == 2 ? myFavColor7 : myFavColor,
-                    fontSize: 12),
-              ),
-            ),
-          ),
-          Container(
-            height: size.height * (24 / 780),
-            width: size.width * (64 / 360),
-            decoration: BoxDecoration(
-              color: tabController.index == 3 ? myFavColor : myFavColor7,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: myFavColor,
-              ),
-            ),
-            child: Tab(
-              child: Text(
-                "Delivered",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: tabController.index == 3 ? myFavColor7 : myFavColor,
-                    fontSize: 12),
-              ),
-            ),
-          ),
-        ],
-      );
 
   Widget buildResultsForRow({
     required String trackId,

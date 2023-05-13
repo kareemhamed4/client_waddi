@@ -10,8 +10,8 @@ import 'package:waddy_app/modules/user/notification_setting/notification_setting
 import 'package:waddy_app/modules/user/privacy/privacy_policy_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
+import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class UserProfileScreen extends StatelessWidget {

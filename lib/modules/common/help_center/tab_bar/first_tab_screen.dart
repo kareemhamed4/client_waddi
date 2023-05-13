@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/constants.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 
 class FirstTab extends StatefulWidget {
   const FirstTab({Key? key}) : super(key: key);

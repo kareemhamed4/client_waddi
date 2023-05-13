@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/modules/user/edit_password/cubit/states.dart';
-import 'package:waddy_app/shared/components/constants.dart';
-import 'package:waddy_app/shared/network/end_point.dart';
-import 'package:waddy_app/shared/network/remote/dio_helper.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
+import 'package:waddy_app/network/end_point.dart';
+import 'package:waddy_app/network/remote/dio_helper.dart';
 
 class EditPasswordForAuthUserCubit extends Cubit<EditPasswordForAuthUserStates> {
   EditPasswordForAuthUserCubit() : super(EditPasswordInitialState());

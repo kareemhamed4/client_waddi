@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -9,15 +10,13 @@ class CheckRateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TextEditingController pickUp = TextEditingController();
-    TextEditingController destination = TextEditingController();
-    TextEditingController dimension = TextEditingController();
-    TextEditingController noPackage = TextEditingController();
-    TextEditingController shipDate = TextEditingController();
+    TextEditingController pickupController = TextEditingController();
+    TextEditingController destinationController = TextEditingController();
+    TextEditingController dimensionController = TextEditingController();
+    TextEditingController noOfPackagesController = TextEditingController();
+    TextEditingController shipDateController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Check Rate'),
-      ),
+      appBar: defaultAppBar(context: context, title: "Check Rate"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -26,94 +25,160 @@ class CheckRateScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
-                    Icons.my_location_outlined,
-                    color: Colors.redAccent,
+                  Column(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.circleDot,
+                        color: myFavColor,
+                      ),
+                      Container(
+                        width: 1,
+                        height: 50,
+                        color: myFavColor4,
+                      ),
+                      FaIcon(
+                        FontAwesomeIcons.locationPin,
+                        color: myFavColor,
+                      ),
+                    ],
                   ),
                   const SizedBox(
-                    width: 10.0,
+                    width: 16,
                   ),
                   Expanded(
-                    child: defaultTextForm(
-                      controller: pickUp,
-                      type: TextInputType.text,
-                      text: 'Pick up location',
-                      suffix: Icons.my_location,
+                    child: Column(
+                      children: [
+                        myTextFormField(
+                            context: context,
+                            controller: pickupController,
+                            radius: 10,
+                            hint: "Pick up Location",
+                            suffixIcon: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FaIcon(
+                                  FontAwesomeIcons.locationCrosshairs,
+                                  color: myFavColor,
+                                ),
+                              ],
+                            )),
+                        mySizedBox(size: size, myHeight: 24),
+                        myTextFormField(
+                            context: context,
+                            controller: destinationController,
+                            radius: 10,
+                            hint: "Package Destination",
+                            suffixIcon: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FaIcon(
+                                  FontAwesomeIcons.locationCrosshairs,
+                                  color: myFavColor,
+                                ),
+                              ],
+                            )),
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    color: Colors.redAccent,
-                  ),
-                  const SizedBox(
-                    width: 10.0,
-                  ),
-                  Expanded(
-                    child: defaultTextForm(
-                      controller: destination,
-                      type: TextInputType.text,
-                      text: 'Pick up location',
-                      suffix: Icons.my_location,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
+              mySizedBox(size: size, myHeight: 30),
               myDivider(),
-              const Text(
-                'Tell us more about your shipment',
+              Text(
+                "Tell us more about your shipment",
+                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      fontSize: 20,
+                      color: myFavColor8,
+                    ),
               ),
-              const SizedBox(
-                height: 15.0,
+              mySizedBox(size: size, myHeight: 20),
+              Text(
+                "Dimension",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18,
+                      color: myFavColor8,
+                    ),
               ),
-              const Text(
-                'Dimension : Kg',
-                style: TextStyle(color: Colors.grey),
+              myTextFormField(
+                context: context,
+                controller: dimensionController,
+                radius: 10,
+                prefixIcon: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FaIcon(FontAwesomeIcons.boxOpen,color: myFavColor4,size: 20,),
+                  ],
+                ),
+                suffixIcon: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Kg",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontSize: 16, color: myFavColor4),
+                    ),
+                  ],
+                ),
               ),
-              defaultTextForm(
-                controller: dimension,
-                type: TextInputType.number,
-                text: 'weight',
-                prefix: Icons.pages,
+              mySizedBox(size: size, myHeight: 20),
+              Text(
+                "NO . of packages",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18,
+                      color: myFavColor8,
+                    ),
               ),
-              const SizedBox(
-                height: 15.0,
+              myTextFormField(
+                  context: context,
+                  controller: noOfPackagesController,
+                  radius: 10,
+                  prefixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FaIcon(FontAwesomeIcons.boxOpen,color: myFavColor4,size: 20,),
+                    ],
+                  ),
+                  hint: "1",
+                  suffixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.keyboard_arrow_down_outlined,
+                        color: myFavColor2,
+                      ),
+                    ],
+                  )),
+              mySizedBox(size: size, myHeight: 20),
+              Text(
+                "Ship Date",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18,
+                      color: myFavColor8,
+                    ),
               ),
-              const Text(
-                'No.of Package',
-                style: TextStyle(color: Colors.grey),
-              ),
-              defaultTextForm(
-                controller: noPackage,
-                type: TextInputType.number,
-                text: 'Number of package',
-                prefix: Icons.pages,
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              const Text(
-                'Ship Date',
-                style: TextStyle(color: Colors.grey),
-              ),
-              defaultTextForm(
-                controller: shipDate,
-                type: TextInputType.text,
-                text: 'date',
-                prefix: Icons.calendar_month,
-              ),
-              const SizedBox(
-                height: 30.0,
-              ),
+              myTextFormField(
+                  context: context,
+                  controller: shipDateController,
+                  hint: "Thursday, January 26, 2023",
+                  radius: 10,
+                  prefixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(CustomIcons.calendar,color: myFavColor4,size: 20,),
+                    ],
+                  ),
+                  suffixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.keyboard_arrow_down_outlined,
+                        color: myFavColor2,
+                      ),
+                    ],
+                  )),
+              mySizedBox(size: size, myHeight: 44),
               myMaterialButton(
                 context: context,
                 onPressed: () {
@@ -149,63 +214,81 @@ class CheckRateScreen extends StatelessWidget {
                             ),
                             mySizedBox(size: size, myHeight: 12),
                             myDivider(),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Row(
                               children: [
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Benha train station street",
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleSmall!
-                                            .copyWith(fontSize: 16,height: 1),
+                                            .copyWith(fontSize: 16, height: 1),
                                       ),
-                                      const SizedBox(height: 8,),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
                                       Text(
                                         "Pick up location",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
-                                            .copyWith(fontSize: 14,color: myFavColor4),
+                                            .copyWith(
+                                                fontSize: 14,
+                                                color: myFavColor4),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Expanded(child: Column(
+                                Expanded(
+                                    child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    FaIcon(FontAwesomeIcons.arrowRightArrowLeft,color: myFavColor,),
+                                    FaIcon(
+                                      FontAwesomeIcons.arrowRightArrowLeft,
+                                      color: myFavColor,
+                                    ),
                                   ],
                                 )),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Shebeen El-Koum, Menoufia",
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleSmall!
-                                            .copyWith(fontSize: 16,height: 1),
+                                            .copyWith(fontSize: 16, height: 1),
                                       ),
-                                      const SizedBox(height: 8,),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
                                       Text(
                                         "Package Destination",
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyMedium!
-                                            .copyWith(fontSize: 14,color: myFavColor4),
+                                            .copyWith(
+                                                fontSize: 14,
+                                                color: myFavColor4),
                                       ),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8,),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             myDivider(),
                             mySizedBox(size: size, myHeight: 20),
                             Container(
@@ -226,8 +309,8 @@ class CheckRateScreen extends StatelessWidget {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(16))),
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -237,10 +320,15 @@ class CheckRateScreen extends StatelessWidget {
                                           Stack(
                                             alignment: Alignment.center,
                                             children: [
-                                              Image.asset("assets/images/yellowShape.png"),
+                                              Image.asset(
+                                                  "assets/images/yellowShape.png"),
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 9),
-                                                child: FaIcon(FontAwesomeIcons.boxOpen,color: myFavColor7,),
+                                                padding: const EdgeInsets.only(
+                                                    left: 9),
+                                                child: FaIcon(
+                                                  FontAwesomeIcons.boxOpen,
+                                                  color: myFavColor7,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -265,7 +353,8 @@ class CheckRateScreen extends StatelessWidget {
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge!
-                                                    .copyWith(color: myFavColor4),
+                                                    .copyWith(
+                                                        color: myFavColor4),
                                               ),
                                             ],
                                           ),
@@ -302,8 +391,8 @@ class CheckRateScreen extends StatelessWidget {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(16))),
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -313,10 +402,15 @@ class CheckRateScreen extends StatelessWidget {
                                           Stack(
                                             alignment: Alignment.center,
                                             children: [
-                                              Image.asset("assets/images/roseShape.png"),
+                                              Image.asset(
+                                                  "assets/images/roseShape.png"),
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 6),
-                                                child: FaIcon(FontAwesomeIcons.cartShopping,color: myFavColor7,),
+                                                padding: const EdgeInsets.only(
+                                                    left: 6),
+                                                child: FaIcon(
+                                                  FontAwesomeIcons.cartShopping,
+                                                  color: myFavColor7,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -341,7 +435,8 @@ class CheckRateScreen extends StatelessWidget {
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyLarge!
-                                                    .copyWith(color: myFavColor4),
+                                                    .copyWith(
+                                                        color: myFavColor4),
                                               ),
                                             ],
                                           ),

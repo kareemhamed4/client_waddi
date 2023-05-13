@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:waddy_app/cubit/user/cubit.dart';
-import 'package:waddy_app/shared/components/constants.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 
 class MyGoogleMap extends StatefulWidget {
   final bool isGoToMyLocationEnabled;

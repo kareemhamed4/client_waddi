@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class UserChatDetailsScreen extends StatelessWidget {
-  const UserChatDetailsScreen({Key? key}) : super(key: key);
+class CustomerServiceChatDetailsScreen extends StatelessWidget {
+  const CustomerServiceChatDetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +13,9 @@ class UserChatDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 12),
+          padding: const EdgeInsets.only(top:20,left:16,right:16,bottom: 12),
           child: Column(
             children: [
-              const SizedBox(height: 10,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -38,14 +36,9 @@ class UserChatDetailsScreen extends StatelessWidget {
                         width: 20,
                       ),
                       Text(
-                        "Ali Mohamed",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(
-                            color: myFavColor8,
-                            fontSize: 28,
-                            height: 1),
+                        "Customer Service",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: myFavColor8, fontSize: 28, height: 1),
                       ),
                     ],
                   ),
@@ -79,6 +72,7 @@ class UserChatDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 10,),
               Expanded(
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
@@ -100,27 +94,34 @@ class UserChatDetailsScreen extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Today",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(
-                                    color: myFavColor8,
-                                    fontSize: 16,
-                                  ),
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: myFavColor8,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
                     mySizedBox(size: size, myHeight: 20),
-                    buildMyMessage(
+                    buildReceivedMessage(
                       context: context,
                       message: "😊 اهلاً ، صباح الخير يافندم",
+                    ),
+                    mySizedBox(size: size, myHeight: 10),
+                    buildReceivedMessage(
+                      context: context,
+                      message: "انا من خدمة العملاء ، اقدر أساعد حضرتك ازاي ؟ 🙏",
+                    ),
+                    mySizedBox(size: size, myHeight: 15),
+                    buildMyMessage(
+                      context: context,
+                      message: "عندي مشكلة مع الشحنة الخاصة بيا",
                     ),
                     mySizedBox(size: size, myHeight: 15),
                     buildReceivedMessage(
                       context: context,
-                      message: "😊 صباح النور ياغالي",
+                      message: "طبعاً هساعد حضرتك !ممكن بس تفهمني اي المشكلة عشان اقدر اساعدك ",
                     ),
                   ],
                 ),
@@ -164,10 +165,10 @@ class UserChatDetailsScreen extends StatelessWidget {
                   child: Text(
                     message,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: myFavColor7,
-                          fontSize: 16,
-                          height: 1.3,
-                        ),
+                      color: myFavColor7,
+                      fontSize: 16,
+                      height: 1.3,
+                    ),
                   ),
                 ),
               ),
@@ -176,9 +177,9 @@ class UserChatDetailsScreen extends StatelessWidget {
                 child: Text(
                   "10.00",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: myFavColor7,
-                        fontSize: 14,
-                      ),
+                    color: myFavColor7,
+                    fontSize: 14,
+                  ),
                 ),
               )
             ],
@@ -217,10 +218,10 @@ class UserChatDetailsScreen extends StatelessWidget {
                   child: Text(
                     message,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: myFavColor8,
-                          fontSize: 16,
-                          height: 1.3,
-                        ),
+                      color: myFavColor8,
+                      fontSize: 16,
+                      height: 1.3,
+                    ),
                   ),
                 ),
               ),
@@ -229,9 +230,9 @@ class UserChatDetailsScreen extends StatelessWidget {
                 child: Text(
                   "10.00",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: myFavColor8,
-                        fontSize: 14,
-                      ),
+                    color: myFavColor8,
+                    fontSize: 14,
+                  ),
                 ),
               )
             ],
@@ -246,9 +247,7 @@ class UserChatDetailsScreen extends StatelessWidget {
   }) {
     return Column(
       children: [
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10,),
         myTextFormField(
           context: context,
           radius: 15,
@@ -258,18 +257,10 @@ class UserChatDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                FluentIcons.send_20_regular,
-                color: myFavColor,
-                size: 26,
-              ),
+              Icon(FluentIcons.send_20_regular,color: myFavColor,size: 26,),
             ],
           ),
-          prefixIcon: Icon(
-            FluentIcons.image_multiple_20_filled,
-            color: myFavColor4,
-            size: 26,
-          ),
+          prefixIcon: Icon(FluentIcons.image_multiple_20_filled,color: myFavColor4,size: 26,),
         ),
       ],
     );

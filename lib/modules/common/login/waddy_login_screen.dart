@@ -8,9 +8,9 @@ import 'package:waddy_app/modules/common/login/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/register/register.dart';
+import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/components/constants.dart';
-import 'package:waddy_app/shared/network/local/cache_helper.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 //ignore: must_be_immutable

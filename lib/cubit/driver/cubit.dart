@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:waddy_app/cubit/user/states.dart';
-import 'package:waddy_app/shared/components/constants.dart';
+import 'package:waddy_app/network/local/cache_helper.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/location_helper.dart';
-import 'package:waddy_app/shared/network/local/cache_helper.dart';
 
 class DriverCubit extends Cubit<UserStates>
 {

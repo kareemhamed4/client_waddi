@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/models/user/get_user_orders.dart';
-import 'package:waddy_app/models/user/order_details.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/states.dart';
-import 'package:waddy_app/shared/components/constants.dart';
-import 'package:waddy_app/shared/network/end_point.dart';
-import 'package:waddy_app/shared/network/remote/dio_helper.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
+import 'package:waddy_app/network/end_point.dart';
+import 'package:waddy_app/network/remote/dio_helper.dart';
 
 class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
   GetUserOrdersCubit() : super(GetUserOrdersInitialState());

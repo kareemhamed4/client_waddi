@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/layout/user/layout_screen.dart';
+import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/common/new_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/new_password/cubit/states.dart';
 import 'package:waddy_app/modules/common/otp/cubit/cubit.dart';
@@ -9,7 +11,8 @@ import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+  final String emailAddress;
+  const ResetPassword({super.key,required this.emailAddress});
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -30,7 +33,14 @@ class _ResetPasswordState extends State<ResetPassword> {
     return BlocConsumer<UpdatePasswordCubit,UpdatePasswordStates>(
       listener: (context,state){
         if (state is UpdatePasswordSuccessState) {
-          navigateToAndFinish(context, const UserLayoutScreen());
+            buildSuccessToast(
+                context: context,
+                title: "Password Reset Successfully",
+                description: "We will direct you to login now"
+            );
+            Timer(const Duration(seconds: 3), () {
+              navigateToAndFinish(context, WaddyLoginScreen());
+            });
         }
         else if (state is UpdatePasswordErrorState) {
           buildErrorToast(
@@ -79,7 +89,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                         controller: passController,
                         type: TextInputType.visiblePassword,
                         hint: 'New password',
-                        suffixIcon: Icon(Icons.visibility_off_outlined,color: myFavColor4,),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            cubit.changeNewPasswordSuffixIcon();
+                          },
+                          icon: Icon(
+                            cubit.suffixIcon,
+                            color: myFavColor4,
+                          ),
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                        ),
+                        isPassword: cubit.isPassword,
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'Password must not be empty';
@@ -93,7 +114,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                         controller: confirmPassController,
                         type: TextInputType.visiblePassword,
                         hint: 'Confirm new password',
-                        suffixIcon: Icon(Icons.visibility_off_outlined,color: myFavColor4,),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            cubit.changeConfirmNewPasswordSuffixIcon();
+                          },
+                          icon: Icon(
+                            cubit.suffixConfirmIcon,
+                            color: myFavColor4,
+                          ),
+                          highlightColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                        ),
+                        isPassword: cubit.isConfirmPassword,
                         validate: (String? value) {
                           if (value!.isEmpty) {
                             return 'Password must be matched';
@@ -106,11 +138,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Checkbox(
-                            value: isChecked,
+                            value: cubit.isRememberMe,
                             activeColor: myFavColor,
                             checkColor: myFavColor7,
                             onChanged: (value){
-                              isChecked = value!;
+                              cubit.changeRememberMe(value!);
                             },
                           ),
                           Text('Remember me', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16)),

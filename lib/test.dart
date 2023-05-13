@@ -142,7 +142,7 @@ class _TestState extends State<Test> {
                                   content: Text("OTP is verified"),
                                 ),
                               );
-                              navigateTo(context, const ResetPassword());
+                              navigateTo(context, ResetPassword(emailAddress: email.text,));
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

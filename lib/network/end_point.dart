@@ -17,6 +17,7 @@ const USERSEARCHORDERID ="client/order/";
 const USERSEARCHTRACKID ="client/order/track/";
 const UPDATEORDER = "client/order/";
 const DELETEORDER = "client/order/";
+const GETRATE = "client/get_rate";
 
 //delegate endPoints
 const DELEGATEGETALLORDERS = "delegate/orders";

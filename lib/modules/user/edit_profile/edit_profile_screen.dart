@@ -55,7 +55,7 @@ class UserEditProfileScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   mySizedBox(size: size, myHeight: 20),
                   if (model != null && model.companyName != null)
@@ -178,7 +178,7 @@ class UserEditProfileScreen extends StatelessWidget {
                     ),
                   if (model != null && model.companyName != null)
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         mySizedBox(size: size, myHeight: 20),
                         Text(

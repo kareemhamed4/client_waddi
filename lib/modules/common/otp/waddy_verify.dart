@@ -23,7 +23,7 @@ class WaddyVerifyScreen extends StatelessWidget {
     return BlocConsumer<VerifyOTPCubit, VerifyOTPStates>(
       listener: (context, state) {
         if (state is VerifyOTPSuccessState) {
-          navigateToAndFinish(context, const ResetPassword());
+          navigateTo(context, ResetPassword(emailAddress: emailAddress,));
         } else if (state is VerifyOTPErrorState) {
           buildErrorToast(
             title: "Oops!",

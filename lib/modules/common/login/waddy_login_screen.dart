@@ -98,6 +98,7 @@ class WaddyLoginScreen extends StatelessWidget {
                             controller: passwordController,
                             type: TextInputType.number,
                             hint: 'Password',
+
                             prefixIcon: Icon(Icons.lock,color: myFavColor4,),
                             validate: (String? value) {
                               if (value!.isEmpty) {
@@ -105,19 +106,29 @@ class WaddyLoginScreen extends StatelessWidget {
                               }
                               return null;
                             },
-                            suffixIcon: Icon(Icons.visibility_off_outlined,color: myFavColor4,),
-                            isPassword: true,
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                cubit.changeLoginSuffixIcon();
+                              },
+                              icon: Icon(
+                                cubit.suffixIcon,
+                                color: myFavColor4,
+                              ),
+                              highlightColor: Colors.transparent,
+                              splashColor: Colors.transparent,
+                            ),
+                            isPassword: cubit.isPassword,
                         ),
                         mySizedBox(size: size,myHeight: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Checkbox(
-                                value: isChecked,
+                                value: cubit.isRememberMe,
                                 activeColor: myFavColor,
                                 checkColor: myFavColor7,
                                 onChanged: (value){
-                                  isChecked = value!;
+                                  cubit.changeRememberMe(value!);
                                 },
                             ),
                             Text('Remember me', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16)),

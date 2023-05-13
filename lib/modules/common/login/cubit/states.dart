@@ -15,3 +15,6 @@ class UserLoginErrorState extends WaddyLoginStates {
   final String error;
   UserLoginErrorState(this.error);
 }
+
+class ChangeRememberMeState extends WaddyLoginStates {}
+

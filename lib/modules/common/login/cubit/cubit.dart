@@ -11,16 +11,6 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
 
   static WaddyLoginCubit get(context) => BlocProvider.of(context);
 
-
-  IconData suffix = Icons.visibility;
-  bool isPassword = true;
-
-  void changePasswordVisibility() {
-    isPassword = !isPassword;
-    suffix = isPassword ? Icons.visibility_off : Icons.visibility;
-    emit(WaddyChangePasswordVisibilityState());
-  }
-
   ClientModel? clientModel;
 
   Future<void> userLogin({
@@ -50,5 +40,21 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
         emit(UserLoginErrorState('An error occurred. Please try again.'));
       }
     });
+  }
+
+  bool isRememberMe = false;
+  void changeRememberMe(bool isEnable){
+    isRememberMe = isEnable;
+    emit(ChangeRememberMeState());
+  }
+
+  bool isPassword = true;
+  IconData suffixIcon = Icons.visibility_off_outlined;
+
+  void changeLoginSuffixIcon() {
+    isPassword = !isPassword;
+    suffixIcon =
+    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    emit(WaddyChangePasswordVisibilityState());
   }
 }

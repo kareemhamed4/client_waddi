@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/modules/user/check_rate/check_rate_screen.dart';
 import 'package:waddy_app/modules/user/help_center/help_center.dart';
-import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
+import 'package:waddy_app/modules/user/new_make_order/sender_data_screen.dart';
 import 'package:waddy_app/modules/user/notification/notification_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
@@ -170,11 +170,15 @@ class UserHomeScreen extends StatelessWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            navigateTo(
+                            /*navigateTo(
                               context,
                               const FillSenderDateScreen(
                                 isOrderEdit: false,
                               ),
+                            );*/
+                            navigateTo(
+                              context,
+                              SenderDataScreen(),
                             );
                           },
                           child: Container(

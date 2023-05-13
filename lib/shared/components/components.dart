@@ -281,6 +281,39 @@ Future<dynamic> showMyBottomSheet({
       },
     );
 
+
+class FourCharSpaceFormatter extends TextInputFormatter {
+  final int charSpaceCount;
+
+  FourCharSpaceFormatter({this.charSpaceCount = 0});
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    final newString = newValue.text.replaceAll(' ', '');
+    final buffer = StringBuffer();
+    if (charSpaceCount > 0) {
+      for (int i = 0; i < newString.length; i += charSpaceCount) {
+        final end = i + charSpaceCount;
+        if (end <= newString.length) {
+          buffer.write(newString.substring(i, end));
+          buffer.write(' ');
+        } else {
+          buffer.write(newString.substring(i));
+        }
+      }
+    } else {
+      buffer.write(newString);
+    }
+    final newText = buffer.toString().trim();
+    return newValue.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
+
+
 Widget myTextFormField({
   required BuildContext context,
   TextEditingController? controller,
@@ -301,8 +334,11 @@ Widget myTextFormField({
   TextAlign? textAlign,
   String? hint,
   double? radius,
+  int? minLines,
+  int? maxLines,
   bool? isEnabled = true,
   TextInputAction? textInputAction,
+  int? charSpaceCount,
 }) =>
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -319,14 +355,30 @@ Widget myTextFormField({
         keyboardType: type,
         obscureText: isPassword ?? false,
         onTap: onTap,
-        onChanged: onChange,
+        onChanged: (value) {
+          if (onChange != null) {
+            final oldValueSelection = controller?.selection;
+            onChange(value);
+            controller?.value = TextEditingValue(
+              text: value,
+              selection: oldValueSelection!,
+            );
+          }
+        },
         textInputAction: textInputAction ?? TextInputAction.done,
         onFieldSubmitted: onSubmit,
         validator: validate,
         textAlign: textAlign ?? TextAlign.start,
         maxLength: maxLength,
+        minLines: minLines ?? 1,
+        maxLines: minLines ?? 1,
         textAlignVertical: TextAlignVertical.center,
         inputFormatters: [
+          LengthLimitingTextInputFormatter(charSpaceCount != null
+              ? charSpaceCount * 5 - 1
+              : null),
+          FourCharSpaceFormatter(charSpaceCount: charSpaceCount ?? 0),
+          LengthLimitingTextInputFormatter(maxLength2),
           LengthLimitingTextInputFormatter(maxLength2),
         ],
         style: Theme.of(context)
@@ -336,6 +388,7 @@ Widget myTextFormField({
         decoration: InputDecoration(
           filled: true,
           fillColor: fillColor ?? myFavColor5,
+
           border: fillColor == null
               ? InputBorder.none
               : OutlineInputBorder(
@@ -352,6 +405,7 @@ Widget myTextFormField({
           contentPadding: const EdgeInsets.symmetric(horizontal: 16),
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
+          alignLabelWithHint: true,
         ),
       ),
     );

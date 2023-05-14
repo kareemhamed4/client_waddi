@@ -119,7 +119,7 @@ class WaddyVerifyScreen extends StatelessWidget {
                       ConditionalBuilder(
                         condition: state is! VerifyOTPLoadingState,
                         builder: (context) => myMaterialButton(
-                          height: 45,
+                          height: 50,
                           context: context,
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -136,6 +136,7 @@ class WaddyVerifyScreen extends StatelessWidget {
                         ),
                         fallback: (context) => myMaterialButton(
                           context: context,
+                          height: 50,
                           onPressed: () {
                             null;
                           },

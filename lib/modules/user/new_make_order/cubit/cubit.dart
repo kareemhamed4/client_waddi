@@ -13,6 +13,7 @@ class NewMakeOrderCubit extends Cubit<NewMakeOrderStates> {
   static NewMakeOrderCubit get(context) => BlocProvider.of(context);
 
   OrderDetails? orderDetails;
+  String? trackIdForNewOrder;
   void makeNewOrder({
     required String senderName,
     required String senderPhone,
@@ -58,6 +59,7 @@ class NewMakeOrderCubit extends Cubit<NewMakeOrderStates> {
       },
     ).then((value) {
       orderDetails = OrderDetails.fromJson(value.data);
+      trackIdForNewOrder = orderDetails!.trackId;
       emit(MakeOrderSuccessState(orderDetails!));
     }).catchError((error) {
       if (error is DioError) {

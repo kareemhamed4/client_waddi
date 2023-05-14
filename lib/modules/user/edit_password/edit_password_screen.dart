@@ -161,6 +161,7 @@ class UserEditPasswordScreen extends StatelessWidget {
                       condition: state is! EditPasswordLoadingState,
                       builder: (context) => myMaterialButton(
                         context: context,
+                        height: 50,
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             cubit.editPasswordForAuthUser(
@@ -178,6 +179,7 @@ class UserEditPasswordScreen extends StatelessWidget {
                         ),
                       ),
                       fallback: (context) => myMaterialButton(
+                        height: 50,
                         context: context,
                         onPressed: () {
                           null;

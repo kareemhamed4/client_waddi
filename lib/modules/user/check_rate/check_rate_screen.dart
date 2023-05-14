@@ -240,6 +240,7 @@ class CheckRateScreen extends StatelessWidget {
                       ),
                     ),
                     fallback: (context) => myMaterialButton(
+                      height: 50,
                       context: context,
                       onPressed: () {
                         null;

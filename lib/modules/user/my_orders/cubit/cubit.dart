@@ -46,11 +46,11 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
     });
   }
 
-  void getOrdersByTrackId({
+  Future<void> getOrdersByTrackId({
     required String trackId,
-  }) {
+  }) async {
     emit(GetUserSearchedOrdersLoadingState());
-    DioHelper.getData(
+    await DioHelper.getData(
       url: "$USERSEARCHTRACKID$trackId",
       baseUrl: BASEURL,
       token: userToken,

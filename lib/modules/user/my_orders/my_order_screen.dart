@@ -8,6 +8,7 @@ import 'package:waddy_app/models/user/get_user_orders.dart';
 import 'package:waddy_app/modules/user/make_order/sender/sender_screen.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/states.dart';
+import 'package:waddy_app/modules/user/my_orders/e_receipt_screen.dart';
 import 'package:waddy_app/modules/user/tracking/tracking_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
@@ -121,16 +122,19 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               children: [
                                 buildOrderSection(
                                   size: size,
+                                  cubit: cubit,
                                   status: "Pending",
                                   ordersList: cubit.ordersList,
                                 ),
                                 buildOrderSection(
                                   size: size,
+                                  cubit: cubit,
                                   status: "On process",
                                   ordersList: cubit.ordersList,
                                 ),
                                 buildOrderSection(
                                   size: size,
+                                  cubit: cubit,
                                   status: "Completed",
                                   ordersList: cubit.ordersList,
                                 ),
@@ -165,6 +169,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               children: [
                                 buildOrderSection(
                                     size: size,
+                                    cubit: cubit,
                                     status: "Pending",
                                     ordersList: cubit.ordersList),
                               ],
@@ -199,6 +204,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               children: [
                                 buildOrderSection(
                                     size: size,
+                                    cubit: cubit,
                                     status: "Pending",
                                     ordersList: cubit.ordersList),
                               ],
@@ -233,6 +239,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               children: [
                                 buildOrderSection(
                                     size: size,
+                                    cubit: cubit,
                                     status: "Pending",
                                     ordersList: cubit.ordersList),
                               ],
@@ -348,6 +355,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
     required List<UserOrders> ordersList,
     required String status,
     required Size size,
+    required GetUserOrdersCubit cubit,
   }) {
     List<UserOrders> filteredOrders =
         ordersList.where((order) => order.status == status).toList();
@@ -360,7 +368,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
           itemCount: filteredOrders.length,
           itemBuilder: (context, index) {
             UserOrders order = filteredOrders[index];
-            return buildOrdersItem(context: context, size: size, orders: order);
+            return buildOrdersItem(context: context, size: size, orders: order,cubit: cubit,index: index);
           },
           separatorBuilder: (context, index) => const SizedBox(
             height: 12,
@@ -374,6 +382,8 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
     required Size size,
     required BuildContext context,
     required UserOrders orders,
+    required GetUserOrdersCubit cubit,
+    required int index,
   }) {
     return Slidable(
       startActionPane: ActionPane(motion: const StretchMotion(), children: [
@@ -512,7 +522,33 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                     Expanded(
                       child: myMaterialButton(
                         context: context,
-                        onPressed: () {},
+                        onPressed: () {
+                          navigateTo(
+                            context,
+                            EReceiptScreenForDiscovery(
+                                senderName: cubit.ordersList[index].senderName!,
+                                senderPhone: cubit.ordersList[index].senderPhone!,
+                                senderEmail: cubit.ordersList[index].senderEmail!,
+                                senderPostalCode:
+                                cubit.ordersList[index].senderPostalCode!,
+                                senderAddress:
+                                cubit.ordersList[index].senderAddress!,
+                                receiverName:
+                                cubit.ordersList[index].receivedName!,
+                                receiverPhone:
+                                cubit.ordersList[index].receivedPhone!,
+                                receiverEmail:
+                                cubit.ordersList[index].receivedEmail!,
+                                receiverPostalCode:
+                                cubit.ordersList[index].receivedPostalCode!,
+                                receiverAddress:
+                                cubit.ordersList[index].receivedAddress!,
+                                selectedService:
+                                cubit.ordersList[index].services!,
+                                trackId: cubit.ordersList[index].trackId!,
+                            ),
+                          );
+                        },
                         height: 35,
                         radius: 20,
                         labelWidget: Text(

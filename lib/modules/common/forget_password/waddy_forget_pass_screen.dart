@@ -103,6 +103,7 @@ class _WaddyForgetPasswordScreenState extends State<WaddyForgetPasswordScreen> {
                         ),
                         fallback: (context) => myMaterialButton(
                           context: context,
+                          height: 50,
                           onPressed: () {
                             null;
                           },

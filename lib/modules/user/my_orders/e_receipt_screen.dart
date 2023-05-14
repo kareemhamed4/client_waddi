@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/modules/user/check_rate/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/new_make_order/cubit/cubit.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class EReceiptScreen extends StatelessWidget {
+class EReceiptScreenForDiscovery extends StatelessWidget {
   final String senderName;
   final String senderPhone;
   final String senderEmail;
@@ -18,8 +16,10 @@ class EReceiptScreen extends StatelessWidget {
   final String receiverEmail;
   final String receiverPostalCode;
   final String receiverAddress;
-  final String selectedService;
-  const EReceiptScreen(
+  final int selectedService;
+
+  final String trackId;
+  const EReceiptScreenForDiscovery(
       {Key? key,
       required this.senderName,
       required this.senderPhone,
@@ -31,7 +31,7 @@ class EReceiptScreen extends StatelessWidget {
       required this.receiverEmail,
       required this.receiverPostalCode,
       required this.receiverAddress,
-      required this.selectedService})
+      required this.selectedService, required this.trackId,})
       : super(key: key);
 
   @override
@@ -332,40 +332,6 @@ class EReceiptScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Shipping price",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor4, fontSize: 16),
-                  ),
-                  Text(
-                    cubit.selectedService == "Regular"
-                        ? context
-                        .read<CheckRateCubit>()
-                        .checkRateModel!
-                        .regular!
-                        .cost
-                        .toString()
-                        : context
-                        .read<CheckRateCubit>()
-                        .checkRateModel!
-                        .express!
-                        .cost
-                        .toString(),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge!
-                        .copyWith(color: myFavColor2, fontSize: 16),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
                     "Shipping Service",
                     style: Theme.of(context)
                         .textTheme
@@ -373,7 +339,7 @@ class EReceiptScreen extends StatelessWidget {
                         .copyWith(color: myFavColor4, fontSize: 16),
                   ),
                   Text(
-                    selectedService,
+                    selectedService == 1 ? "Regular" : "Express",
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge!
@@ -419,7 +385,7 @@ class EReceiptScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        context.read<GetUserOrdersCubit>().searchedOrderDetails!.trackId.toString(),
+                        trackId,
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge!

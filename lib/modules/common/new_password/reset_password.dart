@@ -171,6 +171,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           ),
                         ),
                         fallback: (context) => myMaterialButton(
+                          height: 50,
                           context: context,
                           onPressed: () {
                             null;

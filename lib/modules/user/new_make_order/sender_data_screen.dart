@@ -13,16 +13,8 @@ import 'package:waddy_app/modules/user/new_make_order/receiver_data_screen.dart'
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-//ignore: must_be_immutable
 class SenderDataScreen extends StatelessWidget {
-  SenderDataScreen({Key? key}) : super(key: key);
-  final TextEditingController senderNameController = TextEditingController();
-  final TextEditingController senderPhoneController = TextEditingController();
-  final TextEditingController senderEmailController = TextEditingController();
-  final TextEditingController senderPostalCodeController =
-      TextEditingController();
-  final TextEditingController senderAddressController = TextEditingController();
-  var formKey = GlobalKey<FormState>();
+  const SenderDataScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -177,25 +169,25 @@ class SenderDataScreen extends StatelessWidget {
                               cubit: cubit,
                             )
                           : cubit.currentStep == 1
-                              ? ReceiverDataScreen()
+                              ? const ReceiverDataScreen()
                               : cubit.currentStep == 2
-                                  ? PackageDetailsScreen()
+                                  ? PackageDetailsScreen(senderAddress: cubit.senderAddressController.text,receiverAddress: cubit.receiverAddressController.text,)
                                   : cubit.currentStep == 3
                                       ? const ChoosePaymentScreen()
                                       : cubit.currentStep == 4
                                           ? PaymentDetailsScreen()
                                           : ReviewSummaryAndConfirmScreen(
                                               senderName:
-                                                  senderNameController.text,
+                                              cubit.senderNameController.text,
                                               senderPhone:
-                                                  senderPhoneController.text,
+                                              cubit.senderPhoneController.text,
                                               senderEmail:
-                                                  senderEmailController.text,
+                                              cubit.senderEmailController.text,
                                               senderPostalCode:
-                                                  senderPostalCodeController
+                                              cubit.senderPostalCodeController
                                                       .text,
                                               senderAddress:
-                                                  senderAddressController.text,
+                                              cubit.senderAddressController.text,
                                               receiverName: cubit
                                                   .receiverNameController.text,
                                               receiverPhone: cubit
@@ -206,30 +198,16 @@ class SenderDataScreen extends StatelessWidget {
                                                   .receiverPostalCodeController
                                                   .text,
                                               receiverAddress:
-                                                  senderAddressController.text,
+                                                  cubit.receiverAddressController.text,
+                                              selectedService: cubit
+                                                  .selectedService
+                                                  .toString(),
                                             ),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          myMaterialButton(
-                            context: context,
-                            height: 50,
-                            labelWidget: Text(
-                              cubit.currentStep == 5
-                                  ? "Confirm Order"
-                                  : cubit.currentStep == 4
-                                      ? "Pay"
-                                      : "Continue",
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            onPressed: () {
-                              if (cubit.currentStep < 5) {
-                                cubit.plusStepper();
-                              }
-                            },
-                          ),
                           if (cubit.currentStep > 0)
                             Align(
                               alignment: Alignment.center,
@@ -259,200 +237,245 @@ class SenderDataScreen extends StatelessWidget {
     required BuildContext context,
     required NewMakeOrderCubit cubit,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Sender Name",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: myFavColor8, fontSize: 16),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 6,
-        ),
-        myTextFormField(
-          context: context,
-          controller: senderNameController,
-          hint: "Sender Name",
-          type: TextInputType.text,
-          radius: 10,
-          textColor: myFavColor2,
-          prefixIcon: const Icon(
-            Icons.person,
-            size: 20,
-          ),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 20,
-        ),
-        Text(
-          "Phone Number",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: myFavColor8, fontSize: 16),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 6,
-        ),
-        InternationalPhoneNumberInput(
-          selectorTextStyle:
-              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-          initialValue: PhoneNumber(
-              isoCode: "EG",
-              dialCode: "+20",
-              phoneNumber: senderPhoneController.text),
-          textStyle:
-              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-          maxLength: 10,
-          validator: (value) {
-            if (value!.length < 10) {
-              return "please enter valid phone number";
-            }
-            return null;
-          },
-          hintText: "1X-XXXX-XXXX",
-          onInputChanged: (PhoneNumber value) {},
-          inputDecoration: InputDecoration(
-            contentPadding: EdgeInsets.zero,
-            hintText: "1X-XXXX-XXXX",
-            hintStyle: Theme.of(context)
+    return Form(
+      key: cubit.senderFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Sender Name",
+            style: Theme.of(context)
                 .textTheme
-                .bodyMedium!
-                .copyWith(fontSize: 16, color: myFavColor4),
-            filled: true,
-            fillColor: myFavColor5,
+                .titleLarge!
+                .copyWith(color: myFavColor8, fontSize: 16),
           ),
-          selectorConfig: const SelectorConfig(
-            setSelectorButtonAsPrefixIcon: true,
-            trailingSpace: true,
+          mySizedBox(
+            size: size,
+            myHeight: 6,
           ),
-          onSaved: (phoneNumber) {},
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 20,
-        ),
-        Text(
-          "Email",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: myFavColor8, fontSize: 16),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 6,
-        ),
-        myTextFormField(
-          context: context,
-          controller: senderEmailController,
-          hint: "Email",
-          type: TextInputType.text,
-          radius: 10,
-          textColor: myFavColor2,
-          prefixIcon: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              FaIcon(
-                FontAwesomeIcons.envelope,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 20,
-        ),
-        Text(
-          "Postal Code",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: myFavColor8, fontSize: 16),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 6,
-        ),
-        myTextFormField(
-          context: context,
-          controller: senderPostalCodeController,
-          hint: "Postal Code",
-          type: TextInputType.text,
-          radius: 10,
-          textColor: myFavColor2,
-          prefixIcon: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              FaIcon(
-                Icons.markunread_mailbox_outlined,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 20,
-        ),
-        Text(
-          "Address Details",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge!
-              .copyWith(color: myFavColor8, fontSize: 16),
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 6,
-        ),
-        myTextFormField(
-          context: context,
-          controller: senderAddressController,
-          hint: "Address Details",
-          type: TextInputType.text,
-          radius: 10,
-          textColor: myFavColor2,
-          prefixIcon: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                CustomIcons.map_marked,
-                size: 20,
-              ),
-            ],
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              value: cubit.isSaveSenderAddress,
-              activeColor: myFavColor,
-              checkColor: myFavColor7,
-              onChanged: (value) {
-                cubit.changeSaveSenderAddress(value!);
-              },
+          myTextFormField(
+            context: context,
+            controller: cubit.senderNameController,
+            hint: "Sender Name",
+            type: TextInputType.text,
+            radius: 10,
+            validate: (value) {
+              if (value!.isEmpty) {
+                return "required";
+              }
+              return null;
+            },
+            textColor: myFavColor2,
+            prefixIcon: const Icon(
+              Icons.person,
+              size: 20,
             ),
-            Text('Save This In My Address Book',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: myFavColor2, fontSize: 16)),
-          ],
-        ),
-        mySizedBox(
-          size: size,
-          myHeight: 10,
-        ),
-      ],
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 20,
+          ),
+          Text(
+            "Phone Number",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: myFavColor8, fontSize: 16),
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 6,
+          ),
+          InternationalPhoneNumberInput(
+            selectorTextStyle:
+                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            initialValue: PhoneNumber(
+                isoCode: "EG",
+                dialCode: "+20",
+                phoneNumber: cubit.senderPhoneController.text),
+            textFieldController: cubit.senderPhoneController,
+            textStyle:
+                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            maxLength: 12,
+            validator: (value) {
+              if (value!.length < 12) {
+                return "please enter valid phone number";
+              }
+              return null;
+            },
+            hintText: "1X-XXXX-XXXX",
+            onInputChanged: (PhoneNumber value) {},
+            inputDecoration: InputDecoration(
+              contentPadding: EdgeInsets.zero,
+              hintText: "1X-XXXX-XXXX",
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontSize: 16, color: myFavColor4),
+              filled: true,
+              fillColor: myFavColor5,
+            ),
+            selectorConfig: const SelectorConfig(
+              setSelectorButtonAsPrefixIcon: true,
+              trailingSpace: true,
+            ),
+            onSaved: (phoneNumber) {
+              cubit.senderPhoneController.text == "0${phoneNumber.phoneNumber.toString()}";
+            },
+
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 20,
+          ),
+          Text(
+            "Email",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: myFavColor8, fontSize: 16),
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 6,
+          ),
+          myTextFormField(
+            context: context,
+            controller: cubit.senderEmailController,
+            hint: "Email",
+            validate: (value) {
+              if (value!.isEmpty) {
+                return "required";
+              }
+              return null;
+            },
+            type: TextInputType.text,
+            radius: 10,
+            textColor: myFavColor2,
+            prefixIcon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                FaIcon(
+                  FontAwesomeIcons.envelope,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 20,
+          ),
+          Text(
+            "Postal Code",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: myFavColor8, fontSize: 16),
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 6,
+          ),
+          myTextFormField(
+            context: context,
+            controller: cubit.senderPostalCodeController,
+            hint: "Postal Code",
+            validate: (value) {
+              if (value!.isEmpty) {
+                return "required";
+              }
+              return null;
+            },
+            type: TextInputType.text,
+            radius: 10,
+            textColor: myFavColor2,
+            prefixIcon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                FaIcon(
+                  Icons.markunread_mailbox_outlined,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 20,
+          ),
+          Text(
+            "Address Details",
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge!
+                .copyWith(color: myFavColor8, fontSize: 16),
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 6,
+          ),
+          myTextFormField(
+            context: context,
+            controller: cubit.senderAddressController,
+            hint: "Address Details",
+            validate: (value) {
+              if (value!.isEmpty) {
+                return "required";
+              }
+              return null;
+            },
+            type: TextInputType.text,
+            radius: 10,
+            textColor: myFavColor2,
+            prefixIcon: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  CustomIcons.map_marked,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Checkbox(
+                value: cubit.isSaveSenderAddress,
+                activeColor: myFavColor,
+                checkColor: myFavColor7,
+                onChanged: (value) {
+                  cubit.changeSaveSenderAddress(value!);
+                },
+              ),
+              Text('Save This In My Address Book',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: myFavColor2, fontSize: 16)),
+            ],
+          ),
+          mySizedBox(
+            size: size,
+            myHeight: 10,
+          ),
+          myMaterialButton(
+            context: context,
+            height: 50,
+            labelWidget: Text(
+              "Continue",
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            onPressed: () {
+              if (cubit.senderFormKey.currentState!.validate()) {
+                cubit.senderFormKey.currentState!.save();
+                cubit.plusStepper();
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

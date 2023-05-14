@@ -100,6 +100,17 @@ class ChoosePaymentScreen extends StatelessWidget {
             ),
           ),
           mySizedBox(size: size,myHeight: 60),
+          myMaterialButton(
+            context: context,
+            height: 50,
+            labelWidget: Text(
+              "Continue",
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            onPressed: () {
+              cubit.plusStepper();
+            },
+          ),
         ],
       );
 }

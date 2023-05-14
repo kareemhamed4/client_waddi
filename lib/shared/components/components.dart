@@ -292,23 +292,36 @@ class FourCharSpaceFormatter extends TextInputFormatter {
       TextEditingValue oldValue, TextEditingValue newValue) {
     final newString = newValue.text.replaceAll(' ', '');
     final buffer = StringBuffer();
-    if (charSpaceCount > 0) {
-      for (int i = 0; i < newString.length; i += charSpaceCount) {
-        final end = i + charSpaceCount;
-        if (end <= newString.length) {
-          buffer.write(newString.substring(i, end));
-          buffer.write(' ');
-        } else {
-          buffer.write(newString.substring(i));
+    var spaceCount = 0;
+
+    for (var i = 0; i < newString.length; i++) {
+      final character = newString[i];
+
+      if (character == ' ') {
+        // Skip additional spaces if not required
+        if (charSpaceCount > 0 && spaceCount >= charSpaceCount) {
+          continue;
         }
+
+        buffer.write(' ');
+        spaceCount++;
+      } else {
+        buffer.write(character);
       }
-    } else {
-      buffer.write(newString);
+
+      if (charSpaceCount > 0 && (i + 1) % charSpaceCount == 0) {
+        buffer.write(' ');
+        spaceCount++;
+      }
     }
+
     final newText = buffer.toString().trim();
-    return newValue.copyWith(
+    final newSelectionIndex =
+        newValue.selection.end + newText.length - newValue.text.length;
+
+    return TextEditingValue(
       text: newText,
-      selection: TextSelection.collapsed(offset: newText.length),
+      selection: TextSelection.collapsed(offset: newSelectionIndex),
     );
   }
 }
@@ -338,7 +351,6 @@ Widget myTextFormField({
   int? maxLines,
   bool? isEnabled = true,
   TextInputAction? textInputAction,
-  int? charSpaceCount,
 }) =>
     Container(
       clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -374,11 +386,6 @@ Widget myTextFormField({
         maxLines: minLines ?? 1,
         textAlignVertical: TextAlignVertical.center,
         inputFormatters: [
-          LengthLimitingTextInputFormatter(charSpaceCount != null
-              ? charSpaceCount * 5 - 1
-              : null),
-          FourCharSpaceFormatter(charSpaceCount: charSpaceCount ?? 0),
-          LengthLimitingTextInputFormatter(maxLength2),
           LengthLimitingTextInputFormatter(maxLength2),
         ],
         style: Theme.of(context)
@@ -898,4 +905,100 @@ Widget myDropDownButton({
       onSaved: (value) {
         selectedValue = value.toString();
       },
+    );
+
+
+Widget customTextFormFieldForCardNumber({
+  required BuildContext context,
+  TextEditingController? controller,
+  TextInputType? type,
+  bool? isPassword,
+  VoidCallback? onTap,
+  ValueChanged<String>? onChange,
+  String? Function(String?)? validate,
+  ValueChanged<String>? onSubmit,
+  Widget? suffixIcon,
+  Widget? prefixIcon,
+  Widget? icon,
+  int? maxLength,
+  int? maxLength2,
+  Color? fillColor,
+  Color? hintColor,
+  Color? textColor,
+  TextAlign? textAlign,
+  String? hint,
+  double? radius,
+  int? minLines,
+  int? maxLines,
+  bool? isEnabled = true,
+  TextInputAction? textInputAction,
+  int? charSpaceCount,
+}) =>
+    Container(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(radius ?? 0),
+        ),
+        shape: BoxShape.rectangle,
+      ),
+      child: TextFormField(
+        obscuringCharacter: '●',
+        controller: controller,
+        enabled: isEnabled ?? true,
+        keyboardType: type,
+        obscureText: isPassword ?? false,
+        onTap: onTap,
+        onChanged: (value) {
+          if (onChange != null) {
+            final oldValueSelection = controller?.selection;
+            onChange(value);
+            controller?.value = TextEditingValue(
+              text: value,
+              selection: oldValueSelection!,
+            );
+          }
+        },
+        textInputAction: textInputAction ?? TextInputAction.done,
+        onFieldSubmitted: onSubmit,
+        validator: validate,
+        textAlign: textAlign ?? TextAlign.start,
+        maxLength: maxLength,
+        minLines: minLines ?? 1,
+        maxLines: minLines ?? 1,
+        textAlignVertical: TextAlignVertical.center,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(maxLength2),
+          LengthLimitingTextInputFormatter(charSpaceCount != null
+              ? charSpaceCount * 5 - 1
+              : null),
+          FourCharSpaceFormatter(charSpaceCount: charSpaceCount ?? 0),
+        ],
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(fontSize: 18, color: textColor ?? myFavColor8),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: fillColor ?? myFavColor5,
+
+          border: fillColor == null
+              ? InputBorder.none
+              : OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(radius ?? 0)),
+            borderSide: BorderSide(
+              color: myFavColor,
+            ),
+          ),
+          hintText: hint ?? '',
+          hintStyle: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontSize: 16, color: hintColor ?? myFavColor4),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
+          alignLabelWithHint: true,
+        ),
+      ),
     );

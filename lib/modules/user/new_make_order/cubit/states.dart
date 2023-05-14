@@ -17,3 +17,13 @@ class MakeOrderErrorState extends NewMakeOrderStates {
   final String error;
   MakeOrderErrorState(this.error);
 }
+
+class UpdateOrderLoadingState extends NewMakeOrderStates {}
+class UpdateOrderSuccessState extends NewMakeOrderStates {
+  final OrderDetails orderDetails;
+  UpdateOrderSuccessState(this.orderDetails);
+}
+class UpdateOrderErrorState extends NewMakeOrderStates {
+  final String error;
+  UpdateOrderErrorState(this.error);
+}

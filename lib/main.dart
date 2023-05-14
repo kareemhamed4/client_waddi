@@ -23,6 +23,7 @@ import 'package:waddy_app/modules/user/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/help_center/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/new_make_order/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/new_register/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/register/cubit/cubit.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
@@ -100,6 +101,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => GetUserOrdersCubit()..getOrders()),
         BlocProvider(create: (BuildContext context) => HelpCenterCubit()),
         BlocProvider(create: (BuildContext context) => CheckRateCubit()),
+        BlocProvider(create: (BuildContext context) => NewRegisterCubit()),
       ],
       child: BlocConsumer<UserCubit, UserStates>(
         listener: (context, state) {},

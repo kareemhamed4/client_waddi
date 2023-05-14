@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
-import 'package:waddy_app/modules/user/register/register.dart';
+import 'package:waddy_app/modules/user/new_register/new_register_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 
 class ChooseLoginOrSignupScreen extends StatelessWidget {
@@ -39,7 +39,7 @@ class ChooseLoginOrSignupScreen extends StatelessWidget {
             myMaterialButton(
               context: context,
               onPressed: () {
-                navigateTo(context, const RegisterScreen());
+                navigateTo(context, const NewRegisterScreen());
               },
               labelWidget: Text(
                 "Sign up",

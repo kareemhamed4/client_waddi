@@ -653,6 +653,7 @@ Widget buildTransactionHistoryItem({
 Widget myTextButton({
   required BuildContext context,
   required String label,
+  Color? textColor,
   required Function onPressed,
 }) =>
     TextButton(
@@ -664,7 +665,7 @@ Widget myTextButton({
         style: Theme.of(context)
             .textTheme
             .titleLarge!
-            .copyWith(color: myFavColor2, fontSize: 20),
+            .copyWith(color: textColor ??myFavColor2, fontSize: 20),
       ),
     );
 

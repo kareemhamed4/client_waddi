@@ -6,8 +6,8 @@ import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
 import 'package:waddy_app/modules/common/login/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
+import 'package:waddy_app/modules/user/new_register/new_register_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/register/register.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/constants/constants.dart';
@@ -192,7 +192,7 @@ class WaddyLoginScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                navigateTo(context, const RegisterScreen());
+                                navigateTo(context, const NewRegisterScreen());
                               },
                               child: Text(
                                 'Register',

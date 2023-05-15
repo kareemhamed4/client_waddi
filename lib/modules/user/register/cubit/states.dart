@@ -1,5 +1,3 @@
-import 'package:waddy_app/models/user/client_login_model.dart';
-
 abstract class SignUpStates {}
 
 class SignUpInitialState extends SignUpStates {}
@@ -27,7 +25,7 @@ class UserCreateWithFBErrorState extends SignUpStates {
   UserCreateWithFBErrorState(this.error);
 }
 
-//Driver SignUp
+//Company SignUp
 class CompanySignUpLoadingState extends SignUpStates {}
 class CompanySignUpSuccessState extends SignUpStates {
   final String status;

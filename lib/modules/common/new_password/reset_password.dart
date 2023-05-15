@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
@@ -33,14 +34,13 @@ class _ResetPasswordState extends State<ResetPassword> {
     return BlocConsumer<UpdatePasswordCubit,UpdatePasswordStates>(
       listener: (context,state){
         if (state is UpdatePasswordSuccessState) {
-            buildSuccessToast(
-                context: context,
-                title: "Password Reset Successfully",
-                description: "We will direct you to login now"
-            );
-            Timer(const Duration(seconds: 3), () {
-              navigateToAndFinish(context, WaddyLoginScreen());
-            });
+          buildPasswordChangedSuccessfulDialog(
+            context: context,
+            size: size,
+          );
+          Timer(const Duration(seconds: 3), () {
+            navigateToAndFinish(context, WaddyLoginScreen());
+          });
         }
         else if (state is UpdatePasswordErrorState) {
           buildErrorToast(
@@ -196,6 +196,72 @@ class _ResetPasswordState extends State<ResetPassword> {
           ),
         );
       },
+    );
+  }
+  void buildPasswordChangedSuccessfulDialog({
+    required BuildContext context,
+    required Size size,
+  }) {
+    showDialog<String>(
+      context: context,
+      builder: (dialogContext) => Center(
+        child: SingleChildScrollView(
+          child: Container(
+            width: size.width * 305 / 375,
+            height: size.height * 450 / 812,
+            decoration: BoxDecoration(
+                color: myFavColor7,
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                mySizedBox(size: size, myHeight: 20),
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/redShape.png",
+                      width: 130,
+                      height: 130,
+                      fit: BoxFit.fill,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 9, bottom: 3),
+                      child: Icon(
+                        FluentIcons.shield_checkmark_48_regular,
+                        size: 40,
+                        color: myFavColor7,
+                      ),
+                    ),
+                  ],
+                ),
+                mySizedBox(size: size, myHeight: 20),
+                Text(
+                  "Congratulations !",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: myFavColor, fontSize: 20),
+                ),
+                mySizedBox(size: size, myHeight: 12),
+                Text(
+                  "Your account is ready to use You will\nBe redirected to the Login page in\nA few seconds...",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: myFavColor2, fontSize: 18),
+                ),
+                mySizedBox(size: size, myHeight: 20),
+                CircularProgressIndicator(
+                  color: myFavColor,
+                ),
+                mySizedBox(size: size, myHeight: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

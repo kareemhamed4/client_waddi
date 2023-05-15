@@ -57,7 +57,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               context: context,
               title: "Account Created",
               description: "Can login now!");
-        } else if (state is CompanySignUpSuccessState) {
+        }
+        else if (state is CompanySignUpSuccessState) {
           context.read<SignUpCubit>().companyRegisterWithFB(
               name: "${fname2_controller.text} ${lname2_controller.text}",
               companyName: cname_controller.text,
@@ -71,13 +72,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               context: context,
               title: "Account Created",
               description: "Can login now!");
-        } else if (state is UserSignUpErrorState) {
+        }
+        else if (state is UserSignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,
             description: state.error,
           );
-        } else if (state is CompanySignUpErrorState) {
+        }
+        else if (state is CompanySignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
             context: context,

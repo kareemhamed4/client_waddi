@@ -36,3 +36,4 @@ double? currentLongitude = currentLocation!.longitude;
 double distance = 0;
 String? userToken = '';
 String? driverToken = '';
+String? uId = '';

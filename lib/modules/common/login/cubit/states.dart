@@ -18,3 +18,12 @@ class UserLoginErrorState extends WaddyLoginStates {
 
 class ChangeRememberMeState extends WaddyLoginStates {}
 
+class LoginWithFBLoadingState extends WaddyLoginStates {}
+class LoginWithFBSuccessState extends WaddyLoginStates {
+  final String uId;
+
+  LoginWithFBSuccessState(this.uId);
+}
+class LoginWithFBErrorState extends WaddyLoginStates {}
+
+

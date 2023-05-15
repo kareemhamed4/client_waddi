@@ -220,7 +220,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                                       cubit.personalPasswordController.text,
                                   confirmPassword: cubit
                                       .personalConfirmPasswordController.text,
-                                  phone: cubit.personalPhoneController.text,
+                                  phone: "0${(cubit.personalPhoneController.text).replaceAll(" ", "")}",
                                   address: cubit.personalAddressController.text,
                                 );
                               }

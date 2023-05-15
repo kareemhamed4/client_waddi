@@ -40,12 +40,13 @@ Future<void> main() async {
   currentLocationAsString = CacheHelper.getData(key: 'currentLocation');
   bool? isDark = CacheHelper.getData(key: 'isDark') ?? false;
   bool? onBoarding = CacheHelper.getData(key: 'firstSplash');
+  uId = CacheHelper.getData(key: 'uId');
+  userToken = CacheHelper.getData(key: 'userToken');
+  driverToken = CacheHelper.getData(key: 'driverToken');
 
   Widget widget;
-
-  String? token = CacheHelper.getData(key: 'token');
   if (onBoarding != null) {
-    if (token != null) {
+    if (userToken != null || driverToken != null) {
       widget = const UserLayoutScreen();
     } else {
       widget = WaddyLoginScreen();
@@ -99,7 +100,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthUserCubit()),
         BlocProvider(create: (BuildContext context) => NewMakeOrderCubit()),
         BlocProvider(create: (BuildContext context) => GetUserOrdersCubit()..getOrders()),
-        BlocProvider(create: (BuildContext context) => HelpCenterCubit()),
+        BlocProvider(create: (BuildContext context) => HelpCenterCubit()..getUserDataFromFB),
         BlocProvider(create: (BuildContext context) => CheckRateCubit()),
         BlocProvider(create: (BuildContext context) => NewRegisterCubit()),
       ],

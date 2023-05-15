@@ -53,7 +53,13 @@ class WaddyLoginScreen extends StatelessWidget {
                 });
               }
             }
-          } else if (state is UserLoginErrorState) {
+          }
+          else if (state is LoginWithFBSuccessState) {
+            CacheHelper.saveData(key: 'uId', value: state.uId).then((value){
+              uId = state.uId;
+            });
+          }
+          else if (state is UserLoginErrorState) {
             buildErrorToast(
               title: "Oops!",
               context: context,
@@ -142,6 +148,10 @@ class WaddyLoginScreen extends StatelessWidget {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 cubit.userLogin(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                                cubit.userLoginWithFB(
                                   email: emailController.text,
                                   password: passwordController.text,
                                 );

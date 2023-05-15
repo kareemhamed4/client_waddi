@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:waddy_app/models/user/client_login_model.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
 import 'package:waddy_app/network/end_point.dart';
 import 'package:waddy_app/network/remote/dio_helper.dart';
+import 'package:waddy_app/shared/styles/colors.dart';
 
 class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
   WaddyLoginCubit() : super(WaddyLoginInitialState());
@@ -56,5 +59,29 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
     suffixIcon =
     isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
     emit(WaddyChangePasswordVisibilityState());
+  }
+
+  void userLoginWithFB({
+    required String email,
+    required String password,
+  }) {
+    emit(LoginWithFBLoadingState());
+    FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    ).then((value){
+      emit(LoginWithFBSuccessState(value.user!.uid));
+    }).catchError((error){
+      Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 5,
+          backgroundColor: myFavColor,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      emit(LoginWithFBErrorState());
+    });
   }
 }

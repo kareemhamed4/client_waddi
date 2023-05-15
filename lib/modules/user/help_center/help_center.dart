@@ -258,7 +258,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
               child: ListTile(
                 onTap: (){
                   if(index == 0){
-                    navigateTo(context, const CustomerServiceChatDetailsScreen());
+                    navigateTo(context, CustomerServiceChatDetailsScreen());
                   }
                 },
                 leading: Image.asset(imageList[index]),

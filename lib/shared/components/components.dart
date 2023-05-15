@@ -365,6 +365,7 @@ Widget myTextFormField({
         controller: controller,
         enabled: isEnabled ?? true,
         keyboardType: type,
+
         obscureText: isPassword ?? false,
         onTap: onTap,
         onChanged: (value) {

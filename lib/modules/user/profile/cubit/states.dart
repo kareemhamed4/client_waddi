@@ -17,3 +17,28 @@ class GetUserInfoErrorState extends UserProfileStates {
 class ProfileImagePickedSuccessState extends UserProfileStates {}
 
 class ProfileImagePickedErrorState extends UserProfileStates {}
+
+class GetUserFromFBLoadingState extends UserProfileStates{}
+class GetUserFromFBSuccessState extends UserProfileStates{}
+class GetUserFromFBErrorState extends UserProfileStates{
+  final String error;
+  GetUserFromFBErrorState(this.error);
+}
+
+class SendMessageSuccessState extends UserProfileStates{}
+class SendMessageErrorState extends UserProfileStates{}
+class ReceiveMessageSuccessState extends UserProfileStates {}
+
+class GetAllUsersFromFBLoadingState extends UserProfileStates{}
+class GetAllUsersFromFBSuccessState extends UserProfileStates{}
+class GetAllUsersFromFBErrorState extends UserProfileStates{
+  final String error;
+  GetAllUsersFromFBErrorState(this.error);
+}
+
+class GetAllCompaniesFromFBLoadingState extends UserProfileStates{}
+class GetAllCompaniesFromFBSuccessState extends UserProfileStates{}
+class GetAllCompaniesFromFBErrorState extends UserProfileStates{
+  final String error;
+  GetAllCompaniesFromFBErrorState(this.error);
+}

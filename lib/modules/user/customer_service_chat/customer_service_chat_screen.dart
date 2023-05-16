@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/models/common/message_model.dart';
-import 'package:waddy_app/modules/user/help_center/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/help_center/cubit/states.dart';
+import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 import 'package:intl/intl.dart';
@@ -18,11 +18,11 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context){
-        HelpCenterCubit.get(context).getMessages(receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02", context: context);
-        return BlocConsumer<HelpCenterCubit, HelpCenterStates>(
+        UserProfileCubit.get(context).getMessages(receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02", context: context);
+        return BlocConsumer<UserProfileCubit, UserProfileStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            HelpCenterCubit cubit = BlocProvider.of(context);
+            UserProfileCubit cubit = BlocProvider.of(context);
             return Scaffold(
               body: SafeArea(
                 child: Padding(
@@ -217,7 +217,7 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0, bottom: 8),
                 child: Text(
-                  model.dateTime!,
+                  DateFormat.jm().format(DateTime.parse(model.dateTime!)),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: myFavColor8,
                         fontSize: 14,
@@ -233,7 +233,7 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
 
   Widget buildTextFieldToSendMessage({
     required BuildContext context,
-    required HelpCenterCubit cubit,
+    required UserProfileCubit cubit,
     required TextEditingController messageController,
   }) {
     return Column(

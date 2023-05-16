@@ -11,6 +11,7 @@ import 'package:waddy_app/modules/user/home/home_screen.dart';
 import 'package:waddy_app/modules/user/inbox/inbox_screen.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/my_order_screen.dart';
+import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/profile_screen.dart';
 
 class UserLayoutCubit extends Cubit<UserLayoutStates> {
@@ -36,6 +37,9 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     currentIndex = index;
     if(index == 1){
       context.read<GetUserOrdersCubit>().getOrders();
+    }
+    if(index == 2){
+      context.read<UserProfileCubit>().getAllUsersFromFB();
     }
     emit(ChangeBottomNavBarUserState());
   }

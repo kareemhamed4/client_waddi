@@ -6,6 +6,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 Widget myMaterialButton({
@@ -496,7 +497,7 @@ PreferredSize buildAppBarForOnlyStatusBar({
   );
 }
 
-Widget buildChatItem(BuildContext context) {
+Widget buildChatItem(BuildContext context,UserModelFB modelFB) {
   return Row(
     children: [
       const CircleAvatar(
@@ -511,7 +512,7 @@ Widget buildChatItem(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Ahmed Waddy",
+              modelFB.name!,
               style: Theme.of(context)
                   .textTheme
                   .labelLarge!

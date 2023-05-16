@@ -5,6 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/modules/user/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/inbox/cubit/states.dart';
+import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -226,121 +228,134 @@ class UserInboxScreen extends StatelessWidget {
       ),
     ];
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserInboxCubit, UserInboxStates>(
+    return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        UserInboxCubit cubit = BlocProvider.of(context);
-        return Scaffold(
-          appBar: defaultAppBar(
-            context: context,
-            title: "Inbox",
-            titleColor: myFavColor2,
-          ),
-          body: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: [
-              SliverAppBar(
-                pinned: false,
-                floating: true,
-                backgroundColor: myFavColor7,
-                expandedHeight: size.height * 100 / size.height,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
+        UserProfileCubit profileCubit = BlocProvider.of(context);
+        return BlocConsumer<UserInboxCubit, UserInboxStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            UserInboxCubit cubit = BlocProvider.of(context);
+            return Scaffold(
+              appBar: defaultAppBar(
+                context: context,
+                title: "Inbox",
+                titleColor: myFavColor2,
+              ),
+              body: CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverAppBar(
+                    pinned: false,
+                    floating: true,
+                    backgroundColor: myFavColor7,
+                    expandedHeight: size.height * 100 / size.height,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: myMaterialButton(
-                                context: context,
-                                onPressed: () {
-                                  cubit.changeInboxIndex(0);
-                                },
-                                labelWidget: Text(
-                                  "Chats",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
-                                      .copyWith(
-                                          color: cubit.currentIndex == 0
-                                              ? myFavColor7
-                                              : myFavColor),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: myMaterialButton(
+                                    context: context,
+                                    onPressed: () {
+                                      cubit.changeInboxIndex(0);
+                                    },
+                                    labelWidget: Text(
+                                      "Chats",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                              color: cubit.currentIndex == 0
+                                                  ? myFavColor7
+                                                  : myFavColor),
+                                    ),
+                                    height: 35,
+                                    bgColor: cubit.currentIndex == 0
+                                        ? myFavColor
+                                        : myFavColor7,
+                                  ),
                                 ),
-                                height: 35,
-                                bgColor: cubit.currentIndex == 0
-                                    ? myFavColor
-                                    : myFavColor7,
-                              ),
-                            ),
-                            SizedBox(
-                              width: size.width * 30 / size.width,
-                            ),
-                            Expanded(
-                              child: myMaterialButton(
-                                context: context,
-                                onPressed: () {
-                                  cubit.changeInboxIndex(1);
-                                },
-                                labelWidget: Text(
-                                  "Calls",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge!
-                                      .copyWith(
-                                          color: cubit.currentIndex == 1
-                                              ? myFavColor7
-                                              : myFavColor),
+                                SizedBox(
+                                  width: size.width * 30 / size.width,
                                 ),
-                                height: 35,
-                                bgColor: cubit.currentIndex == 1
-                                    ? myFavColor
-                                    : myFavColor7,
-                              ),
+                                Expanded(
+                                  child: myMaterialButton(
+                                    context: context,
+                                    onPressed: () {
+                                      cubit.changeInboxIndex(1);
+                                    },
+                                    labelWidget: Text(
+                                      "Calls",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                              color: cubit.currentIndex == 1
+                                                  ? myFavColor7
+                                                  : myFavColor),
+                                    ),
+                                    height: 35,
+                                    bgColor: cubit.currentIndex == 1
+                                        ? myFavColor
+                                        : myFavColor7,
+                                  ),
+                                ),
+                              ],
                             ),
+                            const SizedBox(height: 12),
+                            myDivider(),
                           ],
                         ),
-                        const SizedBox(height: 12),
-                        myDivider(),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 8,
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) =>
+                                cubit.currentIndex == 0
+                                    ? GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onTap: () {
+                                          navigateTo(
+                                              context,
+                                              UserChatDetailsScreen(
+                                                userModelFB:
+                                                    profileCubit.users[index],
+                                              ));
+                                        },
+                                        child: buildChatItem(
+                                            context, profileCubit.users[index]),
+                                      )
+                                    : buildCallItem(
+                                        context: context, icon: icons[index]),
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                              height: 30,
+                            ),
+                            itemCount: profileCubit.users.length,
+                          ),
+                        ],
                       ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => cubit.currentIndex == 0
-                            ? GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  navigateTo(
-                                      context, const UserChatDetailsScreen());
-                                },
-                                child: buildChatItem(context),
-                              )
-                            : buildCallItem(
-                                context: context, icon: icons[index]),
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 30,
-                        ),
-                        itemCount: 10,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

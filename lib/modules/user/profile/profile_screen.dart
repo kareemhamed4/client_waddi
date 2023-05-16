@@ -311,15 +311,17 @@ class UserProfileScreen extends StatelessWidget {
                                     child: myMaterialButton(
                                       context: context,
                                       onPressed: () async{
-                                        await CacheHelper.removeData(key: "token").then((value){
-                                          context.read<UserLayoutCubit>().changeBottom(0, context);
-                                          Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (BuildContext context) => const ChooseLoginOrSignupScreen(),
-                                            ),
-                                                (Route<dynamic> route) => false,
-                                          );
+                                        await CacheHelper.removeData(key: "token").then((value)async{
+                                          await CacheHelper.removeData(key: "uId").then((value){
+                                            context.read<UserLayoutCubit>().changeBottom(0, context);
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (BuildContext context) => const ChooseLoginOrSignupScreen(),
+                                              ),
+                                                  (Route<dynamic> route) => false,
+                                            );
+                                          });
                                         });
                                       },
                                       height: 50,

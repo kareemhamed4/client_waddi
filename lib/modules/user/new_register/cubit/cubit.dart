@@ -160,7 +160,7 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
     required String phone,
     required String uId,
   }) {
-    UserModel model = UserModel(
+    UserModelFB model = UserModelFB(
       uId: uId,
       name: name,
       email: email,
@@ -221,7 +221,7 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
     required String image,
     required String phone,
   }) {
-    UserModel model = UserModel(
+    UserModelFB model = UserModelFB(
       uId: uId,
       name: name,
       companyName: companyName,

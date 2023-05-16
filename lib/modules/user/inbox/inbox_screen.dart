@@ -2,9 +2,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
-import 'package:waddy_app/modules/driver/inbox/cubit/states.dart';
 import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
+import 'package:waddy_app/modules/user/inbox/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/inbox/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -226,10 +226,10 @@ class UserInboxScreen extends StatelessWidget {
       ),
     ];
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<DriverInboxCubit, DriverInboxStates>(
+    return BlocConsumer<UserInboxCubit, UserInboxStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        DriverInboxCubit cubit = BlocProvider.of(context);
+        UserInboxCubit cubit = BlocProvider.of(context);
         return Scaffold(
           appBar: defaultAppBar(
             context: context,

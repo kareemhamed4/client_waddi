@@ -157,7 +157,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     required String phone,
     required String uId,
   }) {
-    UserModel model = UserModel(
+    UserModelFB model = UserModelFB(
       uId: uId,
       name: name,
       email: email,
@@ -218,7 +218,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     required String image,
     required String phone,
   }) {
-    UserModel model = UserModel(
+    UserModelFB model = UserModelFB(
       uId: uId,
       name: name,
       companyName: companyName,

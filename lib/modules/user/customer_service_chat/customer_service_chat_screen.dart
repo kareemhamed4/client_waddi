@@ -6,133 +6,120 @@ import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/modules/user/help_center/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/help_center/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
-import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 import 'package:intl/intl.dart';
 
-class CustomerServiceChatDetailsScreen extends StatefulWidget {
-  const CustomerServiceChatDetailsScreen({Key? key}) : super(key: key);
-
-  @override
-  State<CustomerServiceChatDetailsScreen> createState() => _CustomerServiceChatDetailsScreenState();
-}
-
-class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDetailsScreen> {
+class CustomerServiceChatDetailsScreen extends StatelessWidget {
   final TextEditingController messageController = TextEditingController();
+  CustomerServiceChatDetailsScreen({Key? key}) : super(key: key);
 
-  @override
-  void initState() {
-    super.initState();
-    HelpCenterCubit cubit = BlocProvider.of<HelpCenterCubit>(context);
-    cubit.getMessages(
-        receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02", context: context);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HelpCenterCubit, HelpCenterStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        HelpCenterCubit cubit = BlocProvider.of(context);
-        if (state is ReceiveMessageSuccessState) {
-          // Update the messages only when the state changes
-          cubit.messages = state.messages;
-        }
-        return Scaffold(
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, left: 16, right: 16, bottom: 12),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Builder(
+      builder: (BuildContext context){
+        HelpCenterCubit.get(context).getMessages(receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02", context: context);
+        return BlocConsumer<HelpCenterCubit, HelpCenterStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            HelpCenterCubit cubit = BlocProvider.of(context);
+            return Scaffold(
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 20, left: 16, right: 16, bottom: 12),
+                  child: Column(
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.arrow_back_outlined,
-                              color: myFavColor8,
-                              size: 25,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "Customer Service",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge!
-                                .copyWith(
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_outlined,
+                                  color: myFavColor8,
+                                  size: 25,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "Customer Service",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
                                     color: myFavColor8,
                                     fontSize: 28,
                                     height: 1),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FluentIcons.call_16_regular,
+                                color: myFavColor,
+                                size: 30,
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              Container(
+                                width: 30,
+                                height: 30,
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: myFavColor2)),
+                                child: Center(
+                                  child: FaIcon(
+                                    FontAwesomeIcons.ellipsis,
+                                    color: myFavColor8,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FluentIcons.call_16_regular,
-                            color: myFavColor,
-                            size: 30,
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            padding: EdgeInsets.zero,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: myFavColor2)),
-                            child: Center(
-                              child: FaIcon(
-                                FontAwesomeIcons.ellipsis,
-                                color: myFavColor8,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                        ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context,index)
+                          {
+                            var message = cubit.messages[index];
+                            if(cubit.userModelFB!.uId == message.senderId){
+                              return buildMyMessage(context: context,model: message);
+                            }
+                            return buildReceivedMessage(context: context,model: message);
+                          },
+                          separatorBuilder: (context,index) => const SizedBox(height: 15,),
+                          itemCount: cubit.messages.length,
+                        ),
+                      ),
+                      buildTextFieldToSendMessage(
+                        context: context,
+                        cubit: cubit,
+                        messageController: messageController,
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context,index)
-                      {
-                        var message = cubit.messages[index];
-                        if(uId == message.senderId){
-                          return buildMyMessage(context: context,model: message);
-                        }
-                        return buildReceivedMessage(context: context,model: message);
-                      },
-                      separatorBuilder: (context,index) => const SizedBox(height: 15,),
-                      itemCount: cubit.messages.length,
-                    ),
-                  ),
-                  buildTextFieldToSendMessage(
-                    context: context,
-                    cubit: cubit,
-                    messageController: messageController,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
@@ -267,9 +254,9 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
               GestureDetector(
                 onTap:(){
                   cubit.sendMessage(
+                      context: context,
                       receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02",
                       text: messageController.text,
-                      context: context,
                   );
                   messageController.clear();
                 },

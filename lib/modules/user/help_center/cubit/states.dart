@@ -1,5 +1,3 @@
-import 'package:waddy_app/models/common/message_model.dart';
-
 abstract class HelpCenterStates{}
 class HelpCenterInitialState extends HelpCenterStates{}
 
@@ -14,8 +12,18 @@ class GetUserFromFBErrorState extends HelpCenterStates{
 
 class SendMessageSuccessState extends HelpCenterStates{}
 class SendMessageErrorState extends HelpCenterStates{}
-class ReceiveMessageSuccessState extends HelpCenterStates {
-  final List<MessageModel> messages;
+class ReceiveMessageSuccessState extends HelpCenterStates {}
 
-  ReceiveMessageSuccessState({required this.messages});
+class GetAllUsersFromFBLoadingState extends HelpCenterStates{}
+class GetAllUsersFromFBSuccessState extends HelpCenterStates{}
+class GetAllUsersFromFBErrorState extends HelpCenterStates{
+  final String error;
+  GetAllUsersFromFBErrorState(this.error);
+}
+
+class GetAllCompaniesFromFBLoadingState extends HelpCenterStates{}
+class GetAllCompaniesFromFBSuccessState extends HelpCenterStates{}
+class GetAllCompaniesFromFBErrorState extends HelpCenterStates{
+  final String error;
+  GetAllCompaniesFromFBErrorState(this.error);
 }

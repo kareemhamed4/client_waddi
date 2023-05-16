@@ -326,7 +326,7 @@ class DriverInboxScreen extends StatelessWidget {
                                   navigateTo(
                                       context, const DriverChatDetailsScreen());
                                 },
-                                child: buildChatItem(context),
+                                child: SizedBox(),//buildChatItem(context),
                               )
                             : buildCallItem(
                                 context: context, icon: icons[index]),

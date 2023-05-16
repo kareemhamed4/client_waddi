@@ -21,6 +21,7 @@ import 'package:waddy_app/modules/driver/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/check_rate/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/help_center/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/new_make_order/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/new_register/cubit/cubit.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => UserLayoutCubit()),
         BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
+        BlocProvider(create: (BuildContext context) => UserInboxCubit()),
         BlocProvider(create: (BuildContext context) => SignUpCubit()),
         BlocProvider(create: (BuildContext context) => ForgetPasswordCubit()),
         BlocProvider(create: (BuildContext context) => VerifyOTPCubit()),
@@ -100,7 +102,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthUserCubit()),
         BlocProvider(create: (BuildContext context) => NewMakeOrderCubit()),
         BlocProvider(create: (BuildContext context) => GetUserOrdersCubit()..getOrders()),
-        BlocProvider(create: (BuildContext context) => HelpCenterCubit()..getUserDataFromFB),
+        BlocProvider(create: (BuildContext context) => HelpCenterCubit()..getUserDataFromFB(context: context)),
         BlocProvider(create: (BuildContext context) => CheckRateCubit()),
         BlocProvider(create: (BuildContext context) => NewRegisterCubit()),
       ],

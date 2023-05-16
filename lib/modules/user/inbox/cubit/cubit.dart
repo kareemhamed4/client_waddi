@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/modules/driver/inbox/cubit/states.dart';
+import 'package:waddy_app/modules/user/inbox/cubit/states.dart';
 
-class UserInboxCubit extends Cubit<DriverInboxStates> {
-  UserInboxCubit() : super(DriverChatInitialState());
+class UserInboxCubit extends Cubit<UserInboxStates> {
+  UserInboxCubit() : super(UserChatInitialState());
 
   static UserInboxCubit get(context) => BlocProvider.of(context);
 

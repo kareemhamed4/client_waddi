@@ -2,12 +2,12 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/layout/driver/layout_screen.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
 import 'package:waddy_app/modules/common/login/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
 import 'package:waddy_app/modules/user/new_register/new_register_screen.dart';
-import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/constants/constants.dart';
@@ -38,7 +38,7 @@ class WaddyLoginScreen extends StatelessWidget {
                 ).then((value) {
                   userToken = state.clientModel.token;
                 }).then((value) {
-                  context.read<UserProfileCubit>().getUserData().then((value) {
+                  context.read<UserLayoutCubit>().getUserData().then((value) {
                     navigateToAndFinish(context, const UserLayoutScreen());
                   });
                 });

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
-import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -19,11 +19,11 @@ class UserChatDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context){
-        UserProfileCubit.get(context).getMessages(receiverId: userModelFB.uId!, context: context);
-        return BlocConsumer<UserProfileCubit,UserProfileStates>(
+        UserLayoutCubit.get(context).getMessages(receiverId: userModelFB.uId!);
+        return BlocConsumer<UserLayoutCubit,UserLayoutStates>(
             listener: (context,state){},
             builder: (context,state){
-              UserProfileCubit cubit = BlocProvider.of(context);
+              UserLayoutCubit cubit = BlocProvider.of(context);
               return Scaffold(
                 body: SafeArea(
                   child: Padding(
@@ -100,14 +100,14 @@ class UserChatDetailsScreen extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context,index)
                             {
-                              var message = cubit.messages[index];
-                              if(cubit.userModelFB!.uId == message.senderId){
+                              var message = UserLayoutCubit.get(context).messages[index];
+                              if(UserLayoutCubit.get(context).userModelFB!.uId == message.senderId){
                                 return buildMyMessage(context: context,model: message);
                               }
                               return buildReceivedMessage(context: context,model: message);
                             },
                             separatorBuilder: (context,index) => const SizedBox(height: 15,),
-                            itemCount: cubit.messages.length,
+                            itemCount: UserLayoutCubit.get(context).messages.length,
                           ),
                         ),
                         buildTextFieldToSendMessage(
@@ -234,7 +234,7 @@ class UserChatDetailsScreen extends StatelessWidget {
 
   Widget buildTextFieldToSendMessage({
     required BuildContext context,
-    required UserProfileCubit cubit,
+    required UserLayoutCubit cubit,
     required TextEditingController messageController,
   }) {
     return Column(
@@ -255,7 +255,6 @@ class UserChatDetailsScreen extends StatelessWidget {
               GestureDetector(
                 onTap:(){
                   cubit.sendMessage(
-                    context: context,
                     receiverId: userModelFB.uId!,
                     text: messageController.text,
                   );

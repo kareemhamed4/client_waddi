@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/modules/user/check_rate/check_rate_screen.dart';
 import 'package:waddy_app/modules/user/help_center/help_center.dart';
 import 'package:waddy_app/modules/user/new_make_order/sender_data_screen.dart';
 import 'package:waddy_app/modules/user/notification/notification_screen.dart';
-import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/modules/user/search/search_page.dart';
 import 'package:waddy_app/modules/user/transaction_history/transaction_history_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
@@ -20,10 +20,10 @@ class UserHomeScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     String fName;
     String lName;
-    return BlocConsumer<UserProfileCubit, UserProfileStates>(
+    return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var model = UserProfileCubit.get(context).userInfo;
+        var model = UserLayoutCubit.get(context).userInfo;
         fName = model != null ? model.firstName! : " ";
         lName = model != null ? model.lastName! : " ";
         return Scaffold(
@@ -178,7 +178,7 @@ class UserHomeScreen extends StatelessWidget {
                             );*/
                             navigateTo(
                               context,
-                              SenderDataScreen(),
+                              const SenderDataScreen(),
                             );
                           },
                           child: Container(

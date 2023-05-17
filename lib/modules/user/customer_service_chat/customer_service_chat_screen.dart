@@ -2,9 +2,9 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/common/message_model.dart';
-import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 import 'package:intl/intl.dart';
@@ -18,11 +18,11 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context){
-        UserProfileCubit.get(context).getMessages(receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02", context: context);
-        return BlocConsumer<UserProfileCubit, UserProfileStates>(
+        UserLayoutCubit.get(context).getMessages(receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02");
+        return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            UserProfileCubit cubit = BlocProvider.of(context);
+            UserLayoutCubit cubit = BlocProvider.of(context);
             return Scaffold(
               body: SafeArea(
                 child: Padding(
@@ -233,7 +233,7 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
 
   Widget buildTextFieldToSendMessage({
     required BuildContext context,
-    required UserProfileCubit cubit,
+    required UserLayoutCubit cubit,
     required TextEditingController messageController,
   }) {
     return Column(
@@ -254,7 +254,6 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
               GestureDetector(
                 onTap:(){
                   cubit.sendMessage(
-                      context: context,
                       receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02",
                       text: messageController.text,
                   );

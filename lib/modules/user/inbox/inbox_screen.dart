@@ -2,11 +2,10 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/modules/user/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/inbox/cubit/states.dart';
-import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -228,10 +227,9 @@ class UserInboxScreen extends StatelessWidget {
       ),
     ];
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserProfileCubit, UserProfileStates>(
+    return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        UserProfileCubit profileCubit = BlocProvider.of(context);
         return BlocConsumer<UserInboxCubit, UserInboxStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -327,26 +325,15 @@ class UserInboxScreen extends StatelessWidget {
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) =>
                                 cubit.currentIndex == 0
-                                    ? GestureDetector(
-                                        behavior: HitTestBehavior.opaque,
-                                        onTap: () {
-                                          navigateTo(
-                                              context,
-                                              UserChatDetailsScreen(
-                                                userModelFB:
-                                                    profileCubit.users[index],
-                                              ));
-                                        },
-                                        child: buildChatItem(
-                                            context, profileCubit.users[index]),
-                                      )
+                                    ? buildChatItem(
+                                        context, UserLayoutCubit.get(context).users[index])
                                     : buildCallItem(
                                         context: context, icon: icons[index]),
                             separatorBuilder: (context, index) =>
                                 const SizedBox(
                               height: 30,
                             ),
-                            itemCount: profileCubit.users.length,
+                            itemCount: UserLayoutCubit.get(context).users.length,
                           ),
                         ],
                       ),

@@ -127,6 +127,7 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
     required String name,
     required String image,
     required String phone,
+    String? companyName,
     required BuildContext context,
   }) {
     emit(SignUpWithFBLoadingState());
@@ -142,6 +143,7 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
         email: email,
         phone: phone,
         image: image,
+        companyName: companyName??"",
       );
     }).catchError((error) {
       buildErrorToast(
@@ -159,9 +161,11 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
     required String image,
     required String phone,
     required String uId,
+    String? companyName,
   }) {
     UserModelFB model = UserModelFB(
       uId: uId,
+      companyName: companyName ?? "",
       name: name,
       email: email,
       phone: phone,
@@ -179,7 +183,7 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
     });
   }
 
-  void companyRegisterWithFB({
+/*  void companyRegisterWithFB({
     required String email,
     required String password,
     required String name,
@@ -239,7 +243,7 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
       debugPrint(error.toString());
       emit(UserCreateWithFBErrorState(error.toString()));
     });
-  }
+  }*/
 
   List<String> industry = [
     "Technology",

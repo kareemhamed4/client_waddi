@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
             )
             ..getMyCurrentLocation(),
         ),
-        BlocProvider(create: (BuildContext context) => UserLayoutCubit()),
+        BlocProvider(create: (BuildContext context) => UserLayoutCubit()..getUserData()..getUserDataFromFB()..getAllUsersFromFB()),
         BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ForgetPasswordCubit()),
         BlocProvider(create: (BuildContext context) => VerifyOTPCubit()),
         BlocProvider(create: (BuildContext context) => UpdatePasswordCubit()),
-        BlocProvider(create: (BuildContext context) => UserProfileCubit()..getUserData()..getUserDataFromFB()..getAllUsersFromFB()),
+        BlocProvider(create: (BuildContext context) => UserProfileCubit()),
         BlocProvider(create: (BuildContext context) => DriverProfileCubit()..getDriverData()),
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthUserCubit()),

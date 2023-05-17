@@ -7,6 +7,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
+import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 Widget myMaterialButton({
@@ -498,69 +499,75 @@ PreferredSize buildAppBarForOnlyStatusBar({
 }
 
 Widget buildChatItem(BuildContext context,UserModelFB modelFB) {
-  return Row(
-    children: [
-      const CircleAvatar(
-        radius: 30,
-        backgroundImage: AssetImage("assets/images/ahmed.jpg"),
-      ),
-      const SizedBox(
-        width: 16,
-      ),
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  return GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onTap: (){
+      navigateTo(context, UserChatDetailsScreen(userModelFB: modelFB));
+    },
+    child: Row(
+      children: [
+        const CircleAvatar(
+          radius: 30,
+          backgroundImage: AssetImage("assets/images/ahmed.jpg"),
+        ),
+        const SizedBox(
+          width: 16,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                modelFB.name!,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(color: myFavColor2, fontSize: 18),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "🙏🏻 شكراً علي الخدمة",
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .copyWith(color: myFavColor4, fontSize: 14),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+        Column(
           children: [
-            Text(
-              modelFB.name!,
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .copyWith(color: myFavColor2, fontSize: 18),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            Container(
+              width: 20,
+              height: 20,
+              decoration:
+                  BoxDecoration(color: myFavColor, shape: BoxShape.circle),
+              child: Center(
+                  child: Text("2",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: myFavColor7))),
+            ),
+            const SizedBox(
+              height: 2,
             ),
             Text(
-              "🙏🏻 شكراً علي الخدمة",
+              "05.00 PM",
               style: Theme.of(context)
                   .textTheme
-                  .labelLarge!
+                  .bodySmall!
                   .copyWith(color: myFavColor4, fontSize: 14),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
-      ),
-      Column(
-        children: [
-          Container(
-            width: 20,
-            height: 20,
-            decoration:
-                BoxDecoration(color: myFavColor, shape: BoxShape.circle),
-            child: Center(
-                child: Text("2",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: myFavColor7))),
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          Text(
-            "05.00 PM",
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: myFavColor4, fontSize: 14),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    ],
+      ],
+    ),
   );
 }
 

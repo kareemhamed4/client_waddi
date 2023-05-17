@@ -1,15 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/register/cubit/states.dart';
-import 'package:waddy_app/network/local/cache_helper.dart';
-import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/network/end_point.dart';
 import 'package:waddy_app/network/remote/dio_helper.dart';
-import 'package:waddy_app/shared/constants/constants.dart';
 
 class SignUpCubit extends Cubit<SignUpStates> {
   SignUpCubit() : super(SignUpInitialState());
@@ -116,7 +109,7 @@ class SignUpCubit extends Cubit<SignUpStates> {
     });
   }
 
-  void userRegisterWithFB({
+/*  void userRegisterWithFB({
     required String email,
     required String password,
     required String name,
@@ -236,5 +229,5 @@ class SignUpCubit extends Cubit<SignUpStates> {
       debugPrint(error.toString());
       emit(UserCreateWithFBErrorState(error.toString()));
     });
-  }
+  }*/
 }

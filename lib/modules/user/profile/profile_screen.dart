@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/user/edit_password/edit_password_screen.dart';
 import 'package:waddy_app/modules/user/edit_profile/edit_profile_screen.dart';
 import 'package:waddy_app/modules/user/notification_setting/notification_setting_screen.dart';
 import 'package:waddy_app/modules/user/privacy/privacy_policy_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
@@ -23,10 +23,10 @@ class UserProfileScreen extends StatelessWidget {
     String fName;
     String lName;
     String email;
-    return BlocConsumer<UserProfileCubit,UserProfileStates>(
+    return BlocConsumer<UserLayoutCubit,UserLayoutStates>(
       listener: (context,state){},
       builder: (context,state){
-        var model = UserProfileCubit.get(context).userInfo;
+        var model = UserLayoutCubit.get(context).userInfo;
         fName = model != null ? model.firstName! : " ";
         lName = model != null ? model.lastName! : " ";
         email = model != null ? model.email! : " ";

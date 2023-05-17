@@ -7,7 +7,6 @@ import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/user/new_register/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/new_register/cubit/states.dart';
-import 'package:waddy_app/modules/user/register/cubit/cubit.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -44,7 +43,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
     return BlocConsumer<NewRegisterCubit, NewRegisterStates>(
       listener: (context, state) {
         if (state is UserSignUpSuccessState) {
-          context.read<SignUpCubit>().userRegisterWithFB(
+          cubit.userRegisterWithFB(
               name:
                   "${cubit.personalFirstNameController.text} ${cubit.personalLastNameController.text}",
               email: cubit.personalEmailController.text,
@@ -59,7 +58,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               title: "Account Created",
               description: "Can login now!");
         } else if (state is CompanySignUpSuccessState) {
-          context.read<SignUpCubit>().companyRegisterWithFB(
+          cubit.userRegisterWithFB(
               name:
                   "${cubit.companyFirstNameController.text} ${cubit.companyLastNameController.text}",
               companyName: cubit.companyNameController.text,

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
-import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/user/profile/cubit/states.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -24,7 +24,7 @@ class UserEditProfileScreen extends StatelessWidget {
     TextEditingController industryController = TextEditingController();
     TextEditingController governorateController = TextEditingController();
 
-    var model = UserProfileCubit.get(context).userInfo;
+    var model = UserLayoutCubit.get(context).userInfo;
     fNameController.text = model != null ? model.firstName! : " ";
     lNameController.text = model != null ? model.lastName! : " ";
     birthController.text = "12/27/1999";
@@ -41,7 +41,7 @@ class UserEditProfileScreen extends StatelessWidget {
         model != null && model.governorate != null ? model.governorate! : " ";
 
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserProfileCubit, UserProfileStates>(
+    return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(

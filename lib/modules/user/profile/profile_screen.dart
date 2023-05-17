@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
-import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/user/edit_password/edit_password_screen.dart';
 import 'package:waddy_app/modules/user/edit_profile/edit_profile_screen.dart';
 import 'package:waddy_app/modules/user/notification_setting/notification_setting_screen.dart';
 import 'package:waddy_app/modules/user/privacy/privacy_policy_screen.dart';
 import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
@@ -23,9 +23,14 @@ class UserProfileScreen extends StatelessWidget {
     String fName;
     String lName;
     String email;
-    return BlocConsumer<UserLayoutCubit,UserLayoutStates>(
-      listener: (context,state){},
+    return BlocConsumer<UserProfileCubit,UserProfileStates>(
+      listener: (context,state){
+        if(state is ProfileImagePickedSuccessState){
+          UserProfileCubit.get(context).uploadProfileImageInFB(context: context);
+        }
+      },
       builder: (context,state){
+        UserLayoutCubit cubit = BlocProvider.of(context);
         var model = UserLayoutCubit.get(context).userInfo;
         fName = model != null ? model.firstName! : " ";
         lName = model != null ? model.lastName! : " ";
@@ -54,21 +59,14 @@ class UserProfileScreen extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
-                        if (model != null)
-                          CircleAvatar(
-                            radius: 55,
-                            backgroundImage: model.userImg == "false" ?
-                            const AssetImage("assets/images/ahmed.jpg") : AssetImage(model.userImg!),
-                          ),
-                        if (model == null)
-                          CircleAvatar(
-                            radius: 55,
-                            backgroundColor: rose,
-                            child: Icon(FontAwesomeIcons.spinner,color: myFavColor7,),
-                          ),
+                        CircleAvatar(
+                          radius: 55,
+                          backgroundImage: NetworkImage(cubit.userModelFB!.image!),
+                        ),
                         GestureDetector(
                           onTap: () {
-                            UserProfileCubit.get(context).getProfileImage();
+                            UserProfileCubit.get(context).getProfileImage().then((value){
+                            });
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(right: 4.0, bottom: 4.0),

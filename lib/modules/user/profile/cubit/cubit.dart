@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 
 class UserProfileCubit extends Cubit<UserProfileStates> {
@@ -23,5 +27,49 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
       debugPrint('No image selected');
       emit(ProfileImagePickedErrorState());
     }
+  }
+
+  void updateUserDataInFB({
+    required BuildContext context,
+    String? image,
+  }) {
+    UserModelFB model = UserModelFB(
+      image: image,
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(model.uId)
+        .update(model.toMap())
+        .then((value) {
+      UserLayoutCubit.get(context).getUserDataFromFB();
+    }).catchError((error) {
+      print(error.toString());
+      emit(ProfileUpdateErrorState());
+    });
+  }
+
+  void uploadProfileImageInFB({
+    required BuildContext context,
+  }) {
+    emit(ProfileUploadImageLoadingState());
+    FirebaseStorage.instance
+        .ref()
+        .child("Users Images/${Uri.file(profileImage!.path).pathSegments.last}")
+        .putFile(profileImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+        emit(ProfileImageUploadSuccessState());
+        updateUserDataInFB(
+          context: context,
+          image: value,
+        );
+      }).catchError((error) {
+        print(error.toString());
+        emit(ProfileImageUploadErrorState());
+      });
+    }).catchError((error) {
+      print(error.toString());
+      emit(ProfileImageUploadErrorState());
+    });
   }
 }

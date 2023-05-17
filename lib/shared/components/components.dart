@@ -78,16 +78,16 @@ Widget myDivider() => Padding(
       ),
     );
 
-Future<void> navigateTo(context, widget) async{
+Future<void> navigateTo(context, widget) async {
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => widget),
   );
 }
 
-Future<void> navigateToAndFinish(context, widget) async{
-  Navigator.pushAndRemoveUntil(
-      context, MaterialPageRoute(builder: (context) => widget), (route) => false);
+Future<void> navigateToAndFinish(context, widget) async {
+  Navigator.pushAndRemoveUntil(context,
+      MaterialPageRoute(builder: (context) => widget), (route) => false);
 }
 
 Widget notify(context) => Padding(
@@ -283,7 +283,6 @@ Future<dynamic> showMyBottomSheet({
       },
     );
 
-
 class FourCharSpaceFormatter extends TextInputFormatter {
   final int charSpaceCount;
 
@@ -328,7 +327,6 @@ class FourCharSpaceFormatter extends TextInputFormatter {
   }
 }
 
-
 Widget myTextFormField({
   required BuildContext context,
   TextEditingController? controller,
@@ -367,7 +365,6 @@ Widget myTextFormField({
         controller: controller,
         enabled: isEnabled ?? true,
         keyboardType: type,
-
         obscureText: isPassword ?? false,
         onTap: onTap,
         onChanged: (value) {
@@ -398,7 +395,6 @@ Widget myTextFormField({
         decoration: InputDecoration(
           filled: true,
           fillColor: fillColor ?? myFavColor5,
-
           border: fillColor == null
               ? InputBorder.none
               : OutlineInputBorder(
@@ -498,17 +494,20 @@ PreferredSize buildAppBarForOnlyStatusBar({
   );
 }
 
-Widget buildChatItem(BuildContext context,UserModelFB modelFB) {
+Widget buildChatItem({
+  required BuildContext context,
+  required UserModelFB modelFB,
+}) {
   return GestureDetector(
     behavior: HitTestBehavior.opaque,
-    onTap: (){
+    onTap: () {
       navigateTo(context, UserChatDetailsScreen(userModelFB: modelFB));
     },
     child: Row(
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 30,
-          backgroundImage: AssetImage("assets/images/ahmed.jpg"),
+          backgroundImage: NetworkImage(modelFB.image!),
         ),
         const SizedBox(
           width: 16,
@@ -526,15 +525,71 @@ Widget buildChatItem(BuildContext context,UserModelFB modelFB) {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                "🙏🏻 شكراً علي الخدمة",
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge!
-                    .copyWith(color: myFavColor4, fontSize: 14),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              Container(
+                width: 60,
+                height: 15,
+                decoration: BoxDecoration(
+                  color: rose,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(4),
+                  ),
+                ),
+                child: Center(
+                  child: modelFB.companyName != "" ? Text(
+                    "Company",
+                    style:
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: myFavColor,
+                      fontSize: 12,
+                    ),
+                  ): Text(
+                    "Person",
+                    style:
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: myFavColor,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
               ),
+              /*UserLayoutCubit.get(context).messages.last.senderId !=
+                      UserLayoutCubit.get(context).userModelFB!.uId
+                  ? SizedBox(
+                      width: 140,
+                      child: Text(
+                        message.text!,
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelLarge!
+                            .copyWith(color: myFavColor4, fontSize: 14),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        Icon(
+                          Icons.check_circle_outline_outlined,
+                          color: myFavColor4,
+                          size: 15,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: 140,
+                          child: Text(
+                            message.text!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(color: myFavColor4, fontSize: 14),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),*/
             ],
           ),
         ),
@@ -674,7 +729,7 @@ Widget myTextButton({
         style: Theme.of(context)
             .textTheme
             .titleLarge!
-            .copyWith(color: textColor ??myFavColor2, fontSize: 20),
+            .copyWith(color: textColor ?? myFavColor2, fontSize: 20),
       ),
     );
 
@@ -688,11 +743,17 @@ void buildErrorToast({
       displayTitle: showTitle ?? true,
       title: Text(
         title,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16),
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(color: myFavColor2, fontSize: 16),
       ),
       description: Text(
         description,
-        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8,fontSize: 12),
+        style: Theme.of(context)
+            .textTheme
+            .titleLarge!
+            .copyWith(color: myFavColor8, fontSize: 12),
       ),
       animationType: AnimationType.fromTop,
       animationDuration: Duration(milliseconds: 1000),
@@ -707,17 +768,22 @@ void buildSuccessToast({
     CherryToast.success(
       title: Text(
         title,
-        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16),
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge!
+            .copyWith(color: myFavColor2, fontSize: 16),
       ),
       description: Text(
         description,
-        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8,fontSize: 12),
+        style: Theme.of(context)
+            .textTheme
+            .titleLarge!
+            .copyWith(color: myFavColor8, fontSize: 12),
       ),
       animationType: AnimationType.fromRight,
       animationDuration: Duration(milliseconds: 1000),
       autoDismiss: true,
     ).show(context);
-
 
 PreferredSizeWidget defaultTabBar({
   required BuildContext context,
@@ -857,7 +923,7 @@ Widget myDropDownButton({
             ),
           Flexible(
             child: Text(
-              hintText??"",
+              hintText ?? "",
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
@@ -877,13 +943,12 @@ Widget myDropDownButton({
         ),
       ),
       buttonStyleData: ButtonStyleData(
-        height: 48,
-        padding: EdgeInsets.only(right: 10,left: 0),
-        decoration: BoxDecoration(
-          color: myFavColor5,
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        )
-      ),
+          height: 48,
+          padding: EdgeInsets.only(right: 10, left: 0),
+          decoration: BoxDecoration(
+            color: myFavColor5,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          )),
       dropdownStyleData: DropdownStyleData(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -892,18 +957,18 @@ Widget myDropDownButton({
       ),
       items: dropMenuItems
           .map((item) => DropdownMenuItem<String>(
-        value: item,
-        onTap: () {
-          selectedValue = item;
-        },
-        child: Text(
-          item,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(fontSize: 18, color: textColor ?? myFavColor8),
-        ),
-      ))
+                value: item,
+                onTap: () {
+                  selectedValue = item;
+                },
+                child: Text(
+                  item,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 18, color: textColor ?? myFavColor8),
+                ),
+              ))
           .toList(),
       validator: (value) {
         if (value == null) {
@@ -916,7 +981,6 @@ Widget myDropDownButton({
         selectedValue = value.toString();
       },
     );
-
 
 Widget customTextFormFieldForCardNumber({
   required BuildContext context,
@@ -979,9 +1043,8 @@ Widget customTextFormFieldForCardNumber({
         textAlignVertical: TextAlignVertical.center,
         inputFormatters: [
           LengthLimitingTextInputFormatter(maxLength2),
-          LengthLimitingTextInputFormatter(charSpaceCount != null
-              ? charSpaceCount * 5 - 1
-              : null),
+          LengthLimitingTextInputFormatter(
+              charSpaceCount != null ? charSpaceCount * 5 - 1 : null),
           FourCharSpaceFormatter(charSpaceCount: charSpaceCount ?? 0),
         ],
         style: Theme.of(context)
@@ -991,15 +1054,14 @@ Widget customTextFormFieldForCardNumber({
         decoration: InputDecoration(
           filled: true,
           fillColor: fillColor ?? myFavColor5,
-
           border: fillColor == null
               ? InputBorder.none
               : OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(radius ?? 0)),
-            borderSide: BorderSide(
-              color: myFavColor,
-            ),
-          ),
+                  borderRadius: BorderRadius.all(Radius.circular(radius ?? 0)),
+                  borderSide: BorderSide(
+                    color: myFavColor,
+                  ),
+                ),
           hintText: hint ?? '',
           hintStyle: Theme.of(context)
               .textTheme

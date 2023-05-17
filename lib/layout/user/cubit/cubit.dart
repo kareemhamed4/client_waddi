@@ -105,7 +105,6 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         }
         emit(GetAllUsersFromFBSuccessState());
       }).catchError((error) {
-        print(error.toString());
         emit(GetAllUsersFromFBErrorState(error.toString()));
       });
     }

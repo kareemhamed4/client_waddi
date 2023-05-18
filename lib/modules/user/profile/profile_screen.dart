@@ -343,7 +343,7 @@ class UserProfileScreen extends StatelessWidget {
                                       context: context,
                                       onPressed: () async {
                                         await CacheHelper.removeData(
-                                            key: "token");
+                                            key: "userToken");
                                         await CacheHelper.removeData(
                                             key: "uId");
                                         uId = null;

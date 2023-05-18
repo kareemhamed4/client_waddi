@@ -559,33 +559,24 @@ Widget buildChatItem({
             ],
           ),
         ),
-        Column(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration:
-                  BoxDecoration(color: myFavColor, shape: BoxShape.circle),
-              child: Center(
-                  child: Text("2",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: myFavColor7))),
+        Container(
+          width: 60,
+          height: 15,
+          decoration: BoxDecoration(
+            color: rose,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(4),
             ),
-            const SizedBox(
-              height: 2,
+          ),
+          child: Center(
+            child: Text(
+              modelFB.companyName == "" ? "Person":"Company",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: myFavColor,
+                fontSize: 12,
+              ),
             ),
-            Text(
-              "05.00 PM",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: myFavColor4, fontSize: 14),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          ),
         ),
       ],
     ),

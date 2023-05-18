@@ -24,6 +24,9 @@ class LoginWithFBSuccessState extends WaddyLoginStates {
 
   LoginWithFBSuccessState(this.uId);
 }
-class LoginWithFBErrorState extends WaddyLoginStates {}
+class LoginWithFBErrorState extends WaddyLoginStates {
+  final String error;
+  LoginWithFBErrorState(this.error);
+}
 
 

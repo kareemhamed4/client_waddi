@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/modules/user/customer_service_chat/customer_service_chat_screen.dart';
@@ -93,10 +96,28 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
       builder: (context, state) {
         HelpCenterCubit cubit = BlocProvider.of(context);
         return Scaffold(
-          appBar: defaultAppBar(
-            context: context,
-            title: "Help Center",
-            titleColor: myFavColor8,
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                SystemChannels.textInput
+                    .invokeMethod('TextInput.hide')
+                    .then((value) {
+                  Timer(const Duration(milliseconds: 250), () {
+                    Navigator.pop(context);
+                  });
+                });
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+              ),
+            ),
+            title: Text(
+              "Help Center",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor8, fontSize: 28),
+            ),
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

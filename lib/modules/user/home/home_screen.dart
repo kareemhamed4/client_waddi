@@ -38,23 +38,16 @@ class UserHomeScreen extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          if (model != null)
+                          if(UserLayoutCubit.get(context).userModelFB != null)
+                            CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                            NetworkImage(UserLayoutCubit.get(context).userModelFB!.image!),
+                          ),
+                          if(UserLayoutCubit.get(context).userModelFB == null)
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: model.userImg == "false"
-                                  ? const AssetImage(
-                                      "assets/images/ahmed.jpg",
-                                    )
-                                  : AssetImage(model.userImg!),
-                            ),
-                          if (model == null)
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: rose,
-                              child: Icon(
-                                FontAwesomeIcons.spinner,
-                                color: myFavColor7,
-                              ),
+                              backgroundColor: rose
                             ),
                           const SizedBox(
                             width: 14,

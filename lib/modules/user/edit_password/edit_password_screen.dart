@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/modules/common/forget_password/waddy_forget_pass_screen.dart';
@@ -40,10 +43,28 @@ class UserEditPasswordScreen extends StatelessWidget {
       builder: (context,state){
         EditPasswordForAuthUserCubit cubit = BlocProvider.of(context);
         return Scaffold(
-          appBar: defaultAppBar(
-              context: context,
-              title: "Security",
-              titleColor: myFavColor2
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                SystemChannels.textInput
+                    .invokeMethod('TextInput.hide')
+                    .then((value) {
+                  Timer(const Duration(milliseconds: 250), () {
+                    Navigator.pop(context);
+                  });
+                });
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+              ),
+            ),
+            title: Text(
+              "Security",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor2, fontSize: 28),
+            ),
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

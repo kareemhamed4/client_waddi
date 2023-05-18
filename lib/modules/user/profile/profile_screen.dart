@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,6 +31,9 @@ class UserProfileScreen extends StatelessWidget {
         if (state is ProfileImagePickedSuccessState) {
           UserProfileCubit.get(context)
               .uploadProfileImageInFB(context: context);
+        }
+        if (state is ProfileImageUploadSuccessState) {
+          UserLayoutCubit.get(context).userModelFB!.image = state.imageUrl;
         }
       },
       builder: (context, state) {
@@ -63,10 +67,30 @@ class UserProfileScreen extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
-                        CircleAvatar(
-                          radius: 55,
-                          backgroundImage:
-                              NetworkImage(cubit.userModelFB!.image!),
+                        ConditionalBuilder(
+                          condition: state is! ProfileUploadImageLoadingState,
+                          builder: (context) => CircleAvatar(
+                            radius: 55,
+                            backgroundImage:
+                            NetworkImage(cubit.userModelFB!.image!),
+                          ),
+                          fallback: (context) => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 55,
+                                backgroundImage:
+                                NetworkImage(cubit.userModelFB!.image!),
+                              ),
+                              SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: CircularProgressIndicator(
+                                  color: myFavColor,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {

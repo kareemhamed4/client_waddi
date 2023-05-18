@@ -29,26 +29,28 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     UserProfileScreen(),
   ];
   List<BottomNavigationBarItem> bottomItems = [
-    const BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
+    const BottomNavigationBarItem(
+        icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
     const BottomNavigationBarItem(
         icon: Icon(CustomIcons.doc_text_inv), label: 'My Order'),
     const BottomNavigationBarItem(icon: Icon(CustomIcons.chat), label: 'Inbox'),
-    const BottomNavigationBarItem(icon: Icon(CustomIcons.user_alt), label: 'Profile'),
+    const BottomNavigationBarItem(
+        icon: Icon(CustomIcons.user_alt), label: 'Profile'),
   ];
 
-  void changeBottom(int index,BuildContext context) {
+  void changeBottom(int index, BuildContext context) {
     currentIndex = index;
-    if(index == 1){
+    if (index == 1) {
       context.read<GetUserOrdersCubit>().getOrders();
     }
-    if(index == 2){
+    if (index == 2) {
       getAllUsersFromFB();
     }
     emit(ChangeBottomNavBarUserState());
   }
 
   UserInfo? userInfo;
-  Future<void> getUserData() async{
+  Future<void> getUserData() async {
     emit(GetUserInfoLoadingState());
     await DioHelper.getData(
       url: GETUSERINFO,
@@ -75,7 +77,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   }
 
   UserModelFB? userModelFB;
-  void getUserDataFromFB() async{
+  void getUserDataFromFB() async {
     emit(GetUserFromFBLoadingState());
     await getUserData();
     if (userInfo == null) {
@@ -93,13 +95,10 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   List<UserModelFB> users = [];
   void getAllUsersFromFB() {
     emit(GetAllUsersFromFBLoadingState());
-    if(users.isEmpty){
-      FirebaseFirestore.instance
-          .collection('Users')
-          .get()
-          .then((value) {
+    if (users.isEmpty) {
+      FirebaseFirestore.instance.collection('Users').get().then((value) {
         for (var element in value.docs) {
-          if(element.data()["uId"] != userModelFB!.uId){
+          if (element.data()["uId"] != userModelFB!.uId) {
             users.add(UserModelFB.fromJson(element.data()));
           }
         }
@@ -113,7 +112,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   void sendMessage({
     required String receiverId,
     required String text,
-  }){
+  }) {
     MessageModel messageModel = MessageModel(
       senderId: userModelFB!.uId,
       receiverId: receiverId,
@@ -128,11 +127,9 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         .doc(receiverId)
         .collection("Messages")
         .add(messageModel.toMap())
-        .then((value)
-    {
+        .then((value) {
       emit(SendMessageSuccessState());
-    }).catchError((error)
-    {
+    }).catchError((error) {
       emit(SendMessageErrorState());
     });
 
@@ -144,11 +141,9 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         .doc(userModelFB!.uId)
         .collection("Messages")
         .add(messageModel.toMap())
-        .then((value)
-    {
+        .then((value) {
       emit(SendMessageSuccessState());
-    }).catchError((error)
-    {
+    }).catchError((error) {
       emit(SendMessageErrorState());
     });
   }
@@ -165,7 +160,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         .orderBy("dateTime")
         .snapshots()
         .listen((event) {
-          messages = event.docs
+      messages = event.docs
           .map((element) => MessageModel.fromJson(element.data()))
           .toList();
 
@@ -177,5 +172,14 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
 
       emit(ReceiveMessageSuccessState());
     });
+  }
+
+  void getAllMessages({
+    required BuildContext context,
+  }) {
+    for (int i = 0; i < UserLayoutCubit.get(context).users.length; i++) {
+      UserLayoutCubit.get(context)
+          .getMessages(receiverId: UserLayoutCubit.get(context).users[i].uId!);
+    }
   }
 }

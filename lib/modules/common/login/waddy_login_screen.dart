@@ -37,10 +37,6 @@ class WaddyLoginScreen extends StatelessWidget {
                   value: state.clientModel.token,
                 ).then((value) {
                   userToken = state.clientModel.token;
-                }).then((value) {
-                  context.read<UserLayoutCubit>().getUserData().then((value) {
-                    navigateToAndFinish(context, const UserLayoutScreen());
-                  });
                 });
               } else if (state.clientModel.user!.role == 2000) {
                 CacheHelper.saveData(
@@ -54,12 +50,23 @@ class WaddyLoginScreen extends StatelessWidget {
               }
             }
           }
+          else if (state is UserLoginErrorState) {
+            buildErrorToast(
+              title: "Oops!",
+              context: context,
+              description: state.error,
+            );
+          }
           else if (state is LoginWithFBSuccessState) {
-            CacheHelper.saveData(key: 'uId', value: state.uId).then((value){
+            CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               uId = state.uId;
+            }).then((value) {
+              context.read<UserLayoutCubit>().getUserData().then((value) {
+                navigateToAndFinish(context, const UserLayoutScreen());
+              });
             });
           }
-          else if (state is UserLoginErrorState) {
+          else if (state is LoginWithFBErrorState) {
             buildErrorToast(
               title: "Oops!",
               context: context,
@@ -90,7 +97,10 @@ class WaddyLoginScreen extends StatelessWidget {
                           controller: emailController,
                           type: TextInputType.emailAddress,
                           hint: 'Email or user name',
-                          prefixIcon: Icon(Icons.email,color: myFavColor4,),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: myFavColor4,
+                          ),
                           validate: (String? value) {
                             if (value!.isEmpty) {
                               return 'Email must not be empty';
@@ -98,60 +108,63 @@ class WaddyLoginScreen extends StatelessWidget {
                             return null;
                           },
                         ),
-                        mySizedBox(size: size,myHeight: 38),
+                        mySizedBox(size: size, myHeight: 38),
                         myTextFormField(
-                            context: context,
-                            controller: passwordController,
-                            type: TextInputType.number,
-                            hint: 'Password',
-
-                            prefixIcon: Icon(Icons.lock,color: myFavColor4,),
-                            validate: (String? value) {
-                              if (value!.isEmpty) {
-                                return 'Password must not be empty';
-                              }
-                              return null;
+                          context: context,
+                          controller: passwordController,
+                          type: TextInputType.number,
+                          hint: 'Password',
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: myFavColor4,
+                          ),
+                          validate: (String? value) {
+                            if (value!.isEmpty) {
+                              return 'Password must not be empty';
+                            }
+                            return null;
+                          },
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              cubit.changeLoginSuffixIcon();
                             },
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                cubit.changeLoginSuffixIcon();
-                              },
-                              icon: Icon(
-                                cubit.suffixIcon,
-                                color: myFavColor4,
-                              ),
-                              highlightColor: Colors.transparent,
-                              splashColor: Colors.transparent,
+                            icon: Icon(
+                              cubit.suffixIcon,
+                              color: myFavColor4,
                             ),
-                            isPassword: cubit.isPassword,
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                          ),
+                          isPassword: cubit.isPassword,
                         ),
-                        mySizedBox(size: size,myHeight: 16),
+                        mySizedBox(size: size, myHeight: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Checkbox(
-                                value: cubit.isRememberMe,
-                                activeColor: myFavColor,
-                                checkColor: myFavColor7,
-                                onChanged: (value){
-                                  cubit.changeRememberMe(value!);
-                                },
+                              value: cubit.isRememberMe,
+                              activeColor: myFavColor,
+                              checkColor: myFavColor7,
+                              onChanged: (value) {
+                                cubit.changeRememberMe(value!);
+                              },
                             ),
-                            Text('Remember me', style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2,fontSize: 16)),
+                            Text('Remember me',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: myFavColor2, fontSize: 16)),
                           ],
                         ),
-                        mySizedBox(size: size,myHeight: 16),
+                        mySizedBox(size: size, myHeight: 16),
                         ConditionalBuilder(
-                          condition: state is! UserLoginLoadingState,
+                          condition: state is! UserLoginLoadingState && state is! LoginWithFBLoadingState,
                           builder: (context) => myMaterialButton(
                             context: context,
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 cubit.userLogin(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                );
-                                cubit.userLoginWithFB(
                                   email: emailController.text,
                                   password: passwordController.text,
                                 );
@@ -179,7 +192,7 @@ class WaddyLoginScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        mySizedBox(size: size,myHeight: 22),
+                        mySizedBox(size: size, myHeight: 22),
                         Center(
                           child: TextButton(
                             onPressed: () {
@@ -188,26 +201,33 @@ class WaddyLoginScreen extends StatelessWidget {
                             },
                             child: Text(
                               'Forget the password ?',
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor,fontSize: 16),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(color: myFavColor, fontSize: 16),
                             ),
                           ),
                         ),
-                        mySizedBox(size: size,myHeight: 40),
+                        mySizedBox(size: size, myHeight: 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                                'Don\'t have account ?',
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4,fontSize: 16)
-                            ),
+                            Text('Don\'t have account ?',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: myFavColor4, fontSize: 16)),
                             TextButton(
                               onPressed: () {
                                 navigateTo(context, const NewRegisterScreen());
                               },
-                              child: Text(
-                                'Register',
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor,fontSize: 16)
-                              ),
+                              child: Text('Register',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(
+                                          color: myFavColor, fontSize: 16)),
                             ),
                           ],
                         ),

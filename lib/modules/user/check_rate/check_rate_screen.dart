@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -36,7 +39,29 @@ class CheckRateScreen extends StatelessWidget {
       builder: (context, state) {
         CheckRateCubit cubit = BlocProvider.of(context);
         return Scaffold(
-          appBar: defaultAppBar(context: context, title: "Check Rate"),
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                SystemChannels.textInput
+                    .invokeMethod('TextInput.hide')
+                    .then((value) {
+                  Timer(const Duration(milliseconds: 250), () {
+                    Navigator.pop(context);
+                  });
+                });
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+              ),
+            ),
+            title: Text(
+              "Check Rate",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor8, fontSize: 28),
+            ),
+          ),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -227,9 +252,13 @@ class CheckRateScreen extends StatelessWidget {
                         cubit.checkRate(
                           pickupLocation: pickupController.text,
                           destinationLocation: destinationController.text,
-                          weight: int.parse(dimensionController.text.isNotEmpty ? dimensionController.text : "5"),
+                          weight: int.parse(dimensionController.text.isNotEmpty
+                              ? dimensionController.text
+                              : "5"),
                           noOfPackages: int.parse(
-                            cubit.selectedNoOfPackages != null ? cubit.selectedNoOfPackages.toString() : "1",
+                            cubit.selectedNoOfPackages != null
+                                ? cubit.selectedNoOfPackages.toString()
+                                : "1",
                           ),
                         );
                       },

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 
 class UserProfileCubit extends Cubit<UserProfileStates> {
   UserProfileCubit() : super(UserProfileInitialState());
@@ -34,11 +35,16 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
     String? image,
   }) {
     UserModelFB model = UserModelFB(
+      companyName: UserLayoutCubit.get(context).userModelFB!.companyName,
+      email: UserLayoutCubit.get(context).userModelFB!.email,
       image: image,
+      name: UserLayoutCubit.get(context).userModelFB!.name,
+      phone: UserLayoutCubit.get(context).userModelFB!.phone,
+      uId: UserLayoutCubit.get(context).userModelFB!.uId,
     );
     FirebaseFirestore.instance
         .collection('Users')
-        .doc(model.uId)
+        .doc(uId)
         .update(model.toMap())
         .then((value) {
       UserLayoutCubit.get(context).getUserDataFromFB();
@@ -58,7 +64,8 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
         .putFile(profileImage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
-        emit(ProfileImageUploadSuccessState());
+        String imageUrl = value;
+        emit(ProfileImageUploadSuccessState(imageUrl));
         updateUserDataInFB(
           context: context,
           image: value,

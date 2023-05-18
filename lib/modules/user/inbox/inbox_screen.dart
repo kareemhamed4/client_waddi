@@ -229,10 +229,7 @@ class UserInboxScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Builder(
       builder: (BuildContext context) {
-        for (int i = 0; i < UserLayoutCubit.get(context).users.length; i++) {
-          UserLayoutCubit.get(context).getMessages(
-              receiverId: UserLayoutCubit.get(context).users[i].uId!);
-        }
+        UserLayoutCubit.get(context).getAllMessages(context: context);
         return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
           listener: (context, state) {},
           builder: (context, state) {

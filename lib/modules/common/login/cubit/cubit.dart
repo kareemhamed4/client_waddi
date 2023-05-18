@@ -28,6 +28,7 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
     ).then((value) {
       clientModel = ClientModel.fromJson(value.data);
       emit(UserLoginSuccessState(clientModel!));
+      userLoginWithFB(email: email,password: password);
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
@@ -81,7 +82,7 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
           textColor: Colors.white,
           fontSize: 16.0
       );
-      emit(LoginWithFBErrorState());
+      emit(LoginWithFBErrorState(error.toString()));
     });
   }
 }

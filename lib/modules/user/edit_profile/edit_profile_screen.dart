@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
-import 'package:waddy_app/layout/user/cubit/states.dart';
+import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
+import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -41,14 +44,32 @@ class UserEditProfileScreen extends StatelessWidget {
         model != null && model.governorate != null ? model.governorate! : " ";
 
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
+    return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: defaultAppBar(
-            context: context,
-            title: "Edit Profile",
-            titleColor: myFavColor2,
+          appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () {
+                SystemChannels.textInput
+                    .invokeMethod('TextInput.hide')
+                    .then((value) {
+                  Timer(const Duration(milliseconds: 250), () {
+                    Navigator.pop(context);
+                  });
+                });
+              },
+              child: const Icon(
+                Icons.arrow_back_outlined,
+              ),
+            ),
+            title: Text(
+              "Edit Profile",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: myFavColor2, fontSize: 28),
+            ),
           ),
           body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

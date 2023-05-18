@@ -19,22 +19,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
   int currentStepIndex2 = 0;
   double sheetHeight = 410;
   bool isSheetExpanded = false;
-  void onVerticalDragUpdate(DragUpdateDetails details) {
-    setState(() {
-      sheetHeight -= details.primaryDelta!;
-      if (sheetHeight < 410) {
-        setState(() {
-          sheetHeight = 410;
-          isSheetExpanded = false;
-        });
-      } else if (sheetHeight > deviceHeight! - 40) {
-        setState(() {
-          sheetHeight = deviceHeight! - 40;
-          isSheetExpanded = true;
-        });
-      }
-    });
-  }
+  double startPos = 0.0;
+  double startHeight = 0.0;
 
   @override
   void initState() {
@@ -45,8 +31,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    deviceHeight = size.height;
-    deviceWidth = size.width;
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -54,26 +38,40 @@ class _TrackingScreenState extends State<TrackingScreen> {
             currentLocation == null
                 ? const Text("Loading")
                 : const MyGoogleMap(
-                    isGoToMyLocationEnabled: false,
-                    isTracking: false,
-                    isPlaces: false,
-                  ),
+              isGoToMyLocationEnabled: false,
+              isTracking: false,
+              isPlaces: false,
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
-                onVerticalDragUpdate: onVerticalDragUpdate,
+                onVerticalDragStart: (details) {
+                  setState(() {
+                    startPos = details.globalPosition.dy;
+                    startHeight = sheetHeight;
+                  });
+                },
+                onVerticalDragUpdate: (details) {
+                  setState(() {
+                    double dragDistance = details.globalPosition.dy - startPos;
+                    sheetHeight = startHeight - dragDistance;
+                    if (sheetHeight < 410) {
+                      sheetHeight = 410;
+                      isSheetExpanded = false;
+                    } else if (sheetHeight > size.height - 40) {
+                      sheetHeight = size.height - 40;
+                      isSheetExpanded = true;
+                    }
+                  });
+                },
                 onVerticalDragEnd: (_) {
                   setState(() {
                     if (sheetHeight > 440) {
-                      setState(() {
-                        sheetHeight = size.height - 40;
-                        isSheetExpanded = true;
-                      });
+                      sheetHeight = size.height - 40;
+                      isSheetExpanded = true;
                     } else {
-                      setState(() {
-                        sheetHeight = 410;
-                        isSheetExpanded = false;
-                      });
+                      sheetHeight = 410;
+                      isSheetExpanded = false;
                     }
                   });
                 },
@@ -109,7 +107,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                           decoration: BoxDecoration(
                             color: myFavColor4,
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
+                            const BorderRadius.all(Radius.circular(20)),
                           ),
                         ),
                         mySizedBox(size: size, myHeight: 30),
@@ -145,7 +143,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                 const CircleAvatar(
                                   radius: 27,
                                   backgroundImage:
-                                      AssetImage("assets/images/ahmed.jpg"),
+                                  AssetImage("assets/images/ahmed.jpg"),
                                 ),
                                 const SizedBox(
                                   width: 13,
@@ -176,8 +174,8 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                               .textTheme
                                               .bodyLarge!
                                               .copyWith(
-                                                  fontSize: 14,
-                                                  color: myFavColor4),
+                                              fontSize: 14,
+                                              color: myFavColor4),
                                         ),
                                       ],
                                     ),
@@ -247,7 +245,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   title: Text(
                                     'Benha train station street',
                                     style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: true,
                                   content: Container(
@@ -255,7 +253,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     child: Text(
                                       'Location of your order shipped from',
                                       style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
                                   subtitle: Text(
@@ -271,7 +269,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     title: Text(
                                       'El-Galaa, Shebeen El-Koum, Menoufia',
                                       style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                                      Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
                                       alignment: Alignment.centerLeft,
@@ -317,7 +315,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                            color: myFavColor2, fontSize: 16),
+                                        color: myFavColor2, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     height: 2,
@@ -328,7 +326,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                            color: myFavColor4, fontSize: 14),
+                                        color: myFavColor4, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -354,7 +352,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                            color: myFavColor2, fontSize: 16),
+                                        color: myFavColor2, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     height: 2,
@@ -365,7 +363,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                            color: myFavColor4, fontSize: 14),
+                                        color: myFavColor4, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -391,7 +389,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                         .textTheme
                                         .bodyLarge!
                                         .copyWith(
-                                            color: myFavColor2, fontSize: 16),
+                                        color: myFavColor2, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     height: 2,
@@ -402,7 +400,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                         .textTheme
                                         .bodyMedium!
                                         .copyWith(
-                                            color: myFavColor4, fontSize: 14),
+                                        color: myFavColor4, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -447,7 +445,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   title: Text(
                                     'Your order is shipped',
                                     style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: true,
                                   content: Container(
@@ -455,7 +453,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     child: Text(
                                       'Add you wand additional info',
                                       style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
                                   subtitle: Text(
@@ -471,7 +469,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     title: Text(
                                       'Benha train station street',
                                       style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                                      Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
                                       alignment: Alignment.centerLeft,
@@ -495,7 +493,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   title: Text(
                                     'El-Galaa, Shebeen El-Koum , Menoufia',
                                     style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: false,
                                   content: Container(
@@ -503,7 +501,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     child: Text(
                                       'Waiting',
                                       style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
                                   subtitle: Text(
@@ -519,7 +517,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     title: Text(
                                       'Delivered',
                                       style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                                      Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
                                       alignment: Alignment.centerLeft,

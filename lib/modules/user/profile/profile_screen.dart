@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:waddy_app/modules/user/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/profile/cubit/states.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -23,13 +25,14 @@ class UserProfileScreen extends StatelessWidget {
     String fName;
     String lName;
     String email;
-    return BlocConsumer<UserProfileCubit,UserProfileStates>(
-      listener: (context,state){
-        if(state is ProfileImagePickedSuccessState){
-          UserProfileCubit.get(context).uploadProfileImageInFB(context: context);
+    return BlocConsumer<UserProfileCubit, UserProfileStates>(
+      listener: (context, state) {
+        if (state is ProfileImagePickedSuccessState) {
+          UserProfileCubit.get(context)
+              .uploadProfileImageInFB(context: context);
         }
       },
-      builder: (context,state){
+      builder: (context, state) {
         UserLayoutCubit cubit = BlocProvider.of(context);
         var model = UserLayoutCubit.get(context).userInfo;
         fName = model != null ? model.firstName! : " ";
@@ -38,7 +41,8 @@ class UserProfileScreen extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,15 +65,18 @@ class UserProfileScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 55,
-                          backgroundImage: NetworkImage(cubit.userModelFB!.image!),
+                          backgroundImage:
+                              NetworkImage(cubit.userModelFB!.image!),
                         ),
                         GestureDetector(
                           onTap: () {
-                            UserProfileCubit.get(context).getProfileImage().then((value){
-                            });
+                            UserProfileCubit.get(context)
+                                .getProfileImage()
+                                .then((value) {});
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(right: 4.0, bottom: 4.0),
+                            padding:
+                                const EdgeInsets.only(right: 4.0, bottom: 4.0),
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -79,8 +86,8 @@ class UserProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: myFavColor7,
                                     shape: BoxShape.rectangle,
-                                    borderRadius:
-                                    const BorderRadius.all(Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
                                   ),
                                 ),
                                 Container(
@@ -89,15 +96,15 @@ class UserProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: myFavColor,
                                     shape: BoxShape.rectangle,
-                                    borderRadius:
-                                    const BorderRadius.all(Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
                                   ),
                                   child: Center(
                                       child: FaIcon(
-                                        FontAwesomeIcons.pen,
-                                        color: myFavColor7,
-                                        size: 10,
-                                      )),
+                                    FontAwesomeIcons.pen,
+                                    color: myFavColor7,
+                                    size: 10,
+                                  )),
                                 ),
                               ],
                             ),
@@ -118,10 +125,8 @@ class UserProfileScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       email,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 16, color: myFavColor2, height: 1),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 16, color: myFavColor2, height: 1),
                     ),
                   ),
                   mySizedBox(size: size, myHeight: 20),
@@ -262,17 +267,17 @@ class UserProfileScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              mySizedBox(size: size,myHeight: 8),
+                              mySizedBox(size: size, myHeight: 8),
                               Container(
                                 width: 35,
                                 height: 4,
                                 decoration: BoxDecoration(
                                   color: myFavColor4,
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20)),
                                 ),
                               ),
-                              mySizedBox(size: size,myHeight: 30),
+                              mySizedBox(size: size, myHeight: 30),
                               Text(
                                 "Logout",
                                 style: Theme.of(context)
@@ -280,9 +285,9 @@ class UserProfileScreen extends StatelessWidget {
                                     .labelLarge!
                                     .copyWith(fontSize: 28, color: myFavColor),
                               ),
-                              mySizedBox(size: size,myHeight: 10),
+                              mySizedBox(size: size, myHeight: 10),
                               myDivider(),
-                              mySizedBox(size: size,myHeight: 10),
+                              mySizedBox(size: size, myHeight: 10),
                               Text(
                                 "Are you sure you want to logout ?",
                                 style: Theme.of(context)
@@ -290,7 +295,7 @@ class UserProfileScreen extends StatelessWidget {
                                     .titleLarge!
                                     .copyWith(fontSize: 24, color: myFavColor8),
                               ),
-                              mySizedBox(size: size,myHeight: 30),
+                              mySizedBox(size: size, myHeight: 30),
                               Row(
                                 children: [
                                   Expanded(
@@ -301,34 +306,52 @@ class UserProfileScreen extends StatelessWidget {
                                       },
                                       height: 50,
                                       bgColor: rose,
-                                      labelWidget: Text("Cancel",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor)),
+                                      labelWidget: Text("Cancel",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge!
+                                              .copyWith(color: myFavColor)),
                                     ),
                                   ),
-                                  mySizedBox(size: size,myWidth: 28),
+                                  mySizedBox(size: size, myWidth: 28),
                                   Expanded(
                                     child: myMaterialButton(
                                       context: context,
-                                      onPressed: () async{
-                                        await CacheHelper.removeData(key: "token").then((value)async{
-                                          await CacheHelper.removeData(key: "uId").then((value){
-                                            context.read<UserLayoutCubit>().changeBottom(0, context);
-                                            Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (BuildContext context) => const ChooseLoginOrSignupScreen(),
-                                              ),
-                                                  (Route<dynamic> route) => false,
-                                            );
-                                          });
+                                      onPressed: () async {
+                                        await CacheHelper.removeData(
+                                            key: "token");
+                                        await CacheHelper.removeData(
+                                            key: "uId");
+                                        uId = null;
+                                        userToken = null;
+                                        await FirebaseFirestore.instance
+                                            .terminate()
+                                            .then((value) {
+                                          context
+                                              .read<UserLayoutCubit>()
+                                              .changeBottom(0, context);
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  const ChooseLoginOrSignupScreen(),
+                                            ),
+                                            (Route<dynamic> route) => false,
+                                          );
                                         });
                                       },
                                       height: 50,
-                                      labelWidget: Text("Yes, Logout",style: Theme.of(context).textTheme.labelLarge,),
+                                      labelWidget: Text(
+                                        "Yes, Logout",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                              mySizedBox(size: size,myHeight: 40),
+                              mySizedBox(size: size, myHeight: 40),
                             ],
                           ),
                         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/user/new_register/new_register_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 
 class ChooseLoginOrSignupScreen extends StatelessWidget {
   const ChooseLoginOrSignupScreen({Key? key}) : super(key: key);
@@ -20,9 +21,15 @@ class ChooseLoginOrSignupScreen extends StatelessWidget {
               "assets/images/chooseLoginSignup.png",
             ),
             mySizedBox(size: size, myHeight: 66),
-            Text(
-              "Let’s You In",
-              style: Theme.of(context).textTheme.titleLarge,
+            GestureDetector(
+              onTap: (){
+                print(uId);
+                print(userToken);
+              },
+              child: Text(
+                "Let’s You In",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             mySizedBox(size: size, myHeight: 62),
             myMaterialButton(

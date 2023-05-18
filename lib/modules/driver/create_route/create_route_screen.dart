@@ -19,18 +19,8 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
   int currentStepRouteIndex = 0;
   double sheetHeight = 360.0;
   bool isSheetExpanded = false;
-  void onVerticalDragUpdate(DragUpdateDetails details) {
-    setState(() {
-      sheetHeight -= details.primaryDelta!;
-      if (sheetHeight < 360) {
-        sheetHeight = 360;
-        isSheetExpanded = false;
-      } else if (sheetHeight > 480) {
-        sheetHeight = 480;
-        isSheetExpanded = true;
-      }
-    });
-  }
+  double startPos = 0.0;
+  double startHeight = 0.0;
 
   @override
   void initState() {
@@ -41,8 +31,6 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    deviceHeight = size.height;
-    deviceWidth = size.width;
     return Scaffold(
       appBar: buildAppBarForOnlyStatusBar(),
       body: SafeArea(
@@ -52,25 +40,41 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
             currentLocation == null
                 ? const Text("Loading")
                 : const MyGoogleMap(
-                    isGoToMyLocationEnabled: false,
-                    isTracking: false,
-                    zoom: 11,
-                    isPlaces: false,
-                  ),
+              isGoToMyLocationEnabled: false,
+              isTracking: false,
+              zoom: 11,
+              isPlaces: false,
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
-                onVerticalDragUpdate: onVerticalDragUpdate,
+                onVerticalDragStart: (details) {
+                  setState(() {
+                    startPos = details.globalPosition.dy;
+                    startHeight = sheetHeight;
+                  });
+                },
+                onVerticalDragUpdate: (details) {
+                  setState(() {
+                    double dragDistance = details.globalPosition.dy - startPos;
+                    sheetHeight = startHeight - dragDistance;
+                    if (sheetHeight < 360) {
+                      sheetHeight = 360;
+                      isSheetExpanded = false;
+                    } else if (sheetHeight > 480) {
+                      sheetHeight = 480;
+                      isSheetExpanded = true;
+                    }
+                  });
+                },
                 onVerticalDragEnd: (_) {
                   setState(() {
                     if (sheetHeight > 390) {
                       sheetHeight = 480;
                       isSheetExpanded = true;
                     } else {
-                      setState(() {
-                        sheetHeight = 360;
-                        isSheetExpanded = false;
-                      });
+                      sheetHeight = 360;
+                      isSheetExpanded = false;
                     }
                   });
                 },
@@ -97,493 +101,493 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 22),
                     child: isSheetExpanded
                         ? Column(
-                            children: [
-                              buildBottomSheetWithExpanded(
-                                  size: size,
-                                  currentStepIndex: currentStepRouteIndex),
-                              Expanded(
-                                child: Stepper(
-                                  key: Key(
-                                      Random.secure().nextDouble().toString()),
-                                  currentStep: currentStepRouteIndex,
-                                  onStepCancel: () {
-                                    if (currentStepRouteIndex > 0) {
-                                      setState(() {
-                                        currentStepRouteIndex -= 1;
-                                      });
-                                    }
-                                  },
-                                  onStepContinue: () {
-                                    if (currentStepRouteIndex <= 0) {
-                                      setState(() {
-                                        currentStepRouteIndex += 1;
-                                      });
-                                    }
-                                  },
-                                  controlsBuilder: (context, s) {
-                                    return const SizedBox.shrink();
-                                  },
-                                  onStepTapped: (int index) {
-                                    setState(() {
-                                      currentStepRouteIndex = index;
-                                    });
-                                  },
-                                  steps: <Step>[
-                                    Step(
-                                      title: Text(
-                                        'عزبة أبو باشا',
+                      children: [
+                        buildBottomSheetWithExpanded(
+                            size: size,
+                            currentStepIndex: currentStepRouteIndex),
+                        Expanded(
+                          child: Stepper(
+                            key: Key(
+                                Random.secure().nextDouble().toString()),
+                            currentStep: currentStepRouteIndex,
+                            onStepCancel: () {
+                              if (currentStepRouteIndex > 0) {
+                                setState(() {
+                                  currentStepRouteIndex -= 1;
+                                });
+                              }
+                            },
+                            onStepContinue: () {
+                              if (currentStepRouteIndex <= 0) {
+                                setState(() {
+                                  currentStepRouteIndex += 1;
+                                });
+                              }
+                            },
+                            controlsBuilder: (context, s) {
+                              return const SizedBox.shrink();
+                            },
+                            onStepTapped: (int index) {
+                              setState(() {
+                                currentStepRouteIndex = index;
+                              });
+                            },
+                            steps: <Step>[
+                              Step(
+                                title: Text(
+                                  'عزبة أبو باشا',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontSize: 18),
+                                ),
+                                isActive: true,
+                                content: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '3:00 PM - 3:15 PM',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyLarge!
-                                            .copyWith(fontSize: 18),
+                                            .bodySmall,
                                       ),
-                                      isActive: true,
-                                      content: Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '3:00 PM - 3:15 PM',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: myMaterialButton(
-                                                    context: context,
-                                                    onPressed: () {},
-                                                    height: 40,
-                                                    radius: 9,
-                                                    labelWidget: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Start",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .labelLarge!
-                                                              .copyWith(
-                                                                  fontSize: 12),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        FaIcon(
-                                                          FontAwesomeIcons
-                                                              .paperPlane,
-                                                          size: 16,
-                                                          color: myFavColor7,
-                                                        ),
-                                                      ],
-                                                    ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: myMaterialButton(
+                                              context: context,
+                                              onPressed: () {},
+                                              height: 40,
+                                              radius: 9,
+                                              labelWidget: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  Text(
+                                                    "Start",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge!
+                                                        .copyWith(
+                                                        fontSize: 12),
                                                   ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                    flex: 4,
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child:
-                                                              myCustomMaterialButtonLeft(
-                                                            context: context,
-                                                            onPressed: () {},
-                                                            height: 40,
-                                                            radius: 5,
-                                                            labelWidget: Text(
-                                                              "DELIVERED",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              myCustomMaterialButtonRight(
-                                                            context: context,
-                                                            bgColor:
-                                                                myFavColorWithOpacity,
-                                                            onPressed: () {},
-                                                            height: 40,
-                                                            radius: 5,
-                                                            labelWidget: Text(
-                                                              "FAILED",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          myFavColor),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: myMaterialButton(
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  FaIcon(
+                                                    FontAwesomeIcons
+                                                        .paperPlane,
+                                                    size: 16,
+                                                    color: myFavColor7,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                              flex: 4,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                    myCustomMaterialButtonLeft(
                                                       context: context,
                                                       onPressed: () {},
                                                       height: 40,
-                                                      radius: 9,
-                                                      labelWidget: FaIcon(
-                                                        FontAwesomeIcons.pen,
-                                                        size: 16,
-                                                        color: myFavColor7,
-                                                      )),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'عزبة أبو باشا، كفر بطا، بنها، القليوبية، مصر',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(color: myFavColor4),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: currentStepRouteIndex == 0
-                                                ? myFavColor2
-                                                : myFavColor4,
-                                            size: 20,
-                                          )
-                                        ],
-                                      ),
-                                      state: StepState.indexed,
-                                    ),
-                                    Step(
-                                      title: Text(
-                                        'كفر الجزار',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(fontSize: 18),
-                                      ),
-                                      isActive: true,
-                                      content: Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '3:15 PM - 3:30 PM',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: myMaterialButton(
-                                                    context: context,
-                                                    onPressed: () {},
-                                                    height: 40,
-                                                    radius: 9,
-                                                    labelWidget: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Start",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .labelLarge!
-                                                              .copyWith(
-                                                                  fontSize: 12),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        FaIcon(
-                                                          FontAwesomeIcons
-                                                              .paperPlane,
-                                                          size: 16,
-                                                          color: myFavColor7,
-                                                        ),
-                                                      ],
+                                                      radius: 5,
+                                                      labelWidget: Text(
+                                                        "DELIVERED",
+                                                        style: Theme.of(
+                                                            context)
+                                                            .textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                            fontSize:
+                                                            12),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                    flex: 4,
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child:
-                                                              myCustomMaterialButtonLeft(
-                                                            context: context,
-                                                            onPressed: () {},
-                                                            height: 40,
-                                                            radius: 5,
-                                                            labelWidget: Text(
-                                                              "DELIVERED",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              myCustomMaterialButtonRight(
-                                                            context: context,
-                                                            bgColor:
-                                                                myFavColorWithOpacity,
-                                                            onPressed: () {},
-                                                            height: 40,
-                                                            radius: 5,
-                                                            labelWidget: Text(
-                                                              "FAILED",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          myFavColor),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: myMaterialButton(
+                                                  Expanded(
+                                                    child:
+                                                    myCustomMaterialButtonRight(
                                                       context: context,
+                                                      bgColor:
+                                                      myFavColorWithOpacity,
                                                       onPressed: () {},
                                                       height: 40,
-                                                      radius: 9,
-                                                      labelWidget: FaIcon(
-                                                        FontAwesomeIcons.pen,
-                                                        size: 16,
-                                                        color: myFavColor7,
-                                                      )),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'كفر الجزار، بنها، القليوبية، مصر',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(color: myFavColor4),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: currentStepRouteIndex == 1
-                                                ? myFavColor2
-                                                : myFavColor4,
-                                            size: 20,
-                                          )
-                                        ],
-                                      ),
-                                      state: StepState.indexed,
-                                    ),
-                                    Step(
-                                      title: Text(
-                                        "جامعة بنها",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge!
-                                            .copyWith(fontSize: 18),
-                                      ),
-                                      isActive: true,
-                                      content: Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              '3:00 PM - 3:15 PM',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  flex: 2,
-                                                  child: myMaterialButton(
-                                                    context: context,
-                                                    onPressed: () {},
-                                                    height: 40,
-                                                    radius: 9,
-                                                    labelWidget: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          "Start",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .labelLarge!
-                                                              .copyWith(
-                                                                  fontSize: 12),
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        FaIcon(
-                                                          FontAwesomeIcons
-                                                              .paperPlane,
-                                                          size: 16,
-                                                          color: myFavColor7,
-                                                        ),
-                                                      ],
+                                                      radius: 5,
+                                                      labelWidget: Text(
+                                                        "FAILED",
+                                                        style: Theme.of(
+                                                            context)
+                                                            .textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                            fontSize:
+                                                            12,
+                                                            color:
+                                                            myFavColor),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                    flex: 4,
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child:
-                                                              myCustomMaterialButtonLeft(
-                                                            context: context,
-                                                            onPressed: () {},
-                                                            height: 40,
-                                                            radius: 5,
-                                                            labelWidget: Text(
-                                                              "DELIVERED",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              myCustomMaterialButtonRight(
-                                                            context: context,
-                                                            bgColor:
-                                                                myFavColorWithOpacity,
-                                                            onPressed: () {},
-                                                            height: 40,
-                                                            radius: 5,
-                                                            labelWidget: Text(
-                                                              "FAILED",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color:
-                                                                          myFavColor),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                  flex: 1,
-                                                  child: myMaterialButton(
-                                                      context: context,
-                                                      onPressed: () {},
-                                                      height: 40,
-                                                      radius: 9,
-                                                      labelWidget: FaIcon(
-                                                        FontAwesomeIcons.pen,
-                                                        size: 16,
-                                                        color: myFavColor7,
-                                                      )),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'شارع الشهيد فريد ندي، بنها، القليوبية، مصر',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyLarge!
-                                                .copyWith(color: myFavColor4),
+                                                ],
+                                              )),
+                                          const SizedBox(
+                                            width: 10,
                                           ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: currentStepRouteIndex == 2
-                                                ? myFavColor2
-                                                : myFavColor4,
-                                            size: 20,
-                                          )
+                                          Expanded(
+                                            flex: 1,
+                                            child: myMaterialButton(
+                                                context: context,
+                                                onPressed: () {},
+                                                height: 40,
+                                                radius: 9,
+                                                labelWidget: FaIcon(
+                                                  FontAwesomeIcons.pen,
+                                                  size: 16,
+                                                  color: myFavColor7,
+                                                )),
+                                          ),
                                         ],
                                       ),
-                                      state: StepState.indexed,
+                                    ],
+                                  ),
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'عزبة أبو باشا، كفر بطا، بنها، القليوبية، مصر',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: myFavColor4),
                                     ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: currentStepRouteIndex == 0
+                                          ? myFavColor2
+                                          : myFavColor4,
+                                      size: 20,
+                                    )
                                   ],
                                 ),
+                                state: StepState.indexed,
+                              ),
+                              Step(
+                                title: Text(
+                                  'كفر الجزار',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontSize: 18),
+                                ),
+                                isActive: true,
+                                content: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '3:15 PM - 3:30 PM',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: myMaterialButton(
+                                              context: context,
+                                              onPressed: () {},
+                                              height: 40,
+                                              radius: 9,
+                                              labelWidget: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  Text(
+                                                    "Start",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge!
+                                                        .copyWith(
+                                                        fontSize: 12),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  FaIcon(
+                                                    FontAwesomeIcons
+                                                        .paperPlane,
+                                                    size: 16,
+                                                    color: myFavColor7,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                              flex: 4,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                    myCustomMaterialButtonLeft(
+                                                      context: context,
+                                                      onPressed: () {},
+                                                      height: 40,
+                                                      radius: 5,
+                                                      labelWidget: Text(
+                                                        "DELIVERED",
+                                                        style: Theme.of(
+                                                            context)
+                                                            .textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                            fontSize:
+                                                            12),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child:
+                                                    myCustomMaterialButtonRight(
+                                                      context: context,
+                                                      bgColor:
+                                                      myFavColorWithOpacity,
+                                                      onPressed: () {},
+                                                      height: 40,
+                                                      radius: 5,
+                                                      labelWidget: Text(
+                                                        "FAILED",
+                                                        style: Theme.of(
+                                                            context)
+                                                            .textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                            fontSize:
+                                                            12,
+                                                            color:
+                                                            myFavColor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: myMaterialButton(
+                                                context: context,
+                                                onPressed: () {},
+                                                height: 40,
+                                                radius: 9,
+                                                labelWidget: FaIcon(
+                                                  FontAwesomeIcons.pen,
+                                                  size: 16,
+                                                  color: myFavColor7,
+                                                )),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'كفر الجزار، بنها، القليوبية، مصر',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: myFavColor4),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: currentStepRouteIndex == 1
+                                          ? myFavColor2
+                                          : myFavColor4,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                                state: StepState.indexed,
+                              ),
+                              Step(
+                                title: Text(
+                                  "جامعة بنها",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontSize: 18),
+                                ),
+                                isActive: true,
+                                content: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '3:00 PM - 3:15 PM',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: myMaterialButton(
+                                              context: context,
+                                              onPressed: () {},
+                                              height: 40,
+                                              radius: 9,
+                                              labelWidget: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  Text(
+                                                    "Start",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .labelLarge!
+                                                        .copyWith(
+                                                        fontSize: 12),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  FaIcon(
+                                                    FontAwesomeIcons
+                                                        .paperPlane,
+                                                    size: 16,
+                                                    color: myFavColor7,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                              flex: 4,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child:
+                                                    myCustomMaterialButtonLeft(
+                                                      context: context,
+                                                      onPressed: () {},
+                                                      height: 40,
+                                                      radius: 5,
+                                                      labelWidget: Text(
+                                                        "DELIVERED",
+                                                        style: Theme.of(
+                                                            context)
+                                                            .textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                            fontSize:
+                                                            12),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child:
+                                                    myCustomMaterialButtonRight(
+                                                      context: context,
+                                                      bgColor:
+                                                      myFavColorWithOpacity,
+                                                      onPressed: () {},
+                                                      height: 40,
+                                                      radius: 5,
+                                                      labelWidget: Text(
+                                                        "FAILED",
+                                                        style: Theme.of(
+                                                            context)
+                                                            .textTheme
+                                                            .labelLarge!
+                                                            .copyWith(
+                                                            fontSize:
+                                                            12,
+                                                            color:
+                                                            myFavColor),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: myMaterialButton(
+                                                context: context,
+                                                onPressed: () {},
+                                                height: 40,
+                                                radius: 9,
+                                                labelWidget: FaIcon(
+                                                  FontAwesomeIcons.pen,
+                                                  size: 16,
+                                                  color: myFavColor7,
+                                                )),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'شارع الشهيد فريد ندي، بنها، القليوبية، مصر',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!
+                                          .copyWith(color: myFavColor4),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: currentStepRouteIndex == 2
+                                          ? myFavColor2
+                                          : myFavColor4,
+                                      size: 20,
+                                    )
+                                  ],
+                                ),
+                                state: StepState.indexed,
                               ),
                             ],
-                          )
+                          ),
+                        ),
+                      ],
+                    )
                         : buildBottomSheetWithoutExpanded(size: size),
                   ),
                 ),
@@ -685,7 +689,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
     );
   }
 
-  Widget buildBottomSheetWithExpanded({
+Widget buildBottomSheetWithExpanded({
     required Size size,
     required int currentStepIndex,
   }) =>

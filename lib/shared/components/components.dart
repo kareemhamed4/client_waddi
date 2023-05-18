@@ -6,6 +6,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/user/cubit/cubit.dart';
+import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
@@ -498,6 +501,9 @@ Widget buildChatItem({
   required BuildContext context,
   required UserModelFB modelFB,
 }) {
+  UserLayoutCubit cubit = BlocProvider.of<UserLayoutCubit>(context);
+  // Retrieve the last message for the current user from the map
+  MessageModel? lastMessage = cubit.lastMessages[modelFB.uId];
   return GestureDetector(
     behavior: HitTestBehavior.opaque,
     onTap: () {
@@ -525,39 +531,21 @@ Widget buildChatItem({
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Container(
-                width: 60,
-                height: 15,
-                decoration: BoxDecoration(
-                  color: rose,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(4),
-                  ),
-                ),
-                child: Center(
-                  child: modelFB.companyName != "" ? Text(
-                    "Company",
-                    style:
-                    Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: myFavColor,
-                      fontSize: 12,
+              if (lastMessage != null)  // Check if there's a last message
+                Row(
+                  children: [
+                    Icon(
+                      lastMessage.senderId == cubit.userModelFB!.uId
+                          ? Icons.check_circle_outline_outlined
+                          : null,
+                      color: myFavColor4,
+                      size: 15,
                     ),
-                  ): Text(
-                    "Person",
-                    style:
-                    Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: myFavColor,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-              /*UserLayoutCubit.get(context).messages.last.senderId !=
-                      UserLayoutCubit.get(context).userModelFB!.uId
-                  ? SizedBox(
+                    SizedBox(width: 10),
+                    SizedBox(
                       width: 140,
                       child: Text(
-                        message.text!,
+                        lastMessage.text!,
                         style: Theme.of(context)
                             .textTheme
                             .labelLarge!
@@ -565,31 +553,9 @@ Widget buildChatItem({
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                    )
-                  : Row(
-                      children: [
-                        Icon(
-                          Icons.check_circle_outline_outlined,
-                          color: myFavColor4,
-                          size: 15,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: 140,
-                          child: Text(
-                            message.text!,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .copyWith(color: myFavColor4, fontSize: 14),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),*/
+                    ),
+                  ],
+                ),
             ],
           ),
         ),

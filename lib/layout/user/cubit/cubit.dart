@@ -154,7 +154,8 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   }
 
   List<MessageModel> messages = [];
-  void getMessages({required String receiverId}){
+  Map<String, MessageModel?> lastMessages = {};
+  void getMessages({required String receiverId}) {
     FirebaseFirestore.instance
         .collection("Users")
         .doc(userModelFB!.uId)
@@ -164,10 +165,16 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         .orderBy("dateTime")
         .snapshots()
         .listen((event) {
-      messages = [];
-      for (var element in event.docs) {
-        messages.add(MessageModel.fromJson(element.data()));
+          messages = event.docs
+          .map((element) => MessageModel.fromJson(element.data()))
+          .toList();
+
+      if (messages.isNotEmpty) {
+        lastMessages[receiverId] = messages.last;
+      } else {
+        lastMessages[receiverId] = null;
       }
+
       emit(ReceiveMessageSuccessState());
     });
   }

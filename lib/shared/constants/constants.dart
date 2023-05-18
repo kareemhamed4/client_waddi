@@ -26,7 +26,6 @@ class searchData extends SearchDelegate {
   }
 }
 
-double? deviceHeight;
 double? deviceWidth;
 const String googleApiKey = "AIzaSyDUNaxTG6FDCGz51xE-Uc9ZoEAbHsawv8M";
 Position? currentLocation;

@@ -16,18 +16,8 @@ class DriverViewOnMapScreen extends StatefulWidget {
 class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
   double sheetHeight = 146.0;
   bool isSheetExpanded = false;
-  void onVerticalDragUpdate(DragUpdateDetails details) {
-    setState(() {
-      sheetHeight -= details.primaryDelta!;
-      if (sheetHeight < 146) {
-        sheetHeight = 146;
-        isSheetExpanded = false;
-      } else if (sheetHeight > 400) {
-        sheetHeight = 400;
-        isSheetExpanded = true;
-      }
-    });
-  }
+  double startPos = 0.0;
+  double startHeight = 0.0;
 
   @override
   void initState() {
@@ -38,35 +28,51 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    deviceHeight = size.height;
-    deviceWidth = size.width;
     return Scaffold(
       appBar: buildAppBarForOnlyStatusBar(),
       body: SafeArea(
         child: Stack(
           children: [
-            currentLocation == null
-                ? const Text("Loading")
-                : const MyGoogleMap(
-                    isGoToMyLocationEnabled: false,
-                    isTracking: false,
-                    zoom: 11,
-                    isPlaces: false,
-                  ),
+            Visibility(
+              visible: currentLocation != null,
+              replacement: const Center(
+                child: Text("Loading"),
+              ),
+              child: const MyGoogleMap(
+                isGoToMyLocationEnabled: false,
+                isTracking: false,
+                zoom: 11,
+                isPlaces: false,
+              ),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
-                onVerticalDragUpdate: onVerticalDragUpdate,
+                onVerticalDragStart: (DragStartDetails details) {
+                  startPos = details.globalPosition.dy;
+                  startHeight = sheetHeight;
+                },
+                onVerticalDragUpdate: (DragUpdateDetails details) {
+                  setState(() {
+                    double delta = details.globalPosition.dy - startPos;
+                    sheetHeight = startHeight - delta;
+                    if (sheetHeight < 146) {
+                      sheetHeight = 146;
+                      isSheetExpanded = false;
+                    } else if (sheetHeight > 420) {
+                      sheetHeight = 420;
+                      isSheetExpanded = true;
+                    }
+                  });
+                },
                 onVerticalDragEnd: (_) {
                   setState(() {
                     if (sheetHeight > 180) {
-                      sheetHeight = 400;
+                      sheetHeight = 420;
                       isSheetExpanded = true;
                     } else {
-                      setState(() {
-                        sheetHeight = 146;
-                        isSheetExpanded = false;
-                      });
+                      sheetHeight = 146;
+                      isSheetExpanded = false;
                     }
                   });
                 },
@@ -90,7 +96,8 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22,vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 22, vertical: 20),
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Column(
@@ -141,11 +148,11 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                               )
                             ],
                           ),
-                          if (sheetHeight == 400 && isSheetExpanded)
+                          if (sheetHeight == 420 && isSheetExpanded)
                             const SizedBox(
                               height: 40,
                             ),
-                          if (sheetHeight == 400 && isSheetExpanded)
+                          if (sheetHeight == 420 && isSheetExpanded)
                             Column(
                               children: [
                                 Column(
@@ -156,17 +163,31 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                                       thickness: 1,
                                       color: myFavColor4.withOpacity(0.5),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                     Text(
                                       "DURATION",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor4, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 6,),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
                                     Text(
                                       "3 minute",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor2, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -177,17 +198,31 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                                       thickness: 1,
                                       color: myFavColor4.withOpacity(0.2),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                     Text(
                                       "LOCATION NAME",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor4, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 6,),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
                                     Text(
                                       "Cairo",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor2, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -198,17 +233,31 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                                       thickness: 1,
                                       color: myFavColor4.withOpacity(0.2),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                     Text(
                                       "ORDER ID",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor4, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 6,),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
                                     Text(
                                       "ORD016",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor2, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -219,17 +268,31 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                                       thickness: 1,
                                       color: myFavColor4.withOpacity(0.2),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                     Text(
                                       "BOXES",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor4, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 6,),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
                                     Text(
                                       "4",
-                                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2,fontSize: 16),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                              color: myFavColor2, fontSize: 16),
                                     ),
-                                    const SizedBox(height: 12,),
+                                    const SizedBox(
+                                      height: 12,
+                                    ),
                                   ],
                                 ),
                               ],
@@ -242,7 +305,7 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 25,left: 20,right: 20),
+              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

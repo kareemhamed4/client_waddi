@@ -54,7 +54,7 @@ class UserProfileCubit extends Cubit<UserProfileStates> {
     });
   }
 
-  void uploadProfileImageInFB({
+  void uploadUserImageToFB({
     required BuildContext context,
   }) {
     emit(ProfileUploadImageLoadingState());

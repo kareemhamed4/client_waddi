@@ -519,8 +519,6 @@ class ReviewSummaryAndConfirmScreen extends StatelessWidget {
       builder: (dialogContext) => Center(
         child: SingleChildScrollView(
           child: Container(
-            width: size.width * 305 / 375,
-            height: size.height * 450 / 812,
             decoration: BoxDecoration(
                 color: myFavColor7,
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
@@ -653,8 +651,6 @@ class ReviewSummaryAndConfirmScreen extends StatelessWidget {
       builder: (dialogContext) => Center(
         child: SingleChildScrollView(
           child: Container(
-            width: size.width * 305 / 375,
-            height: size.height * 450 / 812,
             decoration: BoxDecoration(
                 color: myFavColor7,
                 borderRadius: const BorderRadius.all(Radius.circular(20))),

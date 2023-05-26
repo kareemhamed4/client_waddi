@@ -30,7 +30,7 @@ class UserProfileScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is ProfileImagePickedSuccessState) {
           UserProfileCubit.get(context)
-              .uploadProfileImageInFB(context: context);
+              .uploadUserImageToFB(context: context);
         }
         if (state is ProfileImageUploadSuccessState) {
           UserLayoutCubit.get(context).userModelFB!.image = state.imageUrl;

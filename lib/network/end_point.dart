@@ -21,9 +21,8 @@ const GETRATE = "client/get_rate";
 
 //delegate endPoints
 const DELEGATEGETALLORDERS = "delegate/orders";
-const DELEGATEGETHISORDERS = 'delegate/delegate_orders';
+const DELEGATEGETORDERBYID = "delegate/orders/";
 const DELEGATETAKEORDERBYID = 'delegate/take_order/';
-const DELEGATEGETCURRENTORDER = 'delegate/orders/';
-const DELEGATESEARCHORDERBYID = 'delegate/orders/';
+const DELEGATEGETHISORDERS = 'delegate/delegate_orders';
 const DELEGATECONFIRMORDER = 'delegate/confirm_order/';
 const DELEGATESENDORDERPROOF = 'delegate/proof/';

@@ -2,16 +2,36 @@ import 'package:waddy_app/models/user/get_user_orders.dart';
 
 abstract class GetDriverOrdersStates {}
 
-class GetUserOrdersInitialState extends GetDriverOrdersStates {}
+class GetDriverOrdersInitialState extends GetDriverOrdersStates {}
 
-class GetUserOrdersLoadingState extends GetDriverOrdersStates {}
-class GetUserOrdersSuccessState extends GetDriverOrdersStates {
+class GetDriverOrdersLoadingState extends GetDriverOrdersStates {}
+class GetDriverOrdersSuccessState extends GetDriverOrdersStates {
   final List<UserOrders> userOrders;
-  GetUserOrdersSuccessState(this.userOrders);
+  GetDriverOrdersSuccessState(this.userOrders);
 }
-class GetUserOrdersErrorState extends GetDriverOrdersStates {
+class GetDriverOrdersErrorState extends GetDriverOrdersStates {
   final String error;
-  GetUserOrdersErrorState(this.error);
+  GetDriverOrdersErrorState(this.error);
+}
+
+class GetDriverOrderLoadingState extends GetDriverOrdersStates {}
+class GetDriverOrderSuccessState extends GetDriverOrdersStates {
+  final UserOrders userOrder;
+  GetDriverOrderSuccessState(this.userOrder);
+}
+class GetDriverOrderErrorState extends GetDriverOrdersStates {
+  final String error;
+  GetDriverOrderErrorState(this.error);
+}
+
+class DriverConfirmOrderLoadingState extends GetDriverOrdersStates {}
+class DriverConfirmOrderSuccessState extends GetDriverOrdersStates {
+  final String msg;
+  DriverConfirmOrderSuccessState(this.msg);
+}
+class DriverConfirmOrderErrorState extends GetDriverOrdersStates {
+  final String error;
+  DriverConfirmOrderErrorState(this.error);
 }
 
 class GetDriverSearchedOrdersLoadingState extends GetDriverOrdersStates {}

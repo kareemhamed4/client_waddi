@@ -24,7 +24,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
   GlobalKey<LiquidPullToRefreshState>();
   @override
   void initState(){
-    context.read<UserLayoutCubit>().getUsersWithChat();
+
     super.initState();
   }
   @override

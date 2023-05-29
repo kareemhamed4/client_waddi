@@ -1,12 +1,25 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:waddy_app/layout/driver/layout_screen.dart';
+import 'package:waddy_app/layout/user/layout_screen.dart';
+import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class SecondSplashScreen extends StatelessWidget {
-  const SecondSplashScreen({Key? key}) : super(key: key);
+  final bool isUserLoginBefore;
+  final bool isDelegateLoginBefore;
+  final bool isNoLoginDetected;
+  final bool isFirstTime;
+  const SecondSplashScreen({
+    Key? key,
+    this.isUserLoginBefore = false,
+    this.isDelegateLoginBefore = false,
+    this.isNoLoginDetected = false,
+    this.isFirstTime = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +33,13 @@ class SecondSplashScreen extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: AnimatedSplashScreen(
-        nextScreen: const WaddyOnBoardingScreen(),
+        nextScreen: isUserLoginBefore
+            ? const UserLayoutScreen()
+            : isDelegateLoginBefore
+            ? const DriverLayoutScreen()
+            : isNoLoginDetected
+            ? const ChooseLoginOrSignupScreen()
+            : const WaddyOnBoardingScreen(),
         splash: Stack(
           fit: StackFit.expand,
           alignment: Alignment.bottomLeft,
@@ -53,6 +72,7 @@ class SecondSplashScreen extends StatelessWidget {
         ),
         splashIconSize: size.height,
         backgroundColor: myFavColor,
+        duration: 1500,
       ),
     );
   }

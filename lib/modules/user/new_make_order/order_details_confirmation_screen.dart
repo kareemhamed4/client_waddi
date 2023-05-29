@@ -573,7 +573,7 @@ class ReviewSummaryAndConfirmScreen extends StatelessWidget {
                           .then((value) {
                         context
                             .read<UserLayoutCubit>()
-                            .changeBottom(1, context);
+                            .changeBottom(1);
                       }).then((value) {
                         if (cubit.trackIdForNewOrder != null) {
                           navigateTo(
@@ -620,7 +620,7 @@ class ReviewSummaryAndConfirmScreen extends StatelessWidget {
                           .then((value) {
                         context
                             .read<UserLayoutCubit>()
-                            .changeBottom(1, context);
+                            .changeBottom(1);
                       });
                     },
                     labelWidget: Text(

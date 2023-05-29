@@ -10,16 +10,32 @@ import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class UserChatDetailsScreen extends StatelessWidget {
+class UserChatDetailsScreen extends StatefulWidget {
   final UserModelFB userModelFB;
-  final TextEditingController messageController = TextEditingController();
-  UserChatDetailsScreen({Key? key,required this.userModelFB}) : super(key: key);
+  const UserChatDetailsScreen({Key? key,required this.userModelFB}) : super(key: key);
 
+  @override
+  State<UserChatDetailsScreen> createState() => _UserChatDetailsScreenState();
+}
+
+class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
+  final TextEditingController messageController = TextEditingController();
+  UserLayoutCubit? userLayoutCubit;
+  @override
+  void initState() {
+    super.initState();
+    userLayoutCubit = context.read<UserLayoutCubit>();
+  }
+  @override
+  void dispose() {
+    userLayoutCubit!.messages = [];
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context){
-        UserLayoutCubit.get(context).getMessages(receiverId: userModelFB.uId!);
+        UserLayoutCubit.get(context).getMessages(receiverId: widget.userModelFB.uId!);
         return BlocConsumer<UserLayoutCubit,UserLayoutStates>(
             listener: (context,state){},
             builder: (context,state){
@@ -39,6 +55,7 @@ class UserChatDetailsScreen extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    cubit.messages = [];
                                     Navigator.pop(context);
                                   },
                                   child: Icon(
@@ -51,7 +68,7 @@ class UserChatDetailsScreen extends StatelessWidget {
                                   width: 20,
                                 ),
                                 Text(
-                                  userModelFB.name!,
+                                  widget.userModelFB.name!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge!
@@ -255,7 +272,7 @@ class UserChatDetailsScreen extends StatelessWidget {
               GestureDetector(
                 onTap:(){
                   cubit.sendMessage(
-                    receiverId: userModelFB.uId!,
+                    receiverId: widget.userModelFB.uId!,
                     text: messageController.text,
                   );
                   messageController.clear();

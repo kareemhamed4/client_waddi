@@ -21,7 +21,7 @@ class UserLayoutScreen extends StatelessWidget {
               items: cubit.bottomItems,
               currentIndex: cubit.currentIndex,
               onTap: (index) {
-                cubit.changeBottom(index,context);
+                cubit.changeBottom(index);
               },
             ),
           ),

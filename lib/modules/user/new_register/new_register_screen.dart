@@ -513,7 +513,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
             context: context,
             controller: cubit.personalPasswordController,
             hint: "Enter Your Password",
-            type: TextInputType.text,
+            type: TextInputType.visiblePassword,
             radius: 10,
             validate: (value) {
               if (value!.length < 8) {
@@ -556,7 +556,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
             context: context,
             controller: cubit.personalConfirmPasswordController,
             hint: "Enter Your Password",
-            type: TextInputType.text,
+            type: TextInputType.visiblePassword,
             radius: 10,
             validate: (value) {
               if (value != cubit.personalPasswordController.text) {

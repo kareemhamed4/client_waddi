@@ -9,9 +9,19 @@ import 'package:waddy_app/modules/user/inbox/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class UserInboxScreen extends StatelessWidget {
+class UserInboxScreen extends StatefulWidget {
   const UserInboxScreen({Key? key}) : super(key: key);
 
+  @override
+  State<UserInboxScreen> createState() => _UserInboxScreenState();
+}
+
+class _UserInboxScreenState extends State<UserInboxScreen> {
+  @override
+  void initState(){
+    context.read<UserLayoutCubit>().getUsersWithChat();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     List<Widget> icons = [
@@ -229,14 +239,13 @@ class UserInboxScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Builder(
       builder: (BuildContext context) {
-        UserLayoutCubit.get(context).getAllMessages(context: context);
-        return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
+        return BlocConsumer<UserInboxCubit, UserInboxStates>(
           listener: (context, state) {},
           builder: (context, state) {
-            return BlocConsumer<UserInboxCubit, UserInboxStates>(
+            UserInboxCubit cubit = BlocProvider.of(context);
+            return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
               listener: (context, state) {},
               builder: (context, state) {
-                UserInboxCubit cubit = BlocProvider.of(context);
                 return Scaffold(
                   appBar: defaultAppBar(
                     context: context,
@@ -332,7 +341,7 @@ class UserInboxScreen extends StatelessWidget {
                                             context: context,
                                             modelFB:
                                                 UserLayoutCubit.get(context)
-                                                    .users[index],
+                                                    .usersWithChat[index],
                                           )
                                         : buildCallItem(
                                             context: context,
@@ -342,7 +351,7 @@ class UserInboxScreen extends StatelessWidget {
                                   height: 30,
                                 ),
                                 itemCount:
-                                    UserLayoutCubit.get(context).users.length,
+                                    UserLayoutCubit.get(context).usersWithChat.length,
                               ),
                             ],
                           ),

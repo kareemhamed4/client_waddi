@@ -51,7 +51,7 @@ class ConfirmedOrder extends StatelessWidget {
       listener: (context,state){
         if(state is MakeOrderSuccessState || state is UpdateOrderSuccessState){
           navigateToAndFinish(context, const UserLayoutScreen()).then((value){
-            context.read<UserLayoutCubit>().changeBottom(1, context);
+            context.read<UserLayoutCubit>().changeBottom(1);
           });
         }
       },

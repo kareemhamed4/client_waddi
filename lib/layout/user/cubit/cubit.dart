@@ -10,7 +10,6 @@ import 'package:waddy_app/models/user/get_user_data_model.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/user/home/home_screen.dart';
 import 'package:waddy_app/modules/user/inbox/inbox_screen.dart';
-import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/my_order_screen.dart';
 import 'package:waddy_app/modules/user/profile/profile_screen.dart';
 import 'package:waddy_app/network/end_point.dart';
@@ -28,6 +27,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     UserInboxScreen(),
     UserProfileScreen(),
   ];
+
   List<BottomNavigationBarItem> bottomItems = [
     const BottomNavigationBarItem(
         icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
@@ -38,14 +38,8 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         icon: Icon(CustomIcons.user_alt), label: 'Profile'),
   ];
 
-  void changeBottom(int index, BuildContext context) {
+  void changeBottom(int index) {
     currentIndex = index;
-    if (index == 1) {
-      context.read<GetUserOrdersCubit>().getOrders();
-    }
-    if (index == 2) {
-      getAllUsersFromFB();
-    }
     emit(ChangeBottomNavBarUserState());
   }
 
@@ -148,6 +142,46 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     });
   }
 
+  List<UserModelFB> usersWithChat = [];
+  Future<void> getUsersWithChat() async{
+    emit(GetUsersWithChatLoadingState());
+    await getAllMessages();
+    if (users.isEmpty) {
+      FirebaseFirestore.instance
+          .collection('Users')
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          if (element.data()["uId"] != userModelFB!.uId) {
+            users.add(UserModelFB.fromJson(element.data()));
+          }
+        }
+
+        for (var user in users) {
+          FirebaseFirestore.instance
+              .collection("Users")
+              .doc(userModelFB!.uId)
+              .collection("Chats")
+              .doc(user.uId)
+              .collection("Messages")
+              .get()
+              .then((value) {
+            if (value.docs.isNotEmpty) {
+              usersWithChat.add(user);
+            }
+          }).whenComplete(() {
+            getAllMessages();
+            emit(GetUsersWithChatSuccessState(usersWithChat));
+          }).catchError((error) {
+            emit(GetUsersWithChatErrorState(error.toString()));
+          });
+        }
+      }).catchError((error) {
+        emit(GetAllUsersFromFBErrorState(error.toString()));
+      });
+    }
+  }
+
   List<MessageModel> messages = [];
   Map<String, MessageModel?> lastMessages = {};
   void getMessages({required String receiverId}) {
@@ -169,17 +203,13 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
       } else {
         lastMessages[receiverId] = null;
       }
-
       emit(ReceiveMessageSuccessState());
     });
   }
 
-  void getAllMessages({
-    required BuildContext context,
-  }) {
-    for (int i = 0; i < UserLayoutCubit.get(context).users.length; i++) {
-      UserLayoutCubit.get(context)
-          .getMessages(receiverId: UserLayoutCubit.get(context).users[i].uId!);
+  Future<void> getAllMessages() async {
+    for(int i=0; i<usersWithChat.length ; i++){
+      getMessages(receiverId: usersWithChat[i].uId!);
     }
   }
 }

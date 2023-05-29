@@ -163,12 +163,6 @@ class UserHomeScreen extends StatelessWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            /*navigateTo(
-                              context,
-                              const FillSenderDateScreen(
-                                isOrderEdit: false,
-                              ),
-                            );*/
                             navigateTo(
                               context,
                               const SenderDataScreen(),

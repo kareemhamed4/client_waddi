@@ -33,14 +33,14 @@ class WaddyLoginScreen extends StatelessWidget {
             if (state.clientModel.user != null) {
               if (state.clientModel.user!.role == 1000) {
                 CacheHelper.saveData(
-                  key: "token",
+                  key: "userToken",
                   value: state.clientModel.token,
                 ).then((value) {
                   userToken = state.clientModel.token;
                 });
               } else if (state.clientModel.user!.role == 2000) {
                 CacheHelper.saveData(
-                  key: "token",
+                  key: "driverToken",
                   value: state.clientModel.token,
                 ).then((value) {
                   driverToken = state.clientModel.token;
@@ -112,7 +112,7 @@ class WaddyLoginScreen extends StatelessWidget {
                         myTextFormField(
                           context: context,
                           controller: passwordController,
-                          type: TextInputType.number,
+                          type: TextInputType.visiblePassword,
                           hint: 'Password',
                           prefixIcon: Icon(
                             Icons.lock,

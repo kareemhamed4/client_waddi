@@ -1,4 +1,5 @@
 import 'package:waddy_app/models/user/get_user_data_model.dart';
+import 'package:waddy_app/models/user/model_user_firebase.dart';
 
 abstract class UserLayoutStates{}
 
@@ -51,3 +52,12 @@ class GetAllCompaniesFromFBErrorState extends UserLayoutStates{
   GetAllCompaniesFromFBErrorState(this.error);
 }
 
+class GetUsersWithChatLoadingState extends UserLayoutStates{}
+class GetUsersWithChatSuccessState extends UserLayoutStates{
+  final List<UserModelFB> usersWithChat;
+  GetUsersWithChatSuccessState(this.usersWithChat);
+}
+class GetUsersWithChatErrorState extends UserLayoutStates{
+  final String error;
+  GetUsersWithChatErrorState(this.error);
+}

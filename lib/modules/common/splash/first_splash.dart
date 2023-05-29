@@ -7,7 +7,17 @@ import 'package:waddy_app/modules/common/splash/second_splash_screen.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class FirstSplashScreen extends StatelessWidget {
-  const FirstSplashScreen({Key? key}) : super(key: key);
+  final bool isUserLoginBefore;
+  final bool isDelegateLoginBefore;
+  final bool isNoLoginDetected;
+  final bool isFirstTime;
+  const FirstSplashScreen({
+    Key? key,
+    this.isUserLoginBefore = false,
+    this.isDelegateLoginBefore = false,
+    this.isNoLoginDetected = false,
+    this.isFirstTime = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,12 @@ class FirstSplashScreen extends StatelessWidget {
           systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: AnimatedSplashScreen(
-        nextScreen: const SecondSplashScreen(),
+        nextScreen: SecondSplashScreen(
+            isUserLoginBefore: isUserLoginBefore,
+            isDelegateLoginBefore: isDelegateLoginBefore,
+            isNoLoginDetected: isNoLoginDetected,
+            isFirstTime: isFirstTime,
+        ),
         splash: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -53,6 +68,7 @@ class FirstSplashScreen extends StatelessWidget {
         ),
         splashIconSize: size.height * 400/812,
         backgroundColor: myFavColor,
+        duration: 1200,
       ),
     );
   }

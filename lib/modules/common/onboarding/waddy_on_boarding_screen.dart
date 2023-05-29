@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
+import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -88,6 +89,7 @@ class _WaddyOnBoardingScreen extends State<WaddyOnBoardingScreen> {
                     context: context,
                     onPressed: () {
                       if (isLast) {
+                        CacheHelper.saveData(key: "onBoarding", value: true);
                         navigateToAndFinish(context, const ChooseLoginOrSignupScreen());
                       } else {
                         boardController.nextPage(

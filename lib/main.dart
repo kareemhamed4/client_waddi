@@ -8,12 +8,9 @@ import 'package:waddy_app/cubit/user/cubit.dart';
 import 'package:waddy_app/cubit/user/states.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
-import 'package:waddy_app/layout/user/layout_screen.dart';
 import 'package:waddy_app/modules/common/otp/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/forget_password/cubit/cubit.dart';
-import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/common/new_password/cubit/cubit.dart';
-import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dart';
 import 'package:waddy_app/modules/common/splash/first_splash.dart';
 import 'package:waddy_app/modules/driver/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
@@ -40,20 +37,22 @@ Future<void> main() async {
   await CacheHelper.init();
   currentLocationAsString = CacheHelper.getData(key: 'currentLocation');
   bool? isDark = CacheHelper.getData(key: 'isDark') ?? false;
-  bool? onBoarding = CacheHelper.getData(key: 'firstSplash');
+  bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   uId = CacheHelper.getData(key: 'uId');
   userToken = CacheHelper.getData(key: 'userToken');
   driverToken = CacheHelper.getData(key: 'driverToken');
 
   Widget widget;
   if (onBoarding != null) {
-    if (userToken != null || driverToken != null) {
-      widget = const UserLayoutScreen();
+    if (userToken != null) {
+      widget = const FirstSplashScreen(isUserLoginBefore: true);
+    } else if (driverToken != null) {
+      widget = const FirstSplashScreen(isDelegateLoginBefore: true);
     } else {
-      widget = WaddyLoginScreen();
+      widget = const FirstSplashScreen(isNoLoginDetected: true);
     }
   } else {
-    widget = const WaddyOnBoardingScreen();
+    widget = const FirstSplashScreen(isFirstTime: true);
   }
 
   runApp(MyApp(
@@ -88,7 +87,7 @@ class MyApp extends StatelessWidget {
             )
             ..getMyCurrentLocation(),
         ),
-        BlocProvider(create: (BuildContext context) => UserLayoutCubit()..getUserData()..getUserDataFromFB()..getAllUsersFromFB()),
+        BlocProvider(create: (BuildContext context) => UserLayoutCubit()..getUserData()..getUserDataFromFB()..getAllUsersFromFB()..getUsersWithChat()),
         BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
@@ -132,7 +131,7 @@ class MyApp extends StatelessWidget {
               themeMode: UserCubit.get(context).isDark
                   ? ThemeMode.dark
                   : ThemeMode.light,
-              home: const FirstSplashScreen(),
+              home: startWidget,
             ),
           );
         },

@@ -29,8 +29,7 @@ class UserProfileScreen extends StatelessWidget {
     return BlocConsumer<UserProfileCubit, UserProfileStates>(
       listener: (context, state) {
         if (state is ProfileImagePickedSuccessState) {
-          UserProfileCubit.get(context)
-              .uploadUserImageToFB(context: context);
+          UserProfileCubit.get(context).uploadUserImageToFB(context: context);
         }
         if (state is ProfileImageUploadSuccessState) {
           UserLayoutCubit.get(context).userModelFB!.image = state.imageUrl;
@@ -72,7 +71,7 @@ class UserProfileScreen extends StatelessWidget {
                           builder: (context) => CircleAvatar(
                             radius: 55,
                             backgroundImage:
-                            NetworkImage(cubit.userModelFB!.image!),
+                                NetworkImage(cubit.userModelFB!.image!),
                           ),
                           fallback: (context) => Stack(
                             alignment: Alignment.center,
@@ -80,7 +79,7 @@ class UserProfileScreen extends StatelessWidget {
                               CircleAvatar(
                                 radius: 55,
                                 backgroundImage:
-                                NetworkImage(cubit.userModelFB!.image!),
+                                    NetworkImage(cubit.userModelFB!.image!),
                               ),
                               SizedBox(
                                 width: 120,
@@ -351,9 +350,10 @@ class UserProfileScreen extends StatelessWidget {
                                         await FirebaseFirestore.instance
                                             .terminate()
                                             .then((value) {
-                                          context
-                                              .read<UserLayoutCubit>()
-                                              .changeBottom(0, context);
+                                          UserLayoutCubit.get(context)
+                                              .usersWithChat = [];
+                                          UserLayoutCubit.get(context)
+                                              .changeBottom(0);
                                           Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(

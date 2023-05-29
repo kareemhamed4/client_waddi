@@ -9,16 +9,32 @@ import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 import 'package:intl/intl.dart';
 
-class CustomerServiceChatDetailsScreen extends StatelessWidget {
-  final TextEditingController messageController = TextEditingController();
-  CustomerServiceChatDetailsScreen({Key? key}) : super(key: key);
+class CustomerServiceChatDetailsScreen extends StatefulWidget {
+  const CustomerServiceChatDetailsScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CustomerServiceChatDetailsScreen> createState() => _CustomerServiceChatDetailsScreenState();
+}
+
+class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDetailsScreen> {
+  final TextEditingController messageController = TextEditingController();
+  UserLayoutCubit? userLayoutCubit;
+  @override
+  void initState() {
+    super.initState();
+    userLayoutCubit = context.read<UserLayoutCubit>();
+  }
+  @override
+  void dispose() {
+    userLayoutCubit!.messages = [];
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context){
-        UserLayoutCubit.get(context).getMessages(receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02");
+        UserLayoutCubit.get(context).getMessages(receiverId: "ekkODsmM09YBM8FggBbRw078Qfv1");
         return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -38,6 +54,7 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () {
+                                  cubit.messages = [];
                                   Navigator.pop(context);
                                 },
                                 child: Icon(
@@ -254,7 +271,7 @@ class CustomerServiceChatDetailsScreen extends StatelessWidget {
               GestureDetector(
                 onTap:(){
                   cubit.sendMessage(
-                      receiverId: "kDKyKvoGxAcI7fxr7n1wJ26NDP02",
+                      receiverId: "ekkODsmM09YBM8FggBbRw078Qfv1",
                       text: messageController.text,
                   );
                   messageController.clear();

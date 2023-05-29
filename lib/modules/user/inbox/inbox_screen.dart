@@ -2,11 +2,13 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/modules/user/inbox/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/inbox/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/handle_refresh.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class UserInboxScreen extends StatefulWidget {
@@ -17,6 +19,9 @@ class UserInboxScreen extends StatefulWidget {
 }
 
 class _UserInboxScreenState extends State<UserInboxScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
   @override
   void initState(){
     context.read<UserLayoutCubit>().getUsersWithChat();
@@ -239,6 +244,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
     Size size = MediaQuery.of(context).size;
     return Builder(
       builder: (BuildContext context) {
+        UserLayoutCubit.get(context).getUsersWithChat();
         return BlocConsumer<UserInboxCubit, UserInboxStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -247,117 +253,137 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
               listener: (context, state) {},
               builder: (context, state) {
                 return Scaffold(
+                  key: _scaffoldKey,
                   appBar: defaultAppBar(
                     context: context,
                     title: "Inbox",
                     titleColor: myFavColor2,
                   ),
-                  body: CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      SliverAppBar(
-                        pinned: false,
-                        floating: true,
-                        backgroundColor: myFavColor7,
-                        expandedHeight: size.height * 100 / size.height,
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                  body: LiquidPullToRefresh(
+                    key: _refreshIndicatorKey,
+                    onRefresh: () {
+                      return MyReusableComponent.performTask(
+                        context: context,
+                        somethingToDo: () async {
+                          await UserLayoutCubit.get(context).getUsersWithChat();
+                        },
+                        refreshIndicatorKey: _refreshIndicatorKey,
+                      );
+                    },
+                    color: myFavColor,
+                    child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (overScroll){
+                        overScroll.disallowIndicator();
+                        return true;
+                      },
+                      child: CustomScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        slivers: [
+                          SliverAppBar(
+                            pinned: false,
+                            floating: true,
+                            backgroundColor: myFavColor7,
+                            expandedHeight: size.height * 100 / size.height,
+                            flexibleSpace: FlexibleSpaceBar(
+                              background: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Expanded(
-                                      child: myMaterialButton(
-                                        context: context,
-                                        onPressed: () {
-                                          cubit.changeInboxIndex(0);
-                                        },
-                                        labelWidget: Text(
-                                          "Chats",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge!
-                                              .copyWith(
-                                                  color: cubit.currentIndex == 0
-                                                      ? myFavColor7
-                                                      : myFavColor),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: myMaterialButton(
+                                            context: context,
+                                            onPressed: () {
+                                              cubit.changeInboxIndex(0);
+                                            },
+                                            labelWidget: Text(
+                                              "Chats",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge!
+                                                  .copyWith(
+                                                      color: cubit.currentIndex == 0
+                                                          ? myFavColor7
+                                                          : myFavColor),
+                                            ),
+                                            height: 35,
+                                            bgColor: cubit.currentIndex == 0
+                                                ? myFavColor
+                                                : myFavColor7,
+                                          ),
                                         ),
-                                        height: 35,
-                                        bgColor: cubit.currentIndex == 0
-                                            ? myFavColor
-                                            : myFavColor7,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: size.width * 30 / size.width,
-                                    ),
-                                    Expanded(
-                                      child: myMaterialButton(
-                                        context: context,
-                                        onPressed: () {
-                                          cubit.changeInboxIndex(1);
-                                        },
-                                        labelWidget: Text(
-                                          "Calls",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge!
-                                              .copyWith(
-                                                  color: cubit.currentIndex == 1
-                                                      ? myFavColor7
-                                                      : myFavColor),
+                                        SizedBox(
+                                          width: size.width * 30 / size.width,
                                         ),
-                                        height: 35,
-                                        bgColor: cubit.currentIndex == 1
-                                            ? myFavColor
-                                            : myFavColor7,
-                                      ),
+                                        Expanded(
+                                          child: myMaterialButton(
+                                            context: context,
+                                            onPressed: () {
+                                              cubit.changeInboxIndex(1);
+                                            },
+                                            labelWidget: Text(
+                                              "Calls",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge!
+                                                  .copyWith(
+                                                      color: cubit.currentIndex == 1
+                                                          ? myFavColor7
+                                                          : myFavColor),
+                                            ),
+                                            height: 35,
+                                            bgColor: cubit.currentIndex == 1
+                                                ? myFavColor
+                                                : myFavColor7,
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                    const SizedBox(height: 12),
+                                    myDivider(),
                                   ],
                                 ),
-                                const SizedBox(height: 12),
-                                myDivider(),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 8,
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                        cubit.currentIndex == 0
+                                            ? buildChatItem(
+                                                context: context,
+                                                modelFB:
+                                                    UserLayoutCubit.get(context)
+                                                        .usersWithChat[index],
+                                              )
+                                            : buildCallItem(
+                                                context: context,
+                                                icon: icons[index]),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(
+                                      height: 30,
+                                    ),
+                                    itemCount:
+                                        UserLayoutCubit.get(context).usersWithChat.length,
+                                  ),
+                                ],
                               ),
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    cubit.currentIndex == 0
-                                        ? buildChatItem(
-                                            context: context,
-                                            modelFB:
-                                                UserLayoutCubit.get(context)
-                                                    .usersWithChat[index],
-                                          )
-                                        : buildCallItem(
-                                            context: context,
-                                            icon: icons[index]),
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(
-                                  height: 30,
-                                ),
-                                itemCount:
-                                    UserLayoutCubit.get(context).usersWithChat.length,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 );
               },

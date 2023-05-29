@@ -61,7 +61,6 @@ Future<void> main() async {
   ));
 }
 
-// ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
   final bool? isDark;
   final Widget? startWidget;
@@ -70,7 +69,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ignore: prefer_const_constructors
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -87,7 +85,12 @@ class MyApp extends StatelessWidget {
             )
             ..getMyCurrentLocation(),
         ),
-        BlocProvider(create: (BuildContext context) => UserLayoutCubit()..getUserData()..getUserDataFromFB()..getAllUsersFromFB()..getUsersWithChat()),
+        BlocProvider(
+            create: (BuildContext context) => UserLayoutCubit()
+              ..getUserData()
+              ..getUserDataFromFB()
+              ..getAllUsersFromFB()
+              ..getUsersWithChat()),
         BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
@@ -96,11 +99,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => VerifyOTPCubit()),
         BlocProvider(create: (BuildContext context) => UpdatePasswordCubit()),
         BlocProvider(create: (BuildContext context) => UserProfileCubit()),
-        BlocProvider(create: (BuildContext context) => DriverProfileCubit()..getDriverData()),
-        BlocProvider(create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
-        BlocProvider(create: (BuildContext context) => EditPasswordForAuthUserCubit()),
+        BlocProvider(
+            create: (BuildContext context) =>
+                DriverProfileCubit()..getDriverData()),
+        BlocProvider(
+            create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
+        BlocProvider(
+            create: (BuildContext context) => EditPasswordForAuthUserCubit()),
         BlocProvider(create: (BuildContext context) => NewMakeOrderCubit()),
-        BlocProvider(create: (BuildContext context) => GetUserOrdersCubit()..getOrders()),
+        BlocProvider(
+            create: (BuildContext context) =>
+                GetUserOrdersCubit()..getOrders()),
         BlocProvider(create: (BuildContext context) => HelpCenterCubit()),
         BlocProvider(create: (BuildContext context) => CheckRateCubit()),
         BlocProvider(create: (BuildContext context) => NewRegisterCubit()),

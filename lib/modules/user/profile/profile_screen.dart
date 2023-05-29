@@ -51,7 +51,7 @@ class UserProfileScreen extends StatelessWidget {
                 children: [
                   mySizedBox(size: size, myHeight: 20),
                   Padding(
-                    padding: const EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 20),
                     child: Text(
                       "Profile",
                       style: Theme.of(context)
@@ -70,8 +70,14 @@ class UserProfileScreen extends StatelessWidget {
                           condition: state is! ProfileUploadImageLoadingState,
                           builder: (context) => CircleAvatar(
                             radius: 55,
-                            backgroundImage:
-                                NetworkImage(cubit.userModelFB!.image!),
+                            child: ClipOval(
+                              child: Image.network(
+                                cubit.userModelFB!.image!,
+                                fit: BoxFit.cover,
+                                width: 110,
+                                height: 110,
+                              ),
+                            ),
                           ),
                           fallback: (context) => Stack(
                             alignment: Alignment.center,

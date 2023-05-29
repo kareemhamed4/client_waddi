@@ -21,22 +21,55 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   static UserLayoutCubit get(context) => BlocProvider.of(context);
 
   int currentIndex = 0;
-  List<Widget> screens = const [
-    UserHomeScreen(),
-    UserMyOrderScreen(),
-    UserInboxScreen(),
-    UserProfileScreen(),
-  ];
+  List<Widget> get screens {
+    if (uId == "ekkODsmM09YBM8FggBbRw078Qfv1") {
+      return [
+        const UserInboxScreen(),
+        const UserProfileScreen(),
+      ];
+    } else {
+      return [
+        const UserHomeScreen(),
+        const UserMyOrderScreen(),
+        const UserInboxScreen(),
+        const UserProfileScreen(),
+      ];
+    }
+  }
 
-  List<BottomNavigationBarItem> bottomItems = [
-    const BottomNavigationBarItem(
-        icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
-    const BottomNavigationBarItem(
-        icon: Icon(CustomIcons.doc_text_inv), label: 'My Order'),
-    const BottomNavigationBarItem(icon: Icon(CustomIcons.chat), label: 'Inbox'),
-    const BottomNavigationBarItem(
-        icon: Icon(CustomIcons.user_alt), label: 'Profile'),
-  ];
+  List<BottomNavigationBarItem> get bottomItems {
+    if (uId == "ekkODsmM09YBM8FggBbRw078Qfv1") {
+      return [
+        const BottomNavigationBarItem(
+          icon: Icon(CustomIcons.chat),
+          label: 'Inbox',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(CustomIcons.user_alt),
+          label: 'Profile',
+        ),
+      ];
+    } else {
+      return [
+        const BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.house),
+          label: 'Home',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(CustomIcons.doc_text_inv),
+          label: 'My Order',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(CustomIcons.chat),
+          label: 'Inbox',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(CustomIcons.user_alt),
+          label: 'Profile',
+        ),
+      ];
+    }
+  }
 
   void changeBottom(int index) {
     currentIndex = index;

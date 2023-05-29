@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:rive/rive.dart';
 import 'package:waddy_app/models/user/get_user_orders.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
@@ -11,6 +12,7 @@ import 'package:waddy_app/modules/user/my_orders/e_receipt_screen.dart';
 import 'package:waddy_app/modules/user/new_make_order/sender_data_screen.dart';
 import 'package:waddy_app/modules/user/tracking/tracking_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/components/handle_refresh.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class UserMyOrderScreen extends StatefulWidget {
@@ -22,6 +24,9 @@ class UserMyOrderScreen extends StatefulWidget {
 
 class _UserMyOrderScreenState extends State<UserMyOrderScreen>
     with TickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
+  GlobalKey<LiquidPullToRefreshState>();
   late TabController tabController;
   TextEditingController searchController = TextEditingController();
 
@@ -50,273 +55,266 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       builder: (context, state) {
         GetUserOrdersCubit cubit = BlocProvider.of(context);
         return Scaffold(
+          key: _scaffoldKey,
           appBar: defaultAppBar(
             context: context,
             title: "My Order",
             titleColor: myFavColor2,
           ),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: myTextFormField(
-                    context: context,
-                    controller: searchController,
-                    textInputAction: TextInputAction.search,
-                    onChange: (value) {
-                      setState(() {
-                        cubit.clearSearchedOrderDetails();
-                        if (searchController.text != value) {
-                          searchController.text = value;
-                        }
-                      });
-                    },
-                    onSubmit: (value) {
-                      cubit.getOrdersByTrackId(trackId: value);
-                    },
-                    radius: 10,
-                    hint: "Enter Track ID Number",
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: myFavColor4,
+          body: LiquidPullToRefresh(
+            key: _refreshIndicatorKey,
+            onRefresh: () {
+              return MyReusableComponent.performTask(
+                context: context,
+                somethingToDo: () async {
+                  cubit.getOrders();
+                },
+                refreshIndicatorKey: _refreshIndicatorKey,
+              );
+            },
+            color: myFavColor,
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (overScroll){
+                overScroll.disallowIndicator();
+                return true;
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
                     ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        "assets/icons/scan_red.png",
-                        width: 20,
-                        height: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                if (searchController.text.isEmpty)
-                  Column(
-                    children: [
-                      defaultTabBar(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: myTextFormField(
                         context: context,
-                        tabController: tabController,
-                        size: size,
-                        itemsName: ["All","Pending","on Process","Delivered"],
+                        controller: searchController,
+                        textInputAction: TextInputAction.search,
+                        onChange: (value) {
+                          setState(() {
+                            cubit.clearSearchedOrderDetails();
+                            if (searchController.text != value) {
+                              searchController.text = value;
+                            }
+                          });
+                        },
+                        onSubmit: (value) {
+                          cubit.getOrdersByTrackId(trackId: value);
+                        },
+                        radius: 10,
+                        hint: "Enter Track ID Number",
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: myFavColor4,
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            "assets/icons/scan_red.png",
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 20,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    if (searchController.text.isEmpty)
+                      Column(
+                        children: [
+                          defaultTabBar(
+                            context: context,
+                            tabController: tabController,
+                            size: size,
+                            itemsName: ["All","Pending","on Process","Delivered"],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          if (tabController.index == 0)
+                            ConditionalBuilder(
+                              condition: cubit.ordersList.isNotEmpty,
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    buildOrderSection(
+                                      size: size,
+                                      cubit: cubit,
+                                      status: "Pending",
+                                      ordersList: cubit.ordersList,
+                                    ),
+                                    buildOrderSection(
+                                      size: size,
+                                      cubit: cubit,
+                                      status: "On process",
+                                      ordersList: cubit.ordersList,
+                                    ),
+                                    buildOrderSection(
+                                      size: size,
+                                      cubit: cubit,
+                                      status: "Completed",
+                                      ordersList: cubit.ordersList,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              fallback: (context) => Column(
+                                children: [
+                                  mySizedBox(size: size,myHeight: 90),
+                                  const SizedBox(
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: RiveAnimation.asset(
+                                      'assets/rive/no_results_found (1).riv',
+                                    ),
+                                  ),
+                                  Text("No Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
+                                ],
+                              ),
+                            ),
+                          if (tabController.index == 1)
+                            ConditionalBuilder(
+                              condition: cubit.ordersList
+                                  .where((order) => order.status == "Pending")
+                                  .toList()
+                                  .isNotEmpty,
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    buildOrderSection(
+                                        size: size,
+                                        cubit: cubit,
+                                        status: "Pending",
+                                        ordersList: cubit.ordersList),
+                                  ],
+                                ),
+                              ),
+                              fallback: (context) =>
+                                  Column(
+                                    children: [
+                                      mySizedBox(size: size,myHeight: 90),
+                                      const SizedBox(
+                                        height: 200,
+                                        width: double.infinity,
+                                        child: RiveAnimation.asset(
+                                          'assets/rive/no_results_found (1).riv',
+                                        ),
+                                      ),
+                                      Text("No Pending Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
+                                    ],
+                                  ),
+                            ),
+                          if (tabController.index == 2)
+                            ConditionalBuilder(
+                              condition: cubit.ordersList
+                                  .where((order) => order.status == "on process")
+                                  .toList()
+                                  .isNotEmpty,
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    buildOrderSection(
+                                        size: size,
+                                        cubit: cubit,
+                                        status: "Pending",
+                                        ordersList: cubit.ordersList),
+                                  ],
+                                ),
+                              ),
+                              fallback: (context) =>
+                                  Column(
+                                    children: [
+                                      mySizedBox(size: size,myHeight: 90),
+                                      const SizedBox(
+                                        height: 200,
+                                        width: double.infinity,
+                                        child: RiveAnimation.asset(
+                                          'assets/rive/no_results_found (1).riv',
+                                        ),
+                                      ),
+                                      Text("No Processing Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
+                                    ],
+                                  ),
+                            ),
+                          if (tabController.index == 3)
+                            ConditionalBuilder(
+                              condition: cubit.ordersList
+                                  .where((order) => order.status == "Completed")
+                                  .toList()
+                                  .isNotEmpty,
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    buildOrderSection(
+                                        size: size,
+                                        cubit: cubit,
+                                        status: "Pending",
+                                        ordersList: cubit.ordersList),
+                                  ],
+                                ),
+                              ),
+                              fallback: (context) =>
+                                  Column(
+                                    children: [
+                                      mySizedBox(size: size,myHeight: 90),
+                                      const SizedBox(
+                                        height: 200,
+                                        width: double.infinity,
+                                        child: RiveAnimation.asset(
+                                          'assets/rive/no_results_found (1).riv',
+                                        ),
+                                      ),
+                                      Text("No Delivered Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
+                                    ],
+                                  ),
+                            ),
+                        ],
                       ),
-                      if (tabController.index == 0)
-                        ConditionalBuilder(
-                          condition: cubit.ordersList.isNotEmpty,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                buildOrderSection(
-                                  size: size,
-                                  cubit: cubit,
-                                  status: "Pending",
-                                  ordersList: cubit.ordersList,
-                                ),
-                                buildOrderSection(
-                                  size: size,
-                                  cubit: cubit,
-                                  status: "On process",
-                                  ordersList: cubit.ordersList,
-                                ),
-                                buildOrderSection(
-                                  size: size,
-                                  cubit: cubit,
-                                  status: "Completed",
-                                  ordersList: cubit.ordersList,
-                                ),
-                              ],
+                    if (searchController.text.isNotEmpty &&
+                        cubit.searchedOrderDetails != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            buildResultsForRow(trackId: searchController.text),
+                            mySizedBox(size: size, myHeight: 24),
+                            buildSearchedOrderItem(
+                              context: context,
+                              size: size,
+                              orders: cubit.searchedOrderDetails!,
                             ),
-                          ),
-                          fallback: (context) => Column(
-                            children: [
-                              mySizedBox(size: size,myHeight: 90),
-                              const SizedBox(
-                                height: 200,
-                                width: double.infinity,
-                                child: RiveAnimation.asset(
-                                  'assets/rive/no_results_found (1).riv',
-                                ),
-                              ),
-                              Text("No Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                            ],
-                          ),
+                          ],
                         ),
-                      if (tabController.index == 1)
-                        ConditionalBuilder(
-                          condition: cubit.ordersList
-                              .where((order) => order.status == "Pending")
-                              .toList()
-                              .isNotEmpty,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                buildOrderSection(
-                                    size: size,
-                                    cubit: cubit,
-                                    status: "Pending",
-                                    ordersList: cubit.ordersList),
-                              ],
-                            ),
-                          ),
-                          fallback: (context) =>
-                              Column(
-                                children: [
-                                  mySizedBox(size: size,myHeight: 90),
-                                  const SizedBox(
-                                    height: 200,
-                                    width: double.infinity,
-                                    child: RiveAnimation.asset(
-                                      'assets/rive/no_results_found (1).riv',
-                                    ),
-                                  ),
-                                  Text("No Pending Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                                ],
-                              ),
+                      ),
+                    if (searchController.text.isNotEmpty &&
+                        cubit.searchedOrderDetails == null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            buildResultsForRow(trackId: searchController.text),
+                            buildNoItemFoundScreen(size: size),
+                          ],
                         ),
-                      if (tabController.index == 2)
-                        ConditionalBuilder(
-                          condition: cubit.ordersList
-                              .where((order) => order.status == "on process")
-                              .toList()
-                              .isNotEmpty,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                buildOrderSection(
-                                    size: size,
-                                    cubit: cubit,
-                                    status: "Pending",
-                                    ordersList: cubit.ordersList),
-                              ],
-                            ),
-                          ),
-                          fallback: (context) =>
-                              Column(
-                                children: [
-                                  mySizedBox(size: size,myHeight: 90),
-                                  const SizedBox(
-                                    height: 200,
-                                    width: double.infinity,
-                                    child: RiveAnimation.asset(
-                                      'assets/rive/no_results_found (1).riv',
-                                    ),
-                                  ),
-                                  Text("No Processing Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                                ],
-                              ),
-                        ),
-                      if (tabController.index == 3)
-                        ConditionalBuilder(
-                          condition: cubit.ordersList
-                              .where((order) => order.status == "Completed")
-                              .toList()
-                              .isNotEmpty,
-                          builder: (context) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: ListView(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                buildOrderSection(
-                                    size: size,
-                                    cubit: cubit,
-                                    status: "Pending",
-                                    ordersList: cubit.ordersList),
-                              ],
-                            ),
-                          ),
-                          fallback: (context) =>
-                              Column(
-                                children: [
-                                  mySizedBox(size: size,myHeight: 90),
-                                  const SizedBox(
-                                    height: 200,
-                                    width: double.infinity,
-                                    child: RiveAnimation.asset(
-                                      'assets/rive/no_results_found (1).riv',
-                                    ),
-                                  ),
-                                  Text("No Delivered Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                                ],
-                              ),
-                        ),
-                    ],
-                  ),
-                if (searchController.text.isNotEmpty &&
-                    cubit.searchedOrderDetails != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        buildResultsForRow(trackId: searchController.text),
-                        mySizedBox(size: size, myHeight: 24),
-                        buildSearchedOrderItem(
-                          context: context,
-                          size: size,
-                          orders: cubit.searchedOrderDetails!,
-                        ),
-                      ],
-                    ),
-                  ),
-                if (searchController.text.isNotEmpty &&
-                    cubit.searchedOrderDetails == null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        buildResultsForRow(trackId: searchController.text),
-                        buildNoItemFoundScreen(size: size),
-                      ],
-                    ),
-                  ),
-                /*Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        buildOnProcessItem(size, context),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
-                    itemCount: 1,
-                  ),
+                      ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) =>
-                        buildCompletedOrdersItem(size: size, context: context),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 20),
-                    itemCount: 7,
-                  ),
-                ),*/
-              ],
+              ),
             ),
           ),
         );

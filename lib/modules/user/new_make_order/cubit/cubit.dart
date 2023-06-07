@@ -27,7 +27,7 @@ class NewMakeOrderCubit extends Cubit<NewMakeOrderStates> {
     required String receivedAddress,
     required String category,
     required int weight,
-    required List<String> dimension,
+    required List<int> dimension,
     required int services,
     required String notes,
     required String paymentId,

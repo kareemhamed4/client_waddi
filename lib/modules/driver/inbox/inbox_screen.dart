@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:waddy_app/modules/driver/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
@@ -225,7 +226,6 @@ class DriverInboxScreen extends StatelessWidget {
         ],
       ),
     ];
-    Size size = MediaQuery.of(context).size;
     return BlocConsumer<DriverInboxCubit, DriverInboxStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -243,7 +243,7 @@ class DriverInboxScreen extends StatelessWidget {
                 pinned: false,
                 floating: true,
                 backgroundColor: myFavColor7,
-                expandedHeight: size.height * 100 / size.height,
+                expandedHeight: 100.h,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -268,14 +268,14 @@ class DriverInboxScreen extends StatelessWidget {
                                               ? myFavColor7
                                               : myFavColor),
                                 ),
-                                height: 35,
+                                height: 35.h,
                                 bgColor: cubit.currentIndex == 0
                                     ? myFavColor
                                     : myFavColor7,
                               ),
                             ),
                             SizedBox(
-                              width: size.width * 30 / size.width,
+                              width: 30.w,
                             ),
                             Expanded(
                               child: myMaterialButton(
@@ -293,7 +293,7 @@ class DriverInboxScreen extends StatelessWidget {
                                               ? myFavColor7
                                               : myFavColor),
                                 ),
-                                height: 35,
+                                height: 35.h,
                                 bgColor: cubit.currentIndex == 1
                                     ? myFavColor
                                     : myFavColor7,
@@ -301,7 +301,7 @@ class DriverInboxScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 25.h),
                         myDivider(),
                       ],
                     ),
@@ -326,7 +326,7 @@ class DriverInboxScreen extends StatelessWidget {
                                   navigateTo(
                                       context, const DriverChatDetailsScreen());
                                 },
-                                child: SizedBox(),//buildChatItem(context),
+                                child: const SizedBox(),//buildChatItem(context),
                               )
                             : buildCallItem(
                                 context: context, icon: icons[index]),

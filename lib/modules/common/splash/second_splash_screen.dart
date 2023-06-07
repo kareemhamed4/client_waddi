@@ -8,7 +8,7 @@ import 'package:waddy_app/modules/common/onboarding/waddy_on_boarding_screen.dar
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class SecondSplashScreen extends StatelessWidget {
+class SecondSplashScreen extends StatefulWidget {
   final bool isUserLoginBefore;
   final bool isDelegateLoginBefore;
   final bool isNoLoginDetected;
@@ -22,6 +22,24 @@ class SecondSplashScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<SecondSplashScreen> createState() => _SecondSplashScreenState();
+}
+
+class _SecondSplashScreenState extends State<SecondSplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Hide the system navigation bar
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  }
+
+  @override
+  void dispose() {
+    // Restore the system navigation bar
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -33,11 +51,11 @@ class SecondSplashScreen extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: AnimatedSplashScreen(
-        nextScreen: isUserLoginBefore
+        nextScreen: widget.isUserLoginBefore
             ? const UserLayoutScreen()
-            : isDelegateLoginBefore
+            : widget.isDelegateLoginBefore
             ? const DriverLayoutScreen()
-            : isNoLoginDetected
+            : widget.isNoLoginDetected
             ? const ChooseLoginOrSignupScreen()
             : const WaddyOnBoardingScreen(),
         splash: Stack(

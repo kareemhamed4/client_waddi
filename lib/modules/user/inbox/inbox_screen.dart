@@ -1,6 +1,7 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
@@ -241,7 +242,6 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
         ],
       ),
     ];
-    Size size = MediaQuery.of(context).size;
     return Builder(
       builder: (BuildContext context) {
         UserLayoutCubit.get(context).getUsersWithChat();
@@ -283,7 +283,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                             pinned: false,
                             floating: true,
                             backgroundColor: myFavColor7,
-                            expandedHeight: size.height * 100 / size.height,
+                            expandedHeight: 100.h,
                             flexibleSpace: FlexibleSpaceBar(
                               background: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -308,14 +308,14 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                                           ? myFavColor7
                                                           : myFavColor),
                                             ),
-                                            height: 35,
+                                            height: 35.h,
                                             bgColor: cubit.currentIndex == 0
                                                 ? myFavColor
                                                 : myFavColor7,
                                           ),
                                         ),
                                         SizedBox(
-                                          width: size.width * 30 / size.width,
+                                          width: 30.w,
                                         ),
                                         Expanded(
                                           child: myMaterialButton(
@@ -333,7 +333,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                                           ? myFavColor7
                                                           : myFavColor),
                                             ),
-                                            height: 35,
+                                            height: 35.h,
                                             bgColor: cubit.currentIndex == 1
                                                 ? myFavColor
                                                 : myFavColor7,
@@ -341,7 +341,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 12),
+                                    SizedBox(height: 25.h),
                                     myDivider(),
                                   ],
                                 ),

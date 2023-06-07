@@ -38,10 +38,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
             currentLocation == null
                 ? const Text("Loading")
                 : const MyGoogleMap(
-              isGoToMyLocationEnabled: false,
-              isTracking: false,
-              isPlaces: false,
-            ),
+                    isGoToMyLocationEnabled: false,
+                    isTracking: false,
+                    isPlaces: false,
+                  ),
             Align(
               alignment: Alignment.bottomCenter,
               child: GestureDetector(
@@ -106,8 +106,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                           height: 4,
                           decoration: BoxDecoration(
                             color: myFavColor4,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(20)),
+                            borderRadius: const BorderRadius.all(Radius.circular(20)),
                           ),
                         ),
                         mySizedBox(size: size, myHeight: 30),
@@ -120,17 +119,15 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         ),
                         Text(
                           "Arriving at pick up point in 3 mins",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(fontSize: 16, color: myFavColor4),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor4),
                         ),
-                        if (!isSheetExpanded)
-                          mySizedBox(size: size, myHeight: 30),
+                        if (!isSheetExpanded) mySizedBox(size: size, myHeight: 30),
+                        if (sheetHeight == size.height - 40 && isSheetExpanded) mySizedBox(size: size, myHeight: 15),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
-                          mySizedBox(size: size, myHeight: 15),
-                        if (sheetHeight == size.height - 40 && isSheetExpanded)
-                          myDivider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: myDivider(),
+                          ),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
                           const SizedBox(
                             height: 8,
@@ -142,8 +139,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                               children: [
                                 const CircleAvatar(
                                   radius: 27,
-                                  backgroundImage:
-                                  AssetImage("assets/images/ahmed.jpg"),
+                                  backgroundImage: AssetImage("assets/images/ahmed.jpg"),
                                 ),
                                 const SizedBox(
                                   width: 13,
@@ -153,10 +149,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   children: [
                                     Text(
                                       "Mohammed Reda",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(fontSize: 20),
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 20),
                                     ),
                                     Row(
                                       children: [
@@ -173,9 +166,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyLarge!
-                                              .copyWith(
-                                              fontSize: 14,
-                                              color: myFavColor4),
+                                              .copyWith(fontSize: 14, color: myFavColor4),
                                         ),
                                       ],
                                     ),
@@ -210,7 +201,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
                             height: 8,
                           ),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
-                          myDivider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: myDivider(),
+                          ),
                         mySizedBox(size: size, myHeight: 20),
                         if (!isSheetExpanded)
                           Expanded(
@@ -244,49 +238,38 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                 Step(
                                   title: Text(
                                     'Benha train station street',
-                                    style:
-                                    Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: true,
                                   content: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       'Location of your order shipped from',
-                                      style:
-                                      Theme.of(context).textTheme.bodySmall,
+                                      style: Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
                                   subtitle: Text(
                                     'December 22, 2023 | 09:44 AM',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(color: myFavColor4),
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                   ),
                                   state: StepState.indexed,
                                 ),
                                 Step(
                                     title: Text(
                                       'El-Galaa, Shebeen El-Koum, Menoufia',
-                                      style:
-                                      Theme.of(context).textTheme.bodyLarge,
+                                      style: Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'The destination location',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style: Theme.of(context).textTheme.bodySmall,
                                       ),
                                     ),
                                     isActive: true,
                                     subtitle: Text(
                                       'December 22, 2023 | 10:30 AM',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(color: myFavColor4),
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                     ),
                                     state: StepState.indexed),
                               ],
@@ -314,8 +297,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
-                                        .copyWith(
-                                        color: myFavColor2, fontSize: 16),
+                                        .copyWith(color: myFavColor2, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     height: 2,
@@ -325,8 +307,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
-                                        .copyWith(
-                                        color: myFavColor4, fontSize: 14),
+                                        .copyWith(color: myFavColor4, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -351,8 +332,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
-                                        .copyWith(
-                                        color: myFavColor2, fontSize: 16),
+                                        .copyWith(color: myFavColor2, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     height: 2,
@@ -362,8 +342,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
-                                        .copyWith(
-                                        color: myFavColor4, fontSize: 14),
+                                        .copyWith(color: myFavColor4, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -388,8 +367,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
-                                        .copyWith(
-                                        color: myFavColor2, fontSize: 16),
+                                        .copyWith(color: myFavColor2, fontSize: 16),
                                   ),
                                   const SizedBox(
                                     height: 2,
@@ -399,8 +377,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium!
-                                        .copyWith(
-                                        color: myFavColor4, fontSize: 14),
+                                        .copyWith(color: myFavColor4, fontSize: 14),
                                   ),
                                 ],
                               ),
@@ -411,7 +388,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
                             height: 10,
                           ),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
-                          myDivider(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: myDivider(),
+                          ),
                         if (sheetHeight == size.height - 40 && isSheetExpanded)
                           Expanded(
                             child: Stepper(
@@ -444,97 +424,75 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                 Step(
                                   title: Text(
                                     'Your order is shipped',
-                                    style:
-                                    Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: true,
                                   content: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       'Add you wand additional info',
-                                      style:
-                                      Theme.of(context).textTheme.bodySmall,
+                                      style: Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
                                   subtitle: Text(
                                     'December 22, 2023 | 09:44 AM',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(color: myFavColor4),
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                   ),
                                   state: StepState.complete,
                                 ),
                                 Step(
                                     title: Text(
                                       'Benha train station street',
-                                      style:
-                                      Theme.of(context).textTheme.bodyLarge,
+                                      style: Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Add you wand additional info',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style: Theme.of(context).textTheme.bodySmall,
                                       ),
                                     ),
                                     isActive: true,
                                     subtitle: Text(
                                       'December 22, 2023 | 10:30 AM',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(color: myFavColor4),
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                     ),
                                     state: StepState.complete),
                                 Step(
                                   title: Text(
                                     'El-Galaa, Shebeen El-Koum , Menoufia',
-                                    style:
-                                    Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: false,
                                   content: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
                                       'Waiting',
-                                      style:
-                                      Theme.of(context).textTheme.bodySmall,
+                                      style: Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ),
                                   subtitle: Text(
                                     'December 22, 2023 | 09:44 AM',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge!
-                                        .copyWith(color: myFavColor4),
+                                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                   ),
                                   state: StepState.disabled,
                                 ),
                                 Step(
                                     title: Text(
                                       'Delivered',
-                                      style:
-                                      Theme.of(context).textTheme.bodyLarge,
+                                      style: Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Waiting',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
+                                        style: Theme.of(context).textTheme.bodySmall,
                                       ),
                                     ),
                                     isActive: false,
                                     subtitle: Text(
                                       'December 22, 2023 | 10:30 AM',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(color: myFavColor4),
+                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                     ),
                                     state: StepState.disabled),
                               ],

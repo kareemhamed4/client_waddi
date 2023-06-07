@@ -478,8 +478,7 @@ class EReceiptScreen extends StatelessWidget {
 
   Widget buildCardForSummaryDetails({
     required Widget child,
-  }) =>
-      Container(
+  }) => Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
           color: myFavColor7,

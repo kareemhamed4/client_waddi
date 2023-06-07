@@ -279,6 +279,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.7.0"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -646,6 +653,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.5"
+  rate:
+    dependency: "direct main"
+    description:
+      name: rate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   rive:
     dependency: "direct main"
     description:

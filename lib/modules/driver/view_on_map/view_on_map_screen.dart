@@ -32,6 +32,7 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
       appBar: buildAppBarForOnlyStatusBar(),
       body: SafeArea(
         child: Stack(
+          fit: StackFit.expand,
           children: [
             Visibility(
               visible: currentLocation != null,
@@ -304,56 +305,59 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: myFavColor8.withAlpha(20),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset: const Offset(0, 0),
-                        ),
-                      ]),
-                      child: CircleAvatar(
-                        backgroundColor: myFavColor7,
-                        radius: 18,
-                        child: Icon(
-                          Icons.arrow_back_outlined,
-                          color: myFavColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: myFavColor8.withAlpha(20),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset: const Offset(0, 0),
-                        ),
-                      ]),
-                      child: CircleAvatar(
-                        backgroundColor: myFavColor7,
-                        radius: 18,
-                        child: Icon(
-                          Icons.settings,
-                          color: myFavColor,
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: myFavColor8.withAlpha(20),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(0, 0),
+                          ),
+                        ]),
+                        child: CircleAvatar(
+                          backgroundColor: myFavColor7,
+                          radius: 18,
+                          child: Icon(
+                            Icons.arrow_back_outlined,
+                            color: myFavColor,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: myFavColor8.withAlpha(20),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(0, 0),
+                          ),
+                        ]),
+                        child: CircleAvatar(
+                          backgroundColor: myFavColor7,
+                          radius: 18,
+                          child: Icon(
+                            Icons.settings,
+                            color: myFavColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

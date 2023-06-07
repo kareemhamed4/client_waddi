@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
@@ -128,9 +129,9 @@ class DriverProfileScreen extends StatelessWidget {
                           fontSize: 16, color: myFavColor2, height: 1),
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 22.h),
                   myDivider(),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 20.h),
                   ListTile(
                     onTap: () {
                       navigateTo(
@@ -284,9 +285,9 @@ class DriverProfileScreen extends StatelessWidget {
                                     .labelLarge!
                                     .copyWith(fontSize: 28, color: myFavColor),
                               ),
-                              mySizedBox(size: size, myHeight: 10),
+                              SizedBox(height: 24.h),
                               myDivider(),
-                              mySizedBox(size: size, myHeight: 10),
+                              SizedBox(height: 20.h),
                               Text(
                                 "Are you sure you want to logout ?",
                                 style: Theme.of(context)

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:waddy_app/modules/common/splash/second_splash_screen.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
-class FirstSplashScreen extends StatelessWidget {
+class FirstSplashScreen extends StatefulWidget {
   final bool isUserLoginBefore;
   final bool isDelegateLoginBefore;
   final bool isNoLoginDetected;
@@ -20,22 +20,32 @@ class FirstSplashScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<FirstSplashScreen> createState() => _FirstSplashScreenState();
+}
+
+class _FirstSplashScreenState extends State<FirstSplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+  }
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarBrightness: Brightness.dark,
+      value: SystemUiOverlayStyle(
+          statusBarColor: myFavColor,
+          statusBarBrightness: Brightness.light,
           statusBarIconBrightness: Brightness.light,
-          systemNavigationBarColor: Colors.transparent,
+          systemNavigationBarColor: myFavColor,
           systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: AnimatedSplashScreen(
         nextScreen: SecondSplashScreen(
-            isUserLoginBefore: isUserLoginBefore,
-            isDelegateLoginBefore: isDelegateLoginBefore,
-            isNoLoginDetected: isNoLoginDetected,
-            isFirstTime: isFirstTime,
+            isUserLoginBefore: widget.isUserLoginBefore,
+            isDelegateLoginBefore: widget.isDelegateLoginBefore,
+            isNoLoginDetected: widget.isNoLoginDetected,
+            isFirstTime: widget.isFirstTime,
         ),
         splash: Stack(
           alignment: Alignment.bottomCenter,

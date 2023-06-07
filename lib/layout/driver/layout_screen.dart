@@ -15,6 +15,7 @@ class DriverLayoutScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomAppBar(
             color: myFavColor5,

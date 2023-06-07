@@ -66,6 +66,8 @@ dependencies:
   pin_code_fields: ^7.4.0
   dropdown_button2: ^2.1.2
   liquid_pull_to_refresh: ^3.0.1
+  rate: ^0.0.2
+  flutter_screenutil: ^5.7.0
 
   #firebase
   firebase_core: ^2.12.0

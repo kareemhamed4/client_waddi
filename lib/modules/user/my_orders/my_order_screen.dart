@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -22,11 +23,9 @@ class UserMyOrderScreen extends StatefulWidget {
   State<UserMyOrderScreen> createState() => _UserMyOrderScreenState();
 }
 
-class _UserMyOrderScreenState extends State<UserMyOrderScreen>
-    with TickerProviderStateMixin {
+class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
-  GlobalKey<LiquidPullToRefreshState>();
+  final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey = GlobalKey<LiquidPullToRefreshState>();
   late TabController tabController;
   TextEditingController searchController = TextEditingController();
 
@@ -74,7 +73,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
             },
             color: myFavColor,
             child: NotificationListener<OverscrollIndicatorNotification>(
-              onNotification: (overScroll){
+              onNotification: (overScroll) {
                 overScroll.disallowIndicator();
                 return true;
               },
@@ -129,7 +128,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                             context: context,
                             tabController: tabController,
                             size: size,
-                            itemsName: ["All","Pending","on Process","Delivered"],
+                            itemsName: ["All", "Pending", "On Process", "Delivered"],
                           ),
                           const SizedBox(
                             height: 20,
@@ -149,12 +148,14 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                                       status: "Pending",
                                       ordersList: cubit.ordersList,
                                     ),
+                                    SizedBox(height: 20.h),
                                     buildOrderSection(
                                       size: size,
                                       cubit: cubit,
-                                      status: "On process",
+                                      status: "Prepared",
                                       ordersList: cubit.ordersList,
                                     ),
+                                    SizedBox(height: 20.h),
                                     buildOrderSection(
                                       size: size,
                                       cubit: cubit,
@@ -166,7 +167,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               ),
                               fallback: (context) => Column(
                                 children: [
-                                  mySizedBox(size: size,myHeight: 90),
+                                  mySizedBox(size: size, myHeight: 90),
                                   const SizedBox(
                                     height: 200,
                                     width: double.infinity,
@@ -174,16 +175,20 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                                       'assets/rive/no_results_found (1).riv',
                                     ),
                                   ),
-                                  Text("No Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
+                                  Text(
+                                    "No Orders Found!",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(color: myFavColor2, fontSize: 22),
+                                  )
                                 ],
                               ),
                             ),
                           if (tabController.index == 1)
                             ConditionalBuilder(
-                              condition: cubit.ordersList
-                                  .where((order) => order.status == "Pending")
-                                  .toList()
-                                  .isNotEmpty,
+                              condition:
+                                  cubit.ordersList.where((order) => order.status == "Pending").toList().isNotEmpty,
                               builder: (context) => Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: ListView(
@@ -191,34 +196,34 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     buildOrderSection(
-                                        size: size,
-                                        cubit: cubit,
-                                        status: "Pending",
-                                        ordersList: cubit.ordersList),
+                                        size: size, cubit: cubit, status: "Pending", ordersList: cubit.ordersList),
                                   ],
                                 ),
                               ),
-                              fallback: (context) =>
-                                  Column(
-                                    children: [
-                                      mySizedBox(size: size,myHeight: 90),
-                                      const SizedBox(
-                                        height: 200,
-                                        width: double.infinity,
-                                        child: RiveAnimation.asset(
-                                          'assets/rive/no_results_found (1).riv',
-                                        ),
-                                      ),
-                                      Text("No Pending Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                                    ],
+                              fallback: (context) => Column(
+                                children: [
+                                  mySizedBox(size: size, myHeight: 90),
+                                  const SizedBox(
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: RiveAnimation.asset(
+                                      'assets/rive/no_results_found (1).riv',
+                                    ),
                                   ),
+                                  Text(
+                                    "No Pending Orders Found!",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(color: myFavColor2, fontSize: 22),
+                                  )
+                                ],
+                              ),
                             ),
                           if (tabController.index == 2)
                             ConditionalBuilder(
-                              condition: cubit.ordersList
-                                  .where((order) => order.status == "on process")
-                                  .toList()
-                                  .isNotEmpty,
+                              condition:
+                                  cubit.ordersList.where((order) => order.status == "Prepared").toList().isNotEmpty,
                               builder: (context) => Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: ListView(
@@ -226,34 +231,34 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     buildOrderSection(
-                                        size: size,
-                                        cubit: cubit,
-                                        status: "Pending",
-                                        ordersList: cubit.ordersList),
+                                        size: size, cubit: cubit, status: "Prepared", ordersList: cubit.ordersList),
                                   ],
                                 ),
                               ),
-                              fallback: (context) =>
-                                  Column(
-                                    children: [
-                                      mySizedBox(size: size,myHeight: 90),
-                                      const SizedBox(
-                                        height: 200,
-                                        width: double.infinity,
-                                        child: RiveAnimation.asset(
-                                          'assets/rive/no_results_found (1).riv',
-                                        ),
-                                      ),
-                                      Text("No Processing Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                                    ],
+                              fallback: (context) => Column(
+                                children: [
+                                  mySizedBox(size: size, myHeight: 90),
+                                  const SizedBox(
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: RiveAnimation.asset(
+                                      'assets/rive/no_results_found (1).riv',
+                                    ),
                                   ),
+                                  Text(
+                                    "No Processing Orders Found!",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(color: myFavColor2, fontSize: 22),
+                                  )
+                                ],
+                              ),
                             ),
                           if (tabController.index == 3)
                             ConditionalBuilder(
-                              condition: cubit.ordersList
-                                  .where((order) => order.status == "Completed")
-                                  .toList()
-                                  .isNotEmpty,
+                              condition:
+                                  cubit.ordersList.where((order) => order.status == "Completed").toList().isNotEmpty,
                               builder: (context) => Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: ListView(
@@ -261,32 +266,33 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     buildOrderSection(
-                                        size: size,
-                                        cubit: cubit,
-                                        status: "Pending",
-                                        ordersList: cubit.ordersList),
+                                        size: size, cubit: cubit, status: "Pending", ordersList: cubit.ordersList),
                                   ],
                                 ),
                               ),
-                              fallback: (context) =>
-                                  Column(
-                                    children: [
-                                      mySizedBox(size: size,myHeight: 90),
-                                      const SizedBox(
-                                        height: 200,
-                                        width: double.infinity,
-                                        child: RiveAnimation.asset(
-                                          'assets/rive/no_results_found (1).riv',
-                                        ),
-                                      ),
-                                      Text("No Delivered Orders Found!",style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor2,fontSize: 22),)
-                                    ],
+                              fallback: (context) => Column(
+                                children: [
+                                  mySizedBox(size: size, myHeight: 90),
+                                  const SizedBox(
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: RiveAnimation.asset(
+                                      'assets/rive/no_results_found (1).riv',
+                                    ),
                                   ),
+                                  Text(
+                                    "No Delivered Orders Found!",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(color: myFavColor2, fontSize: 22),
+                                  )
+                                ],
+                              ),
                             ),
                         ],
                       ),
-                    if (searchController.text.isNotEmpty &&
-                        cubit.searchedOrderDetails != null)
+                    if (searchController.text.isNotEmpty && cubit.searchedOrderDetails != null)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
@@ -301,8 +307,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                           ],
                         ),
                       ),
-                    if (searchController.text.isNotEmpty &&
-                        cubit.searchedOrderDetails == null)
+                    if (searchController.text.isNotEmpty && cubit.searchedOrderDetails == null)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Column(
@@ -333,17 +338,11 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
           mySizedBox(size: size, myHeight: 27),
           Text(
             "Not Found",
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge!
-                .copyWith(color: myFavColor8, fontSize: 24),
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor8, fontSize: 24),
           ),
           Text(
             "The code you entered cannot be found\nPlease check the code again or search with\nanother code.",
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: myFavColor4, fontSize: 16, height: 1.2),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor4, fontSize: 16, height: 1.2),
             textAlign: TextAlign.center,
           ),
         ],
@@ -355,8 +354,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
     required Size size,
     required GetUserOrdersCubit cubit,
   }) {
-    List<UserOrders> filteredOrders =
-        ordersList.where((order) => order.status == status).toList();
+    List<UserOrders> filteredOrders = ordersList.where((order) => order.status == status).toList();
 
     return Column(
       children: [
@@ -366,7 +364,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
           itemCount: filteredOrders.length,
           itemBuilder: (context, index) {
             UserOrders order = filteredOrders[index];
-            return buildOrdersItem(context: context, size: size, orders: order,cubit: cubit,index: index);
+            return buildOrdersItem(context: context, size: size, orders: order, cubit: cubit, index: index);
           },
           separatorBuilder: (context, index) => const SizedBox(
             height: 12,
@@ -387,9 +385,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       startActionPane: ActionPane(motion: const StretchMotion(), children: [
         SlidableAction(
           onPressed: ((context) {
-            context
-                .read<GetUserOrdersCubit>()
-                .deleteOrder(orderId: orders.sId!);
+            context.read<GetUserOrdersCubit>().deleteOrder(orderId: orders.sId!);
           }),
           backgroundColor: myFavColor,
           icon: Icons.delete_outline,
@@ -411,19 +407,14 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(
-                color: myFavColor8.withAlpha(20),
-                spreadRadius: 4,
-                blurRadius: 7,
-                offset: const Offset(0, 0)),
+            BoxShadow(color: myFavColor8.withAlpha(20), spreadRadius: 4, blurRadius: 7, offset: const Offset(0, 0)),
           ],
         ),
         child: Card(
           margin: EdgeInsets.zero,
           elevation: 0,
           color: myFavColor7,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -462,10 +453,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                           children: [
                             Text(
                               orders.trackId ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(fontSize: 18, color: myFavColor8),
+                              style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
                             ),
                             Text(
                               orders.status == "Pending"
@@ -476,10 +464,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
-                                  .copyWith(
-                                      fontSize: 13,
-                                      color: myFavColor4,
-                                      height: 1),
+                                  .copyWith(fontSize: 13, color: myFavColor4, height: 1),
                             ),
                           ],
                         ),
@@ -500,20 +485,17 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               ? "Pending"
                               : orders.status == "Completed"
                                   ? "Completed"
-                                  : "On process",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: myFavColor7,
-                                    fontSize: 12,
-                                  ),
+                                  : "Prepared",
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: myFavColor7,
+                                fontSize: 12,
+                              ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 17.h),
                 myDivider(),
                 Row(
                   children: [
@@ -524,26 +506,18 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                           navigateTo(
                             context,
                             EReceiptScreenForDiscovery(
-                                senderName: cubit.ordersList[index].senderName!,
-                                senderPhone: cubit.ordersList[index].senderPhone!,
-                                senderEmail: cubit.ordersList[index].senderEmail!,
-                                senderPostalCode:
-                                cubit.ordersList[index].senderPostalCode!,
-                                senderAddress:
-                                cubit.ordersList[index].senderAddress!,
-                                receiverName:
-                                cubit.ordersList[index].receivedName!,
-                                receiverPhone:
-                                cubit.ordersList[index].receivedPhone!,
-                                receiverEmail:
-                                cubit.ordersList[index].receivedEmail!,
-                                receiverPostalCode:
-                                cubit.ordersList[index].receivedPostalCode!,
-                                receiverAddress:
-                                cubit.ordersList[index].receivedAddress!,
-                                selectedService:
-                                cubit.ordersList[index].services!,
-                                trackId: cubit.ordersList[index].trackId!,
+                              senderName: cubit.ordersList[index].senderName!,
+                              senderPhone: cubit.ordersList[index].senderPhone!,
+                              senderEmail: cubit.ordersList[index].senderEmail!,
+                              senderPostalCode: cubit.ordersList[index].senderPostalCode!,
+                              senderAddress: cubit.ordersList[index].senderAddress!,
+                              receiverName: cubit.ordersList[index].receivedName!,
+                              receiverPhone: cubit.ordersList[index].receivedPhone!,
+                              receiverEmail: cubit.ordersList[index].receivedEmail!,
+                              receiverPostalCode: cubit.ordersList[index].receivedPostalCode!,
+                              receiverAddress: cubit.ordersList[index].receivedAddress!,
+                              selectedService: cubit.ordersList[index].services!,
+                              trackId: cubit.ordersList[index].trackId!,
                             ),
                           );
                         },
@@ -551,19 +525,16 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                         radius: 20,
                         labelWidget: Text(
                           "View E-Receipt",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: myFavColor),
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                         ),
                         bgColor: myFavColor7,
                       ),
                     ),
-                    if (orders.status == "On process")
+                    if (orders.status == "Prepared")
                       const SizedBox(
                         width: 34,
                       ),
-                    if (orders.status == "On process")
+                    if (orders.status == "Prepared")
                       Expanded(
                         child: myMaterialButton(
                           context: context,
@@ -574,10 +545,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                           radius: 20,
                           labelWidget: Text(
                             "TracK",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: myFavColor7),
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor7),
                           ),
                         ),
                       ),
@@ -600,10 +568,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       startActionPane: ActionPane(motion: const StretchMotion(), children: [
         SlidableAction(
           onPressed: ((context) {
-            context
-                .read<GetUserOrdersCubit>()
-                .deleteOrder(orderId: orders.sId!)
-                .then((value) {
+            context.read<GetUserOrdersCubit>().deleteOrder(orderId: orders.sId!).then((value) {
               context.read<GetUserOrdersCubit>().clearSearchedOrderDetails();
             });
           }),
@@ -625,19 +590,14 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
-            BoxShadow(
-                color: myFavColor8.withAlpha(20),
-                spreadRadius: 4,
-                blurRadius: 7,
-                offset: const Offset(0, 0)),
+            BoxShadow(color: myFavColor8.withAlpha(20), spreadRadius: 4, blurRadius: 7, offset: const Offset(0, 0)),
           ],
         ),
         child: Card(
           margin: EdgeInsets.zero,
           elevation: 0,
           color: myFavColor7,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -676,10 +636,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                           children: [
                             Text(
                               orders.trackId ?? "",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(fontSize: 18, color: myFavColor8),
+                              style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
                             ),
                             Text(
                               orders.status == "Pending"
@@ -690,10 +647,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
-                                  .copyWith(
-                                      fontSize: 13,
-                                      color: myFavColor4,
-                                      height: 1),
+                                  .copyWith(fontSize: 13, color: myFavColor4, height: 1),
                             ),
                           ],
                         ),
@@ -714,20 +668,17 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                               ? "Pending"
                               : orders.status == "Completed"
                                   ? "Completed"
-                                  : "On process",
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: myFavColor7,
-                                    fontSize: 12,
-                                  ),
+                                  : "Prepared",
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: myFavColor7,
+                                fontSize: 12,
+                              ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 17.h),
                 myDivider(),
                 Row(
                   children: [
@@ -739,19 +690,16 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                         radius: 20,
                         labelWidget: Text(
                           "View E-Receipt",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: myFavColor),
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                         ),
                         bgColor: myFavColor7,
                       ),
                     ),
-                    if (orders.status == "On process")
+                    if (orders.status == "Prepared")
                       const SizedBox(
                         width: 34,
                       ),
-                    if (orders.status == "On process")
+                    if (orders.status == "Prepared")
                       Expanded(
                         child: myMaterialButton(
                           context: context,
@@ -762,10 +710,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                           radius: 20,
                           labelWidget: Text(
                             "TracK",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(color: myFavColor7),
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor7),
                           ),
                         ),
                       ),
@@ -786,24 +731,15 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
         children: [
           Text(
             "Results for \"",
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge!
-                .copyWith(color: myFavColor8, fontSize: 20),
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor8, fontSize: 20),
           ),
           Text(
             trackId,
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge!
-                .copyWith(color: myFavColor, fontSize: 20),
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor, fontSize: 20),
           ),
           Text(
             "\"",
-            style: Theme.of(context)
-                .textTheme
-                .labelLarge!
-                .copyWith(color: myFavColor8, fontSize: 20),
+            style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor8, fontSize: 20),
           ),
         ],
       );
@@ -818,19 +754,14 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-              color: myFavColor8.withAlpha(20),
-              spreadRadius: 4,
-              blurRadius: 7,
-              offset: const Offset(0, 0)),
+          BoxShadow(color: myFavColor8.withAlpha(20), spreadRadius: 4, blurRadius: 7, offset: const Offset(0, 0)),
         ],
       ),
       child: Card(
         margin: EdgeInsets.zero,
         elevation: 0,
         color: myFavColor7,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
@@ -867,17 +798,11 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                         children: [
                           Text(
                             "SK38372957",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .copyWith(fontSize: 18, color: myFavColor8),
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
                           ),
                           Text(
                             "Package received",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(fontSize: 14, color: myFavColor4),
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14, color: myFavColor4),
                           ),
                         ],
                       ),
@@ -904,9 +829,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 17.h),
               myDivider(),
               myMaterialButton(
                 context: context,
@@ -915,10 +838,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                 radius: 20,
                 labelWidget: Text(
                   "View E-Receipt",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: myFavColor),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                 ),
                 bgColor: myFavColor7,
               ),
@@ -936,19 +856,14 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(
-              color: myFavColor8.withAlpha(20),
-              spreadRadius: 2,
-              blurRadius: 7,
-              offset: const Offset(0, 0)),
+          BoxShadow(color: myFavColor8.withAlpha(20), spreadRadius: 2, blurRadius: 7, offset: const Offset(0, 0)),
         ],
       ),
       child: Card(
         margin: EdgeInsets.zero,
         elevation: 0,
         color: myFavColor7,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16))),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
@@ -965,8 +880,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                         decoration: BoxDecoration(
                             color: myFavColorWithOpacity,
                             shape: BoxShape.rectangle,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
+                            borderRadius: const BorderRadius.all(Radius.circular(16))),
                         child: Center(
                             child: FaIcon(
                           FontAwesomeIcons.boxOpen,
@@ -982,17 +896,11 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                         children: [
                           Text(
                             "SK26273729",
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge!
-                                .copyWith(fontSize: 18, color: myFavColor8),
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
                           ),
                           Text(
                             "On the way in delivery",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(fontSize: 14, color: myFavColor4),
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14, color: myFavColor4),
                           ),
                         ],
                       ),
@@ -1010,18 +918,13 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                     child: Center(
                       child: Text(
                         "On process",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: myFavColor, fontSize: 12),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: myFavColor, fontSize: 12),
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 17.h),
               myDivider(),
               Row(
                 children: [
@@ -1033,10 +936,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                       radius: 20,
                       labelWidget: Text(
                         "View E-Receipt",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: myFavColor),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor),
                       ),
                       bgColor: myFavColor7,
                     ),
@@ -1054,10 +954,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen>
                       radius: 20,
                       labelWidget: Text(
                         "TracK",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(color: myFavColor7),
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor7),
                       ),
                     ),
                   ),

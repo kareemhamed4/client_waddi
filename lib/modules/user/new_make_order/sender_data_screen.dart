@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
@@ -42,10 +43,9 @@ class SenderDataScreen extends StatelessWidget {
                           child: Theme(
                             data: ThemeData(
                               canvasColor: myFavColor7,
-                              colorScheme:
-                                  Theme.of(context).colorScheme.copyWith(
-                                        background: myFavColor4,
-                                      ),
+                              colorScheme: Theme.of(context).colorScheme.copyWith(
+                                    background: myFavColor4,
+                                  ),
                             ),
                             child: Stepper(
                               physics: const BouncingScrollPhysics(),
@@ -62,102 +62,82 @@ class SenderDataScreen extends StatelessWidget {
                                 Step(
                                   title: Text(
                                     cubit.currentStep == 0 ? 'Sender' : "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  isActive:
-                                      cubit.currentStep >= 0 ? true : false,
+                                  isActive: cubit.currentStep >= 0 ? true : false,
                                   state: StepState.indexed,
                                   content: Text(
                                     '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                                 Step(
                                   title: Text(
                                     cubit.currentStep == 1 ? 'Receiver' : "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  isActive:
-                                      cubit.currentStep >= 1 ? true : false,
+                                  isActive: cubit.currentStep >= 1 ? true : false,
                                   state: StepState.indexed,
                                   content: Text(
                                     '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                                 Step(
                                   title: Text(
                                     cubit.currentStep == 2 ? 'Package' : "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  isActive:
-                                      cubit.currentStep >= 2 ? true : false,
+                                  isActive: cubit.currentStep >= 2 ? true : false,
                                   state: StepState.indexed,
                                   content: Text(
                                     '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                                 Step(
                                   title: Text(
                                     cubit.currentStep == 3 ? 'Payment' : "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  isActive:
-                                      cubit.currentStep >= 3 ? true : false,
+                                  isActive: cubit.currentStep >= 3 ? true : false,
                                   state: StepState.indexed,
                                   content: Text(
                                     '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                                 Step(
                                   title: Text(
                                     cubit.currentStep == 4 ? 'Payment' : "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  isActive:
-                                      cubit.currentStep >= 4 ? true : false,
+                                  isActive: cubit.currentStep >= 4 ? true : false,
                                   state: StepState.indexed,
                                   content: Text(
                                     '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                                 Step(
                                   title: Text(
                                     cubit.currentStep == 5 ? 'Finish' : "",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
-                                  isActive:
-                                      cubit.currentStep >= 5 ? true : false,
+                                  isActive: cubit.currentStep >= 5 ? true : false,
                                   state: StepState.indexed,
                                   content: Text(
                                     '',
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
+                        SizedBox(height: 10.h),
                         myDivider(),
-                        mySizedBox(
-                          size: size,
-                          myHeight: 6,
-                        ),
+                        SizedBox(height: 16.h),
                       ],
                     ),
                     Padding(
@@ -171,37 +151,26 @@ class SenderDataScreen extends StatelessWidget {
                           : cubit.currentStep == 1
                               ? const ReceiverDataScreen()
                               : cubit.currentStep == 2
-                                  ? PackageDetailsScreen(senderAddress: cubit.senderAddressController.text,receiverAddress: cubit.receiverAddressController.text,)
+                                  ? PackageDetailsScreen(
+                                      senderAddress: cubit.senderAddressController.text,
+                                      receiverAddress: cubit.receiverAddressController.text,
+                                    )
                                   : cubit.currentStep == 3
                                       ? const ChoosePaymentScreen()
                                       : cubit.currentStep == 4
                                           ? PaymentDetailsScreen()
                                           : ReviewSummaryAndConfirmScreen(
-                                              senderName:
-                                              cubit.senderNameController.text,
-                                              senderPhone:
-                                              cubit.senderPhoneController.text,
-                                              senderEmail:
-                                              cubit.senderEmailController.text,
-                                              senderPostalCode:
-                                              cubit.senderPostalCodeController
-                                                      .text,
-                                              senderAddress:
-                                              cubit.senderAddressController.text,
-                                              receiverName: cubit
-                                                  .receiverNameController.text,
-                                              receiverPhone: cubit
-                                                  .receiverPhoneController.text,
-                                              receiverEmail: cubit
-                                                  .receiverEmailController.text,
-                                              receiverPostalCode: cubit
-                                                  .receiverPostalCodeController
-                                                  .text,
-                                              receiverAddress:
-                                                  cubit.receiverAddressController.text,
-                                              selectedService: cubit
-                                                  .selectedService
-                                                  .toString(),
+                                              senderName: cubit.senderNameController.text,
+                                              senderPhone: cubit.senderPhoneController.text,
+                                              senderEmail: cubit.senderEmailController.text,
+                                              senderPostalCode: cubit.senderPostalCodeController.text,
+                                              senderAddress: cubit.senderAddressController.text,
+                                              receiverName: cubit.receiverNameController.text,
+                                              receiverPhone: cubit.receiverPhoneController.text,
+                                              receiverEmail: cubit.receiverEmailController.text,
+                                              receiverPostalCode: cubit.receiverPostalCodeController.text,
+                                              receiverAddress: cubit.receiverAddressController.text,
+                                              selectedService: cubit.selectedService.toString(),
                                             ),
                     ),
                     Padding(
@@ -244,10 +213,7 @@ class SenderDataScreen extends StatelessWidget {
         children: [
           Text(
             "Sender Name",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -277,25 +243,17 @@ class SenderDataScreen extends StatelessWidget {
           ),
           Text(
             "Phone Number",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
             myHeight: 6,
           ),
           InternationalPhoneNumberInput(
-            selectorTextStyle:
-                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-            initialValue: PhoneNumber(
-                isoCode: "EG",
-                dialCode: "+20",
-                phoneNumber: cubit.senderPhoneController.text),
+            selectorTextStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            initialValue: PhoneNumber(isoCode: "EG", dialCode: "+20", phoneNumber: cubit.senderPhoneController.text),
             textFieldController: cubit.senderPhoneController,
-            textStyle:
-                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
             maxLength: 12,
             validator: (value) {
               if (value!.length < 12) {
@@ -308,10 +266,7 @@ class SenderDataScreen extends StatelessWidget {
             inputDecoration: InputDecoration(
               contentPadding: EdgeInsets.zero,
               hintText: "1X-XXXX-XXXX",
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontSize: 16, color: myFavColor4),
+              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor4),
               filled: true,
               fillColor: myFavColor5,
             ),
@@ -322,7 +277,6 @@ class SenderDataScreen extends StatelessWidget {
             onSaved: (phoneNumber) {
               cubit.senderPhoneController.text == "0${phoneNumber.phoneNumber.toString()}";
             },
-
           ),
           mySizedBox(
             size: size,
@@ -330,10 +284,7 @@ class SenderDataScreen extends StatelessWidget {
           ),
           Text(
             "Email",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -368,10 +319,7 @@ class SenderDataScreen extends StatelessWidget {
           ),
           Text(
             "Postal Code",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -406,10 +354,7 @@ class SenderDataScreen extends StatelessWidget {
           ),
           Text(
             "Address Details",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -450,10 +395,7 @@ class SenderDataScreen extends StatelessWidget {
                 },
               ),
               Text('Save This In My Address Book',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: myFavColor2, fontSize: 16)),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2, fontSize: 16)),
             ],
           ),
           mySizedBox(

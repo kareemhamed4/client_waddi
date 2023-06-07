@@ -73,7 +73,7 @@ Widget defaultTextForm({
     );
 
 Widget myDivider() => Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
         width: double.infinity,
         height: 0.5,

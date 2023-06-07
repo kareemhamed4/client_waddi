@@ -1,4 +1,20 @@
-class OrderDetails {
+class DelegateGetHisOrders {
+  List<Orders>? orders;
+
+  DelegateGetHisOrders({this.orders});
+
+  DelegateGetHisOrders.fromJson(Map<String, dynamic> json) {
+    if (json['orders'] != null) {
+      orders = <Orders>[];
+      json['orders'].forEach((v) {
+        orders!.add(Orders.fromJson(v));
+      });
+    }
+  }
+}
+
+class Orders {
+  String? sId;
   String? user;
   String? trackId;
   String? senderName;
@@ -12,20 +28,22 @@ class OrderDetails {
   String? receivedPostalCode;
   String? receivedAddress;
   String? category;
-  int? weight;
-  List<int>? dimension;
+  num? weight;
+  List<String>? dimension;
   int? services;
   String? deliverTime;
   String? status;
   int? paymentId;
   String? notes;
-  String? sId;
   String? createdAt;
   String? updatedAt;
   int? iV;
+  String? delegate;
+  String? supervisor;
 
-  OrderDetails(
-      {this.user,
+  Orders(
+      {this.sId,
+        this.user,
         this.trackId,
         this.senderName,
         this.senderPhone,
@@ -45,12 +63,14 @@ class OrderDetails {
         this.status,
         this.paymentId,
         this.notes,
-        this.sId,
         this.createdAt,
         this.updatedAt,
-        this.iV});
+        this.iV,
+        this.delegate,
+        this.supervisor});
 
-  OrderDetails.fromJson(Map<String, dynamic> json) {
+  Orders.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
     user = json['user'];
     trackId = json['trackId'];
     senderName = json['senderName'];
@@ -65,15 +85,16 @@ class OrderDetails {
     receivedAddress = json['receivedAddress'];
     category = json['category'];
     weight = json['weight'];
-    dimension = json['dimension'].cast<int>();
+    dimension = json['dimension'].cast<String>();
     services = json['services'];
     deliverTime = json['deliverTime'];
     status = json['status'];
     paymentId = json['paymentId'];
     notes = json['notes'];
-    sId = json['_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    delegate = json['delegate'];
+    supervisor = json['supervisor'];
   }
 }

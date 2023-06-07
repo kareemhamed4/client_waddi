@@ -1,5 +1,15 @@
-class OrderDetails {
-  String? user;
+class DelegateOrderDetails {
+  Order? order;
+  DelegateOrderDetails({this.order});
+
+  DelegateOrderDetails.fromJson(Map<String, dynamic> json) {
+    order = json['order'] != null ? Order.fromJson(json['order']) : null;
+  }
+}
+
+class Order {
+  String? sId;
+  User? user;
   String? trackId;
   String? senderName;
   String? senderPhone;
@@ -12,20 +22,20 @@ class OrderDetails {
   String? receivedPostalCode;
   String? receivedAddress;
   String? category;
-  int? weight;
+  double? weight;
   List<int>? dimension;
   int? services;
   String? deliverTime;
   String? status;
   int? paymentId;
   String? notes;
-  String? sId;
   String? createdAt;
   String? updatedAt;
   int? iV;
 
-  OrderDetails(
-      {this.user,
+  Order(
+      {this.sId,
+        this.user,
         this.trackId,
         this.senderName,
         this.senderPhone,
@@ -45,13 +55,13 @@ class OrderDetails {
         this.status,
         this.paymentId,
         this.notes,
-        this.sId,
         this.createdAt,
         this.updatedAt,
         this.iV});
 
-  OrderDetails.fromJson(Map<String, dynamic> json) {
-    user = json['user'];
+  Order.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
     trackId = json['trackId'];
     senderName = json['senderName'];
     senderPhone = json['senderPhone'];
@@ -71,9 +81,34 @@ class OrderDetails {
     status = json['status'];
     paymentId = json['paymentId'];
     notes = json['notes'];
-    sId = json['_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+  }
+}
+
+class User {
+  String? sId;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? address;
+
+  User(
+      {this.sId,
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.phone,
+        this.address});
+
+  User.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    email = json['email'];
+    phone = json['phone'];
+    address = json['address'];
   }
 }

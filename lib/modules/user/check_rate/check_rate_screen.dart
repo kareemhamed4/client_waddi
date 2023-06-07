@@ -4,6 +4,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
@@ -127,7 +128,7 @@ class CheckRateScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  mySizedBox(size: size, myHeight: 30),
+                  SizedBox(height: 35.h),
                   myDivider(),
                   Text(
                     "Tell us more about your shipment",
@@ -333,7 +334,7 @@ class CheckRateScreen extends StatelessWidget {
                     .titleSmall!
                     .copyWith(fontSize: 28),
               ),
-              mySizedBox(size: size, myHeight: 12),
+              SizedBox(height: 27.h),
               myDivider(),
               const SizedBox(
                 height: 8,
@@ -405,13 +406,11 @@ class CheckRateScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              SizedBox(height: 27.h),
               myDivider(),
-              mySizedBox(size: size, myHeight: 20),
+              SizedBox(height: 23.h),
               Container(
-                height: 100,
+                height: 100.h,
                 decoration: BoxDecoration(boxShadow: [
                   BoxShadow(
                     color: myFavColor8.withAlpha(20),
@@ -453,8 +452,8 @@ class CheckRateScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              width: 24,
+                            SizedBox(
+                              width: 24.w,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -581,7 +580,7 @@ class CheckRateScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              mySizedBox(size: size, myHeight: 35),
+              SizedBox(height: 35.h),
             ],
           ),
         ),

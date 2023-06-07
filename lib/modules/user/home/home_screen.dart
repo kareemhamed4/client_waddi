@@ -442,7 +442,10 @@ class UserHomeScreen extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) =>
                           buildTransactionHistoryItem(context: context),
-                      separatorBuilder: (context, index) => myDivider(),
+                      separatorBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: myDivider(),
+                      ),
                       itemCount: 4,
                     ),
                   ),

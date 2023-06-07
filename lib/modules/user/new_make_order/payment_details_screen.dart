@@ -188,7 +188,7 @@ class PaymentDetailsScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    type: TextInputType.number,
+                    type: TextInputType.phone,
                     onChange: (value) {
                       cubit.changeCardDate(cardExpiryDate: value);
                     },
@@ -209,7 +209,7 @@ class PaymentDetailsScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    type: TextInputType.phone,
+                    type: TextInputType.number,
                     isPassword: true,
                     radius: 10,
                     hint: "***",

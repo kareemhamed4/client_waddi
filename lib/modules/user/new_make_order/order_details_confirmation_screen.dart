@@ -49,6 +49,7 @@ class ReviewSummaryAndConfirmScreen extends StatelessWidget {
     return BlocConsumer<NewMakeOrderCubit, NewMakeOrderStates>(
       listener: (context, state) {
         if (state is MakeOrderSuccessState) {
+          GetUserOrdersCubit.get(context).getOrders();
           buildOrderSuccessfulDialog(
             context: context,
             cubit: cubit,
@@ -94,9 +95,9 @@ class ReviewSummaryAndConfirmScreen extends StatelessWidget {
                     category: cubit.selectedPackageCategory.toString(),
                     weight: int.parse(cubit.packageWeightController.text),
                     dimension: [
-                      "Length: ${cubit.packageLengthController.text}",
-                      "Width: ${cubit.packageWidthController.text}",
-                      "Height: ${cubit.packageHeightController.text}"
+                      int.parse(cubit.packageLengthController.text),
+                      int.parse(cubit.packageWidthController.text),
+                      int.parse(cubit.packageHeightController.text),
                     ],
                     services: cubit.selectedService == "Regular" ? 1 : 2,
                     notes: cubit.packageNotesController.text,

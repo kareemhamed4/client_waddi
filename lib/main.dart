@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waddy_app/bloc_observer.dart';
 import 'package:waddy_app/cubit/driver/cubit.dart';
 import 'package:waddy_app/cubit/user/cubit.dart';
@@ -14,6 +15,7 @@ import 'package:waddy_app/modules/common/new_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/splash/first_splash.dart';
 import 'package:waddy_app/modules/driver/edit_password/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/inbox/cubit/cubit.dart';
+import 'package:waddy_app/modules/driver/orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/check_rate/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/edit_password/cubit/cubit.dart';
@@ -99,20 +101,18 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => VerifyOTPCubit()),
         BlocProvider(create: (BuildContext context) => UpdatePasswordCubit()),
         BlocProvider(create: (BuildContext context) => UserProfileCubit()),
-        BlocProvider(
-            create: (BuildContext context) =>
-                DriverProfileCubit()..getDriverData()),
-        BlocProvider(
-            create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
-        BlocProvider(
-            create: (BuildContext context) => EditPasswordForAuthUserCubit()),
+        BlocProvider(create: (BuildContext context) => DriverProfileCubit()..getDriverData()),
+        BlocProvider(create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
+        BlocProvider(create: (BuildContext context) => EditPasswordForAuthUserCubit()),
         BlocProvider(create: (BuildContext context) => NewMakeOrderCubit()),
-        BlocProvider(
-            create: (BuildContext context) =>
-                GetUserOrdersCubit()..getOrders()),
+        BlocProvider(create: (BuildContext context) => GetUserOrdersCubit()..getOrders()),
         BlocProvider(create: (BuildContext context) => HelpCenterCubit()),
         BlocProvider(create: (BuildContext context) => CheckRateCubit()),
         BlocProvider(create: (BuildContext context) => NewRegisterCubit()),
+        BlocProvider(
+            create: (BuildContext context) => DriverOrdersCubit()
+              ..getOrdersRelatedToDelegate()
+              ..getDriverAllOrders()),
       ],
       child: BlocConsumer<UserCubit, UserStates>(
         listener: (context, state) {},
@@ -133,15 +133,19 @@ class MyApp extends StatelessWidget {
                     systemNavigationBarIconBrightness: Brightness.light,
                     statusBarBrightness: Brightness.light,
                   ),
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: lightTheme,
-              darkTheme: darkTheme,
-              themeMode: UserCubit.get(context).isDark
-                  ? ThemeMode.dark
-                  : ThemeMode.light,
-              home: startWidget,
-            ),
+            child: ScreenUtilInit(
+                designSize: const Size(375, 812),
+                minTextAdapt: true,
+                splitScreenMode: true,
+                builder: (context, child) {
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    theme: lightTheme,
+                    darkTheme: darkTheme,
+                    themeMode: UserCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+                    home: startWidget,
+                  );
+                }),
           );
         },
       ),

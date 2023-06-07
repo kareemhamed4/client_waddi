@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
@@ -158,9 +159,9 @@ class UserProfileScreen extends StatelessWidget {
                           fontSize: 16, color: myFavColor2, height: 1),
                     ),
                   ),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 22.h),
                   myDivider(),
-                  mySizedBox(size: size, myHeight: 20),
+                  SizedBox(height: 22.h),
                   ListTile(
                     onTap: () {
                       navigateTo(
@@ -314,9 +315,9 @@ class UserProfileScreen extends StatelessWidget {
                                     .labelLarge!
                                     .copyWith(fontSize: 28, color: myFavColor),
                               ),
-                              mySizedBox(size: size, myHeight: 10),
+                              SizedBox(height: 24.h),
                               myDivider(),
-                              mySizedBox(size: size, myHeight: 10),
+                              SizedBox(height: 20.h),
                               Text(
                                 "Are you sure you want to logout ?",
                                 style: Theme.of(context)

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/models/user/get_user_orders.dart';
@@ -245,10 +246,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 15.h),
                 myDivider(),
+                SizedBox(height: 10.h),
                 Row(
                   children: [
                     Expanded(

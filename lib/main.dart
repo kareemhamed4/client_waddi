@@ -89,11 +89,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
             create: (BuildContext context) => UserLayoutCubit()
-              ..getUserData()
               ..getUserDataFromFB()
               ..getAllUsersFromFB()
               ..getUsersWithChat()),
-        BlocProvider(create: (BuildContext context) => DriverLayoutCubit()),
+        BlocProvider(create: (BuildContext context) => DriverLayoutCubit()..getDelegateDataFromFB()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
         BlocProvider(create: (BuildContext context) => SignUpCubit()),
@@ -101,7 +100,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => VerifyOTPCubit()),
         BlocProvider(create: (BuildContext context) => UpdatePasswordCubit()),
         BlocProvider(create: (BuildContext context) => UserProfileCubit()),
-        BlocProvider(create: (BuildContext context) => DriverProfileCubit()..getDriverData()),
+        BlocProvider(create: (BuildContext context) => DriverProfileCubit()),
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthDriverCubit()),
         BlocProvider(create: (BuildContext context) => EditPasswordForAuthUserCubit()),
         BlocProvider(create: (BuildContext context) => NewMakeOrderCubit()),

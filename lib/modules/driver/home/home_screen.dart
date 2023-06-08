@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
+import 'package:waddy_app/layout/driver/cubit/states.dart';
 import 'package:waddy_app/modules/driver/attach_bill/attach_bill_screen.dart';
 import 'package:waddy_app/modules/driver/create_route/create_route_screen.dart';
 import 'package:waddy_app/modules/driver/notification/notification_screen.dart';
-import 'package:waddy_app/modules/driver/profile/cubit/cubit.dart';
-import 'package:waddy_app/modules/driver/profile/cubit/states.dart';
 import 'package:waddy_app/modules/driver/reports/reports_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
@@ -19,10 +19,10 @@ class DriverHomeScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     String fName;
     String lName;
-    return BlocConsumer<DriverProfileCubit,DriverProfileStates>(
+    return BlocConsumer<DriverLayoutCubit,DriverLayoutStates>(
       listener: (context,state){},
       builder: (context,state){
-        var model = DriverProfileCubit.get(context).userInfo;
+        var model = DriverLayoutCubit.get(context).delegateInfo;
         fName = model != null ? model.firstName! : " ";
         lName = model != null ? model.lastName! : " ";
         return Scaffold(

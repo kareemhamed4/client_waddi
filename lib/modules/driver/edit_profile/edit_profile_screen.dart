@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/profile/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
@@ -18,13 +19,12 @@ class DriverEditProfileScreen extends StatelessWidget {
     TextEditingController phoneController = TextEditingController();
     TextEditingController addressController = TextEditingController();
 
-    var model = DriverProfileCubit.get(context).userInfo;
-    nameController.text =
-        model != null ? "${model.firstName!} ${model.lastName}" : " ";
+    var model = DriverLayoutCubit.get(context).delegateInfo;
+    nameController.text = model != null ? "${model.firstName!} ${model.lastName}" : " ";
     birthController.text = "12/27/1999";
     emailController.text = model != null ? model.email! : " ";
     phoneController.text = model != null ? model.phone! : " ";
-    addressController.text = model != null ? model.governorate! : " ";
+    addressController.text = model != null ? model.governorate ?? "null%" : " ";
 
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<DriverProfileCubit, DriverProfileStates>(
@@ -92,19 +92,13 @@ class DriverEditProfileScreen extends StatelessWidget {
                     myHeight: 20,
                   ),
                   InternationalPhoneNumberInput(
-                    selectorTextStyle: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: 18),
+                    selectorTextStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
                     initialValue: PhoneNumber(
                       isoCode: "EG",
                       dialCode: "+20",
                       phoneNumber: phoneController.text,
                     ),
-                    textStyle: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: 18),
+                    textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
                     maxLength: 10,
                     validator: (value) {
                       if (value!.length < 10) {
@@ -117,10 +111,7 @@ class DriverEditProfileScreen extends StatelessWidget {
                     inputDecoration: InputDecoration(
                       contentPadding: EdgeInsets.zero,
                       hintText: "1X-XXXX-XXXX",
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontSize: 16, color: myFavColor4),
+                      hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor4),
                       filled: true,
                       fillColor: myFavColor5,
                     ),
@@ -134,17 +125,18 @@ class DriverEditProfileScreen extends StatelessWidget {
                     size: size,
                     myHeight: 20,
                   ),
-                  myTextFormField(
-                    context: context,
-                    controller: addressController,
-                    type: TextInputType.text,
-                    radius: 10,
-                    textColor: myFavColor2,
-                    suffixIcon: const Icon(
-                      CustomIcons.map_marked,
-                      size: 20,
+                  if (addressController.text != "null%")
+                    myTextFormField(
+                      context: context,
+                      controller: addressController,
+                      type: TextInputType.text,
+                      radius: 10,
+                      textColor: myFavColor2,
+                      suffixIcon: const Icon(
+                        CustomIcons.map_marked,
+                        size: 20,
+                      ),
                     ),
-                  ),
                   mySizedBox(
                     size: size,
                     myHeight: 240,

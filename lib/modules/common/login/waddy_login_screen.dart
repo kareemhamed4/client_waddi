@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/layout_screen.dart';
@@ -44,8 +45,6 @@ class WaddyLoginScreen extends StatelessWidget {
                   value: state.clientModel.token,
                 ).then((value) {
                   driverToken = state.clientModel.token;
-                }).then((value) {
-                  navigateToAndFinish(context, const DriverLayoutScreen());
                 });
               }
             }
@@ -61,9 +60,15 @@ class WaddyLoginScreen extends StatelessWidget {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               uId = state.uId;
             }).then((value) {
-              context.read<UserLayoutCubit>().getUserData().then((value) {
-                navigateToAndFinish(context, const UserLayoutScreen());
-              });
+              if(userToken != null){
+                context.read<UserLayoutCubit>().getUserData().then((value) {
+                  navigateToAndFinish(context, const UserLayoutScreen());
+                });
+              }else if(driverToken != null){
+                context.read<DriverLayoutCubit>().getDelegateData().then((value) {
+                  navigateToAndFinish(context, const DriverLayoutScreen());
+                });
+              }
             });
           }
           else if (state is LoginWithFBErrorState) {
@@ -165,6 +170,7 @@ class WaddyLoginScreen extends StatelessWidget {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 cubit.userLogin(
+                                  context: context,
                                   email: emailController.text,
                                   password: passwordController.text,
                                 );

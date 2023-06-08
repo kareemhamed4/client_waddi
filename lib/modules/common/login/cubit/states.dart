@@ -29,4 +29,15 @@ class LoginWithFBErrorState extends WaddyLoginStates {
   LoginWithFBErrorState(this.error);
 }
 
+//delegate signup with firebase
+class DelegateSignUpWithFBLoadingState extends WaddyLoginStates {}
+class DelegateSignUpWithFBSuccessState extends WaddyLoginStates {}
+class DelegateSignUpWithFBErrorState extends WaddyLoginStates {}
+
+class DelegateCreateWithFBSuccessState extends WaddyLoginStates {}
+class DelegateCreateWithFBErrorState extends WaddyLoginStates {
+  final String error;
+
+  DelegateCreateWithFBErrorState(this.error);
+}
 

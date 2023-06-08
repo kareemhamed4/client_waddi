@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
 import 'package:waddy_app/modules/driver/edit_password/edit_password_screen.dart';
 import 'package:waddy_app/modules/driver/edit_profile/edit_profile_screen.dart';
@@ -10,7 +12,9 @@ import 'package:waddy_app/modules/driver/notification_setting/notification_setti
 import 'package:waddy_app/modules/driver/privacy/privacy_policy_screen.dart';
 import 'package:waddy_app/modules/driver/profile/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/profile/cubit/states.dart';
+import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class DriverProfileScreen extends StatelessWidget {
@@ -25,7 +29,7 @@ class DriverProfileScreen extends StatelessWidget {
     return BlocConsumer<DriverProfileCubit, DriverProfileStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var model = DriverProfileCubit.get(context).userInfo;
+        var model = DriverLayoutCubit.get(context).delegateInfo;
         fName = model != null ? model.firstName! : " ";
         lName = model != null ? model.lastName! : " ";
         email = model != null ? model.email! : " ";
@@ -317,11 +321,27 @@ class DriverProfileScreen extends StatelessWidget {
                                   Expanded(
                                     child: myMaterialButton(
                                       context: context,
-                                      onPressed: () {
-                                        navigateToAndFinish(
-                                          context,
-                                          const ChooseLoginOrSignupScreen(),
-                                        );
+                                      onPressed: () async {
+                                        await CacheHelper.removeData(
+                                            key: "driverToken");
+                                        await CacheHelper.removeData(
+                                            key: "uId");
+                                        uId = null;
+                                        driverToken = null;
+                                        await FirebaseFirestore.instance
+                                            .terminate()
+                                            .then((value) {
+                                          DriverLayoutCubit.get(context)
+                                              .changeBottom(0);
+                                          Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                              const ChooseLoginOrSignupScreen(),
+                                            ),
+                                                (Route<dynamic> route) => false,
+                                          );
+                                        });
                                       },
                                       height: 50,
                                       labelWidget: Text(

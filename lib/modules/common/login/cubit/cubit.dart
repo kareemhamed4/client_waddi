@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:waddy_app/models/user/client_login_model.dart';
+import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/common/login/cubit/states.dart';
 import 'package:waddy_app/network/end_point.dart';
 import 'package:waddy_app/network/remote/dio_helper.dart';
+import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
@@ -17,18 +20,40 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
   ClientModel? clientModel;
 
   Future<void> userLogin({
+    required BuildContext context,
     required String email,
     required String password,
-  }) async{
+  }) async {
     emit(UserLoginLoadingState());
     DioHelper.postData(
       url: LOGIN,
       baseUrl: BASEURL,
       data: {'email': email, 'password': password},
-    ).then((value) {
+    ).then((value) async {
       clientModel = ClientModel.fromJson(value.data);
-      emit(UserLoginSuccessState(clientModel!));
-      userLoginWithFB(email: email,password: password);
+      if (clientModel!.user!.role == 2000) {
+        bool emailExists = await checkEmailExists(email);
+        debugPrint(emailExists.toString());
+        if (!emailExists) {
+          await delegateRegisterWithFB(
+            context: context,
+            email: email,
+            name: "${clientModel!.user!.firstName!} ${clientModel!.user!.lastName!}",
+            password: password,
+            phone: clientModel!.user!.phone!,
+            image: "assets/images/splash-1.png",
+          ).then((value) async {
+            await userLoginWithFB(email: email, password: password);
+            emit(UserLoginSuccessState(clientModel!));
+          });
+        } else if (emailExists) {
+          await userLoginWithFB(email: email, password: password);
+          emit(UserLoginSuccessState(clientModel!));
+        }
+      } else if (clientModel!.user!.role == 1000) {
+        await userLoginWithFB(email: email, password: password);
+        emit(UserLoginSuccessState(clientModel!));
+      }
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 400) {
@@ -46,8 +71,81 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
     });
   }
 
+  Future<bool> checkEmailExists(String email) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: "password", // Provide a dummy password
+      );
+      // If the email already exists, the createUserWithEmailAndPassword() method will throw an error
+      // If the email doesn't exist, the user will be created successfully
+      await userCredential.user?.delete(); // Delete the dummy user
+
+      return false; // Email doesn't exist
+    } catch (e) {
+      if (e is FirebaseAuthException && e.code == 'email-already-in-use') {
+        return true; // Email exists
+      }
+      return false; // Error occurred or email doesn't exist
+    }
+  }
+
+  Future<void> delegateRegisterWithFB({
+    required BuildContext context,
+    required String email,
+    required String password,
+    required String name,
+    required String image,
+    required String phone,
+  }) async {
+    emit(DelegateSignUpWithFBLoadingState());
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
+        .then((value) {
+      createCreate(
+        uId: value.user!.uid,
+        name: name,
+        email: email,
+        phone: phone,
+        image: image,
+      );
+    }).catchError((error) {
+      buildErrorToast(
+        context: context,
+        title: "Oops",
+        description: error.toString(),
+      );
+      emit(DelegateSignUpWithFBErrorState());
+    });
+  }
+
+  void createCreate({
+    required String uId,
+    required String email,
+    required String name,
+    required String image,
+    required String phone,
+  }) {
+    UserModelFB model = UserModelFB(
+      uId: uId,
+      name: name,
+      email: email,
+      phone: phone,
+      image: image,
+    );
+    FirebaseFirestore.instance.collection('Delegates').doc(uId).set(model.toMap()).then((value) {
+      emit(DelegateCreateWithFBSuccessState());
+    }).catchError((error) {
+      debugPrint(error.toString());
+      emit(DelegateCreateWithFBErrorState(error.toString()));
+    });
+  }
+
   bool isRememberMe = false;
-  void changeRememberMe(bool isEnable){
+  void changeRememberMe(bool isEnable) {
     isRememberMe = isEnable;
     emit(ChangeRememberMeState());
   }
@@ -57,22 +155,23 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
 
   void changeLoginSuffixIcon() {
     isPassword = !isPassword;
-    suffixIcon =
-    isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
+    suffixIcon = isPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined;
     emit(WaddyChangePasswordVisibilityState());
   }
 
-  void userLoginWithFB({
+  Future<void> userLoginWithFB({
     required String email,
     required String password,
-  }) {
+  }) async {
     emit(LoginWithFBLoadingState());
-    FirebaseAuth.instance.signInWithEmailAndPassword(
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(
       email: email,
       password: password,
-    ).then((value){
+    )
+        .then((value) {
       emit(LoginWithFBSuccessState(value.user!.uid));
-    }).catchError((error){
+    }).catchError((error) {
       Fluttertoast.showToast(
           msg: error.toString(),
           toastLength: Toast.LENGTH_LONG,
@@ -80,8 +179,7 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
           timeInSecForIosWeb: 5,
           backgroundColor: myFavColor,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
       emit(LoginWithFBErrorState(error.toString()));
     });
   }

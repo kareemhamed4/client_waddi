@@ -1,19 +1,19 @@
 class DelegateOrders {
-  List<Orders>? orders;
+  List<AllOrders>? orders;
 
   DelegateOrders({this.orders});
 
   DelegateOrders.fromJson(Map<String, dynamic> json) {
     if (json['Orders'] != null) {
-      orders = <Orders>[];
+      orders = <AllOrders>[];
       json['Orders'].forEach((v) {
-        orders!.add(Orders.fromJson(v));
+        orders!.add(AllOrders.fromJson(v));
       });
     }
   }
 }
 
-class Orders {
+class AllOrders {
   String? sId;
   User? user;
   String? trackId;
@@ -39,7 +39,7 @@ class Orders {
   String? updatedAt;
   int? iV;
 
-  Orders(
+  AllOrders(
       {this.sId,
         this.user,
         this.trackId,
@@ -65,7 +65,7 @@ class Orders {
         this.updatedAt,
         this.iV});
 
-  Orders.fromJson(Map<String, dynamic> json) {
+  AllOrders.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     trackId = json['trackId'];

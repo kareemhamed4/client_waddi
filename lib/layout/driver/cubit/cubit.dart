@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/layout/driver/cubit/states.dart';
+import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/models/user/get_user_data_model.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
 import 'package:waddy_app/modules/driver/home/home_screen.dart';
@@ -72,5 +73,132 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     }).catchError((error) {
       emit(GetDelegateFromFBErrorState(error.toString()));
     });
+  }
+
+  List<UserModelFB> users = [];
+  void getAllUsersFromFB() {
+    emit(GetAllUsersFromFBLoadingState());
+    if (users.isEmpty) {
+      FirebaseFirestore.instance.collection('Users').get().then((value) {
+        for (var element in value.docs) {
+          if (element.data()["uId"] != delegateModelFB!.uId) {
+            users.add(UserModelFB.fromJson(element.data()));
+          }
+        }
+        emit(GetAllUsersFromFBSuccessState());
+      }).catchError((error) {
+        emit(GetAllUsersFromFBErrorState(error.toString()));
+      });
+    }
+  }
+
+  void sendMessage({
+    required String receiverId,
+    required String text,
+  }) {
+    MessageModel messageModel = MessageModel(
+      senderId: delegateModelFB!.uId,
+      receiverId: receiverId,
+      dateTime: DateTime.now().toIso8601String(),
+      text: text,
+    );
+    //set my chats
+    FirebaseFirestore.instance
+        .collection("Delegates")
+        .doc(delegateModelFB!.uId)
+        .collection("Chats")
+        .doc(receiverId)
+        .collection("Messages")
+        .add(messageModel.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    }).catchError((error) {
+      emit(SendMessageErrorState());
+    });
+
+    //set receiver chats
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(receiverId)
+        .collection("Chats")
+        .doc(delegateModelFB!.uId)
+        .collection("Messages")
+        .add(messageModel.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    }).catchError((error) {
+      emit(SendMessageErrorState());
+    });
+  }
+
+  List<UserModelFB> usersWithChat = [];
+  Future<void> getUsersWithChat() async{
+    emit(GetUsersWithChatLoadingState());
+    await getAllMessages();
+    if (users.isEmpty) {
+      FirebaseFirestore.instance
+          .collection('Users')
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          if (element.data()["uId"] != delegateModelFB!.uId) {
+            users.add(UserModelFB.fromJson(element.data()));
+          }
+        }
+
+        for (var user in users) {
+          FirebaseFirestore.instance
+              .collection("Delegates")
+              .doc(delegateModelFB!.uId)
+              .collection("Chats")
+              .doc(user.uId)
+              .collection("Messages")
+              .get()
+              .then((value) {
+            if (value.docs.isNotEmpty) {
+              usersWithChat.add(user);
+            }
+          }).whenComplete(() {
+            getAllMessages();
+            emit(GetUsersWithChatSuccessState(usersWithChat));
+          }).catchError((error) {
+            emit(GetUsersWithChatErrorState(error.toString()));
+          });
+        }
+      }).catchError((error) {
+        emit(GetAllUsersFromFBErrorState(error.toString()));
+      });
+    }
+  }
+
+  List<MessageModel> messages = [];
+  Map<String, MessageModel?> lastMessages = {};
+  void getMessages({required String receiverId}) {
+    FirebaseFirestore.instance
+        .collection("Delegates")
+        .doc(delegateModelFB!.uId)
+        .collection("Chats")
+        .doc(receiverId)
+        .collection("Messages")
+        .orderBy("dateTime")
+        .snapshots()
+        .listen((event) {
+      messages = event.docs
+          .map((element) => MessageModel.fromJson(element.data()))
+          .toList();
+
+      if (messages.isNotEmpty) {
+        lastMessages[receiverId] = messages.last;
+      } else {
+        lastMessages[receiverId] = null;
+      }
+      emit(ReceiveMessageSuccessState());
+    });
+  }
+
+  Future<void> getAllMessages() async {
+    for(int i=0; i<usersWithChat.length ; i++){
+      getMessages(receiverId: usersWithChat[i].uId!);
+    }
   }
 }

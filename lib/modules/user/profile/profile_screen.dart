@@ -358,7 +358,7 @@ class UserProfileScreen extends StatelessWidget {
                                             .terminate()
                                             .then((value) {
                                           UserLayoutCubit.get(context)
-                                              .usersWithChat = [];
+                                              .delegatesWithChat = [];
                                           UserLayoutCubit.get(context)
                                               .changeBottom(0);
                                           Navigator.pushAndRemoveUntil(

@@ -50,6 +50,8 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
   }
 
   DelegateGetHisOrders? delegateGetHisOrders;
+  Map<String, List<Orders>> ordersByCity = {};
+  List<String> emails = [];
   void getOrdersRelatedToDelegate() {
     emit(GetOrdersRelatedToDelegateLoadingState());
     DioHelper.getData(
@@ -58,6 +60,23 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
       token: driverToken,
     ).then((value) {
       delegateGetHisOrders = DelegateGetHisOrders.fromJson(value.data);
+      if(delegateGetHisOrders != null && delegateGetHisOrders!.orders!.isNotEmpty){
+        for (int i = 0; i < delegateGetHisOrders!.orders!.length; i++) {
+          Orders order = delegateGetHisOrders!.orders![i];
+          emails.add(order.senderEmail!);
+          // Store the order's city in a variable
+          String city = order.receivedAddress ?? '';
+
+          // Check if the city already exists in the map
+          if (ordersByCity.containsKey(city)) {
+            // Add the order to the existing city's list
+            ordersByCity[city]!.add(order);
+          } else {
+            // Create a new list for the city and add the order
+            ordersByCity[city] = [order];
+          }
+        }
+      }
       emit(GetOrdersRelatedToDelegateSuccessState(delegateGetHisOrders!));
     }).catchError((error) {
       if (error is DioError) {
@@ -118,7 +137,7 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
   DelegateOrderDetails? delegateOrderDetails;
   void delegateGetOrderById({
     required String orderId,
-}) {
+  }) {
     emit(GetDriverOrderLoadingState());
     DioHelper.getData(
       url: "$DELEGATEGETORDERBYID$orderId",
@@ -152,14 +171,9 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
     required String confirmType,
   }) {
     emit(DriverConfirmOrderLoadingState());
-    DioHelper.patchData(
-      url: "$DELEGATECONFIRMORDER$orderId",
-      baseUrl: BASEURL,
-      token: driverToken,
-      query: {
-        "type": confirmType,
-      }
-    ).then((value) {
+    DioHelper.patchData(url: "$DELEGATECONFIRMORDER$orderId", baseUrl: BASEURL, token: driverToken, query: {
+      "type": confirmType,
+    }).then((value) {
       final message = value.data.toString();
       emit(DriverConfirmOrderSuccessState(message));
     }).catchError((error) {

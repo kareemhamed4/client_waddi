@@ -244,7 +244,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
     ];
     return Builder(
       builder: (BuildContext context) {
-        UserLayoutCubit.get(context).getUsersWithChat();
+        UserLayoutCubit.get(context).getDelegatesWithChat();
         return BlocConsumer<UserInboxCubit, UserInboxStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -265,7 +265,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                       return MyReusableComponent.performTask(
                         context: context,
                         somethingToDo: () async {
-                          await UserLayoutCubit.get(context).getUsersWithChat();
+                          await UserLayoutCubit.get(context).getDelegatesWithChat();
                         },
                         refreshIndicatorKey: _refreshIndicatorKey,
                       );
@@ -365,7 +365,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                                 context: context,
                                                 modelFB:
                                                     UserLayoutCubit.get(context)
-                                                        .usersWithChat[index],
+                                                        .delegatesWithChat[index],
                                               )
                                             : buildCallItem(
                                                 context: context,
@@ -375,7 +375,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                       height: 30,
                                     ),
                                     itemCount:
-                                        UserLayoutCubit.get(context).usersWithChat.length,
+                                        UserLayoutCubit.get(context).delegatesWithChat.length,
                                   ),
                                 ],
                               ),

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waddy_app/bloc_observer.dart';
+import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/cubit/driver/cubit.dart';
 import 'package:waddy_app/cubit/user/cubit.dart';
 import 'package:waddy_app/cubit/user/states.dart';
@@ -90,9 +91,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (BuildContext context) => UserLayoutCubit()
               ..getUserDataFromFB()
+              ..getAllDelegatesFromFB()
+              ..getDelegatesWithChat()),
+        BlocProvider(
+            create: (BuildContext context) => DriverLayoutCubit()
+              ..getDelegateDataFromFB()
               ..getAllUsersFromFB()
               ..getUsersWithChat()),
-        BlocProvider(create: (BuildContext context) => DriverLayoutCubit()..getDelegateDataFromFB()),
+        BlocProvider(create: (BuildContext context) => MainCubit()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
         BlocProvider(create: (BuildContext context) => SignUpCubit()),

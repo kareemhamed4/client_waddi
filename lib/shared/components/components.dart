@@ -7,10 +7,13 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
+import 'package:waddy_app/modules/driver/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 Widget myMaterialButton({
@@ -501,19 +504,31 @@ Widget buildChatItem({
   required BuildContext context,
   required UserModelFB modelFB,
 }) {
-  UserLayoutCubit cubit = BlocProvider.of<UserLayoutCubit>(context);
+  MessageModel? lastMessage;
   // Retrieve the last message for the current user from the map
-  MessageModel? lastMessage = cubit.lastMessages[modelFB.uId];
+  if(userToken != null){
+    UserLayoutCubit userCubit = BlocProvider.of<UserLayoutCubit>(context);
+    lastMessage = userCubit.lastMessages[modelFB.uId];
+  }else if(driverToken != null){
+    DriverLayoutCubit driverCubit = BlocProvider.of<DriverLayoutCubit>(context);
+    lastMessage = driverCubit.lastMessages[modelFB.uId];
+  }
+
   return GestureDetector(
     behavior: HitTestBehavior.opaque,
     onTap: () {
-      navigateTo(context, UserChatDetailsScreen(userModelFB: modelFB));
+      if(userToken != null){
+        navigateTo(context, UserChatDetailsScreen(userModelFB: modelFB));
+      }
+      if(driverToken != null){
+        navigateTo(context, DriverChatDetailsScreen(userModelFB: modelFB));
+      }
     },
     child: Row(
       children: [
         CircleAvatar(
           radius: 30,
-          backgroundImage: NetworkImage(modelFB.image!),
+          backgroundImage: modelFB.image!.contains("assets") ? AssetImage(modelFB.image!) as ImageProvider : NetworkImage(modelFB.image!),
         ),
         const SizedBox(
           width: 16,
@@ -534,13 +549,22 @@ Widget buildChatItem({
               if (lastMessage != null)  // Check if there's a last message
                 Row(
                   children: [
-                    Icon(
-                      lastMessage.senderId == cubit.userModelFB!.uId
+                    if(userToken != null)
+                      Icon(
+                      lastMessage.senderId == UserLayoutCubit.get(context).userModelFB!.uId
                           ? Icons.check_circle_outline_outlined
                           : null,
                       color: myFavColor4,
                       size: 15,
                     ),
+                    if(driverToken != null)
+                      Icon(
+                        lastMessage.senderId == DriverLayoutCubit.get(context).delegateModelFB!.uId
+                            ? Icons.check_circle_outline_outlined
+                            : null,
+                        color: myFavColor4,
+                        size: 15,
+                      ),
                     SizedBox(width: 10),
                     SizedBox(
                       width: 140,

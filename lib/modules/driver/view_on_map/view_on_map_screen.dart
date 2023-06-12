@@ -336,7 +336,9 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        navigateTo(context, widget);
+                      },
                       child: Container(
                         decoration: BoxDecoration(boxShadow: [
                           BoxShadow(
@@ -350,8 +352,9 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                           backgroundColor: myFavColor7,
                           radius: 18,
                           child: Icon(
-                            Icons.settings,
+                            FontAwesomeIcons.rocketchat,
                             color: myFavColor,
+                            size: 20,
                           ),
                         ),
                       ),

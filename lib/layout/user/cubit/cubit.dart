@@ -119,19 +119,19 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     });
   }
 
-  List<UserModelFB> users = [];
-  void getAllUsersFromFB() {
-    emit(GetAllUsersFromFBLoadingState());
-    if (users.isEmpty) {
-      FirebaseFirestore.instance.collection('Users').get().then((value) {
+  List<UserModelFB> delegates = [];
+  void getAllDelegatesFromFB() {
+    emit(GetAllDelegatesFromFBLoadingState());
+    if (delegates.isEmpty) {
+      FirebaseFirestore.instance.collection('Delegates').get().then((value) {
         for (var element in value.docs) {
           if (element.data()["uId"] != userModelFB!.uId) {
-            users.add(UserModelFB.fromJson(element.data()));
+            delegates.add(UserModelFB.fromJson(element.data()));
           }
         }
-        emit(GetAllUsersFromFBSuccessState());
+        emit(GetAllDelegatesFromFBSuccessState());
       }).catchError((error) {
-        emit(GetAllUsersFromFBErrorState(error.toString()));
+        emit(GetAllDelegatesFromFBErrorState(error.toString()));
       });
     }
   }
@@ -162,7 +162,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
 
     //set receiver chats
     FirebaseFirestore.instance
-        .collection("Users")
+        .collection("Delegates")
         .doc(receiverId)
         .collection("Chats")
         .doc(userModelFB!.uId)
@@ -175,22 +175,22 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     });
   }
 
-  List<UserModelFB> usersWithChat = [];
-  Future<void> getUsersWithChat() async{
-    emit(GetUsersWithChatLoadingState());
+  List<UserModelFB> delegatesWithChat = [];
+  Future<void> getDelegatesWithChat() async{
+    emit(GetDelegatesWithChatLoadingState());
     await getAllMessages();
-    if (users.isEmpty) {
+    if (delegates.isEmpty) {
       FirebaseFirestore.instance
-          .collection('Users')
+          .collection('Delegates')
           .get()
           .then((value) {
         for (var element in value.docs) {
           if (element.data()["uId"] != userModelFB!.uId) {
-            users.add(UserModelFB.fromJson(element.data()));
+            delegates.add(UserModelFB.fromJson(element.data()));
           }
         }
 
-        for (var user in users) {
+        for (var user in delegates) {
           FirebaseFirestore.instance
               .collection("Users")
               .doc(userModelFB!.uId)
@@ -200,17 +200,17 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
               .get()
               .then((value) {
             if (value.docs.isNotEmpty) {
-              usersWithChat.add(user);
+              delegatesWithChat.add(user);
             }
           }).whenComplete(() {
             getAllMessages();
-            emit(GetUsersWithChatSuccessState(usersWithChat));
+            emit(GetDelegatesWithChatSuccessState(delegatesWithChat));
           }).catchError((error) {
-            emit(GetUsersWithChatErrorState(error.toString()));
+            emit(GetDelegatesWithChatErrorState(error.toString()));
           });
         }
       }).catchError((error) {
-        emit(GetAllUsersFromFBErrorState(error.toString()));
+        emit(GetAllDelegatesFromFBErrorState(error.toString()));
       });
     }
   }
@@ -241,8 +241,8 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   }
 
   Future<void> getAllMessages() async {
-    for(int i=0; i<usersWithChat.length ; i++){
-      getMessages(receiverId: usersWithChat[i].uId!);
+    for(int i=0; i<delegatesWithChat.length ; i++){
+      getMessages(receiverId: delegatesWithChat[i].uId!);
     }
   }
 }

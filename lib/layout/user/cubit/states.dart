@@ -33,19 +33,19 @@ class SendMessageSuccessState extends UserLayoutStates{}
 class SendMessageErrorState extends UserLayoutStates{}
 class ReceiveMessageSuccessState extends UserLayoutStates {}
 
-class GetAllUsersFromFBLoadingState extends UserLayoutStates{}
-class GetAllUsersFromFBSuccessState extends UserLayoutStates{}
-class GetAllUsersFromFBErrorState extends UserLayoutStates{
+class GetAllDelegatesFromFBLoadingState extends UserLayoutStates{}
+class GetAllDelegatesFromFBSuccessState extends UserLayoutStates{}
+class GetAllDelegatesFromFBErrorState extends UserLayoutStates{
   final String error;
-  GetAllUsersFromFBErrorState(this.error);
+  GetAllDelegatesFromFBErrorState(this.error);
 }
 
-class GetUsersWithChatLoadingState extends UserLayoutStates{}
-class GetUsersWithChatSuccessState extends UserLayoutStates{
-  final List<UserModelFB> usersWithChat;
-  GetUsersWithChatSuccessState(this.usersWithChat);
+class GetDelegatesWithChatLoadingState extends UserLayoutStates{}
+class GetDelegatesWithChatSuccessState extends UserLayoutStates{
+  final List<UserModelFB> delegatesWithChat;
+  GetDelegatesWithChatSuccessState(this.delegatesWithChat);
 }
-class GetUsersWithChatErrorState extends UserLayoutStates{
+class GetDelegatesWithChatErrorState extends UserLayoutStates{
   final String error;
-  GetUsersWithChatErrorState(this.error);
+  GetDelegatesWithChatErrorState(this.error);
 }

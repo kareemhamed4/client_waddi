@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/models/driver/delegate_get_his_orders_model.dart';
+import 'package:waddy_app/modules/driver/attach_bill/attach_bill_screen.dart';
 import 'package:waddy_app/modules/driver/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/modules/driver/orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/orders/cubit/states.dart';
@@ -37,18 +38,30 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
     Size size = MediaQuery.of(context).size;
     return BlocConsumer<DriverOrdersCubit, DriverOrdersStates>(
       listener: (context, state) {
-        if (state is DriverConfirmOrderSuccessState) {
-          buildSuccessToast(
-            context: context,
-            title: "Done!",
-            description: state.msg,
-          );
-        }
-        if (state is DriverConfirmOrderErrorState) {
+        if (state is DriverConfirmOrderByAcceptErrorState) {
           buildSuccessToast(
             context: context,
             title: "Oops!",
             description: state.error,
+          );
+        }
+        if (state is DriverConfirmOrderByRejectErrorState) {
+          buildSuccessToast(
+            context: context,
+            title: "Oops!",
+            description: state.error,
+          );
+        }
+        if (state is DriverConfirmOrderByAcceptSuccessState) {
+          final stepData = DriverOrdersCubit.get(context).ordersByCity[DriverOrdersCubit.get(context)
+              .ordersByCity
+              .keys
+              .toList()[DriverOrdersCubit.get(context).currentCityIndex]]![currentStepRouteIndex];
+          navigateTo(context, DeliveryAttachBillScreen(orderId: stepData.sId));
+          buildSuccessToast(
+            context: context,
+            title: "Done!",
+            description: "Please provide confirmation image",
           );
         }
       },
@@ -153,169 +166,180 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                               style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
                                             ),
                                             isActive: true,
-                                            content: (stepData.status != "Delivered" && stepData.status != "Rejected") ?Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    '3:00 PM - 3:15 PM',
-                                                    style: Theme.of(context).textTheme.bodySmall,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Expanded(
-                                                        flex: 2,
-                                                        child: myMaterialButton(
-                                                          context: context,
-                                                          onPressed: () {},
-                                                          height: 40,
-                                                          radius: 9,
-                                                          labelWidget: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Text(
-                                                                "Start",
-                                                                style: Theme.of(context)
-                                                                    .textTheme
-                                                                    .labelLarge!
-                                                                    .copyWith(fontSize: 12),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              FaIcon(
-                                                                FontAwesomeIcons.paperPlane,
-                                                                size: 16,
-                                                                color: myFavColor7,
-                                                              ),
-                                                            ],
-                                                          ),
+                                            content: (stepData.status != "Delivered" && stepData.status != "Rejected")
+                                                ? Container(
+                                                    alignment: Alignment.centerLeft,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          '3:00 PM - 3:15 PM',
+                                                          style: Theme.of(context).textTheme.bodySmall,
                                                         ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Expanded(
-                                                          flex: 4,
-                                                          child: Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: ConditionalBuilder(
-                                                                  condition: state is! DriverConfirmOrderLoadingState,
-                                                                  builder: (context) => myCustomMaterialButtonLeft(
-                                                                    context: context,
-                                                                    onPressed: () {
-                                                                      cubit.driverDoneOrder(
-                                                                        orderId: stepData.sId!,
-                                                                        confirmType: "Deliverd",
-                                                                      );
-                                                                    },
-                                                                    height: 40,
-                                                                    radius: 5,
-                                                                    labelWidget: Text(
-                                                                      "DELIVERED",
+                                                        Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            Expanded(
+                                                              flex: 2,
+                                                              child: myMaterialButton(
+                                                                context: context,
+                                                                onPressed: () {},
+                                                                height: 40,
+                                                                radius: 9,
+                                                                labelWidget: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    Text(
+                                                                      "Start",
                                                                       style: Theme.of(context)
                                                                           .textTheme
                                                                           .labelLarge!
                                                                           .copyWith(fontSize: 12),
                                                                     ),
-                                                                  ),
-                                                                  fallback: (context) => myCustomMaterialButtonLeft(
-                                                                    context: context,
-                                                                    onPressed: () {
-                                                                      null;
-                                                                    },
-                                                                    height: 40,
-                                                                    radius: 5,
-                                                                    labelWidget: const Center(
-                                                                      child: SizedBox(
-                                                                        width: 15,
-                                                                        height: 15,
-                                                                        child: CircularProgressIndicator(
-                                                                          color: Colors.white,
-                                                                          strokeWidth: 3,
+                                                                    const SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    FaIcon(
+                                                                      FontAwesomeIcons.paperPlane,
+                                                                      size: 16,
+                                                                      color: myFavColor7,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Expanded(
+                                                                flex: 4,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Expanded(
+                                                                      child: ConditionalBuilder(
+                                                                        condition: state
+                                                                            is! DriverConfirmOrderByAcceptLoadingState,
+                                                                        builder: (context) =>
+                                                                            myCustomMaterialButtonLeft(
+                                                                          context: context,
+                                                                          onPressed: () {
+                                                                            cubit.driverDoneOrder(
+                                                                              orderId: stepData.sId!,
+                                                                              confirmType: "Deliverd",
+                                                                            );
+                                                                          },
+                                                                          height: 40,
+                                                                          radius: 5,
+                                                                          labelWidget: Text(
+                                                                            "DELIVERED",
+                                                                            style: Theme.of(context)
+                                                                                .textTheme
+                                                                                .labelLarge!
+                                                                                .copyWith(fontSize: 12),
+                                                                          ),
+                                                                        ),
+                                                                        fallback: (context) =>
+                                                                            myCustomMaterialButtonLeft(
+                                                                          context: context,
+                                                                          onPressed: () {
+                                                                            null;
+                                                                          },
+                                                                          height: 40,
+                                                                          radius: 5,
+                                                                          labelWidget: const Center(
+                                                                            child: SizedBox(
+                                                                              width: 15,
+                                                                              height: 15,
+                                                                              child: CircularProgressIndicator(
+                                                                                color: Colors.white,
+                                                                                strokeWidth: 3,
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                child: ConditionalBuilder(
-                                                                  condition: state is! DriverConfirmOrderLoadingState,
-                                                                  builder: (context) => myCustomMaterialButtonRight(
-                                                                    context: context,
-                                                                    bgColor: myFavColorWithOpacity,
-                                                                    onPressed: () {
-                                                                      cubit.driverDoneOrder(
-                                                                        orderId: stepData.sId!,
-                                                                        confirmType: "Rejected",
-                                                                      );
-                                                                    },
-                                                                    height: 40,
-                                                                    radius: 5,
-                                                                    labelWidget: Text(
-                                                                      "FAILED",
-                                                                      style: Theme.of(context)
-                                                                          .textTheme
-                                                                          .labelLarge!
-                                                                          .copyWith(fontSize: 12, color: myFavColor),
-                                                                    ),
-                                                                  ),
-                                                                  fallback: (context) => myCustomMaterialButtonLeft(
-                                                                    context: context,
-                                                                    onPressed: () {
-                                                                      null;
-                                                                    },
-                                                                    height: 40,
-                                                                    radius: 5,
-                                                                    labelWidget: const Center(
-                                                                      child: SizedBox(
-                                                                        width: 15,
-                                                                        height: 15,
-                                                                        child: CircularProgressIndicator(
-                                                                          color: Colors.white,
-                                                                          strokeWidth: 3,
+                                                                    Expanded(
+                                                                      child: ConditionalBuilder(
+                                                                        condition: state
+                                                                            is! DriverConfirmOrderByRejectLoadingState,
+                                                                        builder: (context) =>
+                                                                            myCustomMaterialButtonRight(
+                                                                          context: context,
+                                                                          bgColor: myFavColorWithOpacity,
+                                                                          onPressed: () {
+                                                                            cubit.driverDoneOrder(
+                                                                              orderId: stepData.sId!,
+                                                                              confirmType: "Rejected",
+                                                                            );
+                                                                          },
+                                                                          height: 40,
+                                                                          radius: 5,
+                                                                          labelWidget: Text(
+                                                                            "FAILED",
+                                                                            style: Theme.of(context)
+                                                                                .textTheme
+                                                                                .labelLarge!
+                                                                                .copyWith(
+                                                                                    fontSize: 12, color: myFavColor),
+                                                                          ),
+                                                                        ),
+                                                                        fallback: (context) =>
+                                                                            myCustomMaterialButtonRight(
+                                                                          context: context,
+                                                                          bgColor: myFavColorWithOpacity,
+                                                                          onPressed: () {
+                                                                            null;
+                                                                          },
+                                                                          height: 40,
+                                                                          radius: 5,
+                                                                          labelWidget: const Center(
+                                                                            child: SizedBox(
+                                                                              width: 15,
+                                                                              height: 15,
+                                                                              child: CircularProgressIndicator(
+                                                                                color: Colors.white,
+                                                                                strokeWidth: 3,
+                                                                              ),
+                                                                            ),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Expanded(
-                                                        flex: 1,
-                                                        child: myMaterialButton(
-                                                            context: context,
-                                                            onPressed: () {
-                                                              navigateTo(
-                                                                  context,
-                                                                  DriverChatDetailsScreen(
-                                                                      uId: cubit.emailToUidMap[stepData.receivedEmail!],
-                                                                      chatUserName: stepData.receivedName));
-                                                            },
-                                                            height: 40,
-                                                            radius: 9,
-                                                            labelWidget: FaIcon(
-                                                              FontAwesomeIcons.pen,
-                                                              size: 16,
-                                                              color: myFavColor7,
-                                                            )),
-                                                      ),
+                                                                  ],
+                                                                )),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Expanded(
+                                                              flex: 1,
+                                                              child: myMaterialButton(
+                                                                  context: context,
+                                                                  onPressed: () {
+                                                                    navigateTo(
+                                                                        context,
+                                                                        DriverChatDetailsScreen(
+                                                                            uId: cubit
+                                                                                .emailToUidMap[stepData.receivedEmail!],
+                                                                            chatUserName: stepData.receivedName));
+                                                                  },
+                                                                  height: 40,
+                                                                  radius: 9,
+                                                                  labelWidget: FaIcon(
+                                                                    FontAwesomeIcons.pen,
+                                                                    size: 16,
+                                                                    color: myFavColor7,
+                                                                  )),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Row(
+                                                    children: const [
+                                                      SizedBox.shrink(),
                                                     ],
                                                   ),
-                                                ],
-                                              ),
-                                            ) : Row(
-                                              children: const [
-                                                SizedBox.shrink(),
-                                              ],
-                                            ),
                                             subtitle: Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
@@ -333,7 +357,11 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                                 )
                                               ],
                                             ),
-                                            state: stepData.status == "Delivered" ? StepState.complete : stepData.status == "Rejected" ? StepState.error : StepState.indexed,
+                                            state: stepData.status == "Delivered"
+                                                ? StepState.complete
+                                                : stepData.status == "Rejected"
+                                                    ? StepState.error
+                                                    : StepState.indexed,
                                           );
                                         },
                                       ),

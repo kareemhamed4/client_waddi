@@ -44,14 +44,15 @@ class DioHelper {
   static Future<Response> postData({
     required String url,
     Map<String, dynamic>? query,
-    Map<String, dynamic>? data,
+    dynamic data,
     String? baseUrl,
     String? token,
+    String? contentType,
   }) async {
     final dioInstance = getDioInstance(baseUrl ?? "");
     dioInstance.options.headers = {
       'lang': 'en',
-      'Content-Type': 'application/json',
+      'Content-Type': contentType?? 'application/json',
       'Authorization': 'Bearer $token',
     };
     return await dioInstance.post(url, queryParameters: query, data: data);

@@ -45,14 +45,24 @@ class GetDriverOrderErrorState extends DriverOrdersStates {
   GetDriverOrderErrorState(this.error);
 }
 
-class DriverConfirmOrderLoadingState extends DriverOrdersStates {}
-class DriverConfirmOrderSuccessState extends DriverOrdersStates {
+class DriverConfirmOrderByAcceptLoadingState extends DriverOrdersStates {}
+class DriverConfirmOrderByAcceptSuccessState extends DriverOrdersStates {
   final String msg;
-  DriverConfirmOrderSuccessState(this.msg);
+  DriverConfirmOrderByAcceptSuccessState(this.msg);
 }
-class DriverConfirmOrderErrorState extends DriverOrdersStates {
+class DriverConfirmOrderByAcceptErrorState extends DriverOrdersStates {
   final String error;
-  DriverConfirmOrderErrorState(this.error);
+  DriverConfirmOrderByAcceptErrorState(this.error);
+}
+
+class DriverConfirmOrderByRejectLoadingState extends DriverOrdersStates {}
+class DriverConfirmOrderByRejectSuccessState extends DriverOrdersStates {
+  final String msg;
+  DriverConfirmOrderByRejectSuccessState(this.msg);
+}
+class DriverConfirmOrderByRejectErrorState extends DriverOrdersStates {
+  final String error;
+  DriverConfirmOrderByRejectErrorState(this.error);
 }
 
 class GetDriverSearchedOrdersLoadingState extends DriverOrdersStates {}
@@ -87,4 +97,19 @@ class UserNotFound extends DriverOrdersStates {}
 class UserFetchError extends DriverOrdersStates {
   final String error;
   UserFetchError(this.error);
+}
+
+class ImagePickedSuccessState extends DriverOrdersStates {}
+class ImagePickedErrorState extends DriverOrdersStates {}
+class ImageDeletedSuccessState extends DriverOrdersStates {}
+
+class ImageUploadLoadingState extends DriverOrdersStates {}
+class ImageUploadSuccessState extends DriverOrdersStates {
+  final String msg;
+
+  ImageUploadSuccessState(this.msg);
+}
+class ImageUploadErrorState extends DriverOrdersStates {
+  final String error;
+  ImageUploadErrorState(this.error);
 }

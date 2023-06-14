@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waddy_app/models/driver/delegate_get_all_orders.dart';
@@ -171,26 +172,46 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
     required String orderId,
     required String confirmType,
   }) {
-    emit(DriverConfirmOrderLoadingState());
+    if(confirmType == "Rejected"){
+      emit(DriverConfirmOrderByRejectLoadingState());
+    }else{
+      emit(DriverConfirmOrderByAcceptLoadingState());
+    }
     DioHelper.patchData(url: "$DELEGATECONFIRMORDER$orderId", baseUrl: BASEURL, token: driverToken, query: {
       "type": confirmType,
     }).then((value) {
       final message = value.data.toString();
-      emit(DriverConfirmOrderSuccessState(message));
+      if(confirmType == "Rejected"){
+        emit(DriverConfirmOrderByRejectSuccessState(message));
+      }else{
+        emit(DriverConfirmOrderByAcceptSuccessState(message));
+      }
     }).catchError((error) {
       if (error is DioError) {
         if (error.response?.statusCode == 401) {
           final responseData = error.response?.data;
           final errorMessage = responseData['msg'];
-          emit(DriverConfirmOrderErrorState(errorMessage));
+          if(confirmType == "Rejected"){
+            emit(DriverConfirmOrderByRejectErrorState(errorMessage));
+          }else{
+            emit(DriverConfirmOrderByAcceptErrorState(errorMessage));
+          }
         } else {
           // Handle other DioError cases
           final responseData = error.response?.data;
           final errorMessage = responseData['msg'];
-          emit(DriverConfirmOrderErrorState(errorMessage));
+          if(confirmType == "Rejected"){
+            emit(DriverConfirmOrderByRejectErrorState(errorMessage));
+          }else{
+            emit(DriverConfirmOrderByAcceptErrorState(errorMessage));
+          }
         }
       } else {
-        emit(DriverConfirmOrderErrorState(error.toString()));
+        if(confirmType == "Rejected"){
+          emit(DriverConfirmOrderByRejectErrorState(error.toString()));
+        }else{
+          emit(DriverConfirmOrderByAcceptErrorState(error.toString()));
+        }
       }
     });
   }
@@ -240,5 +261,64 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
     }).catchError((error) {
       emit(UserFetchError(error.toString()));
     });
+  }
+
+  String? filePath;
+  String? fileName;
+  FilePickerResult? result;
+  Future<void> chooseImageFile() async {
+    try {
+      result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['png', "jpg", "jpeg"],
+      );
+      if (result != null && result!.files.isNotEmpty) {
+        filePath = result!.files.last.path!;
+        fileName = filePath!.split('/').last;
+        emit(ImagePickedSuccessState());
+      }
+    } catch (e) {
+      emit(ImagePickedErrorState());
+    }
+  }
+
+  Future<void> delegateUploadImageProof({
+    required String orderId,
+}) async {
+    if (filePath!.isEmpty) {
+      emit(ImageUploadErrorState("Please choose Image file"));
+      return;
+    }
+    emit(ImageUploadLoadingState());
+    try {
+      final formData = FormData.fromMap({
+        'proof': await MultipartFile.fromFile(filePath!),
+      });
+      final response = await DioHelper.postData(
+        url: "$DELEGATESENDORDERPROOF$orderId",
+        baseUrl: BASEURL,
+        data: formData,
+        token: driverToken,
+        contentType: 'multipart/form-data; boundary=${formData.boundary}',
+      );
+      if (response.statusCode == 200) {
+        final responseData = response.data.toString();
+        emit(ImageUploadSuccessState(responseData));
+      } else {
+        final responseData = response.data.toString();
+        emit(ImageUploadErrorState(responseData));
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      emit(ImageUploadErrorState(
+          "Error while uploading your offer, try again!"));
+    }
+  }
+
+  void deleteSelectedImage() {
+    filePath = null;
+    fileName = null;
+    result = null;
+    emit(ImageDeletedSuccessState());
   }
 }

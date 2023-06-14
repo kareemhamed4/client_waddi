@@ -159,9 +159,10 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                                     buildOrderSection(
                                       size: size,
                                       cubit: cubit,
-                                      status: "Completed",
+                                      status: "Delivered",
                                       ordersList: cubit.ordersList,
                                     ),
+                                    SizedBox(height: 20.h),
                                   ],
                                 ),
                               ),
@@ -258,7 +259,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                           if (tabController.index == 3)
                             ConditionalBuilder(
                               condition:
-                                  cubit.ordersList.where((order) => order.status == "Completed").toList().isNotEmpty,
+                                  cubit.ordersList.where((order) => order.status == "Delivered").toList().isNotEmpty,
                               builder: (context) => Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: ListView(
@@ -266,7 +267,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     buildOrderSection(
-                                        size: size, cubit: cubit, status: "Pending", ordersList: cubit.ordersList),
+                                        size: size, cubit: cubit, status: "Delivered", ordersList: cubit.ordersList),
                                   ],
                                 ),
                               ),
@@ -364,7 +365,8 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
           itemCount: filteredOrders.length,
           itemBuilder: (context, index) {
             UserOrders order = filteredOrders[index];
-            return buildOrdersItem(context: context, size: size, orders: order, cubit: cubit, index: index);
+            int originalIndex = order.originalIndex!;
+            return buildOrdersItem(context: context, size: size, orders: order, cubit: cubit, index: index,originalIndex: originalIndex);
           },
           separatorBuilder: (context, index) => const SizedBox(
             height: 12,
@@ -380,6 +382,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
     required UserOrders orders,
     required GetUserOrdersCubit cubit,
     required int index,
+    required int originalIndex,
   }) {
     return Slidable(
       startActionPane: ActionPane(motion: const StretchMotion(), children: [
@@ -402,7 +405,6 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
       ]),
       enabled: orders.status == "Pending" ? true : false,
       child: Container(
-        height: size.height * 167 / 780,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -416,7 +418,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
           color: myFavColor7,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(25),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -439,7 +441,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                             child: FaIcon(
                               orders.status == "Pending"
                                   ? FontAwesomeIcons.moneyCheck
-                                  : orders.status == "Completed"
+                                  : orders.status == "Delivered"
                                       ? FontAwesomeIcons.boxOpen
                                       : FontAwesomeIcons.truckFast,
                               color: myFavColor,
@@ -458,7 +460,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                             Text(
                               orders.status == "Pending"
                                   ? "Your request is under\nreview,please wait"
-                                  : orders.status == "Completed"
+                                  : orders.status == "Delivered"
                                       ? "Package Received"
                                       : "On the way in delivery",
                               style: Theme.of(context)
@@ -471,8 +473,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                       ],
                     ),
                     Container(
-                      width: 60,
-                      height: 15,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
                         color: myFavColor,
                         borderRadius: const BorderRadius.all(
@@ -483,8 +484,8 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                         child: Text(
                           orders.status == "Pending"
                               ? "Pending"
-                              : orders.status == "Completed"
-                                  ? "Completed"
+                              : orders.status == "Delivered"
+                                  ? "Delivered"
                                   : "Prepared",
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: myFavColor7,
@@ -497,6 +498,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                 ),
                 SizedBox(height: 17.h),
                 myDivider(),
+                SizedBox(height: 8.h),
                 Row(
                   children: [
                     Expanded(
@@ -506,18 +508,19 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                           navigateTo(
                             context,
                             EReceiptScreenForDiscovery(
-                              senderName: cubit.ordersList[index].senderName!,
-                              senderPhone: cubit.ordersList[index].senderPhone!,
-                              senderEmail: cubit.ordersList[index].senderEmail!,
-                              senderPostalCode: cubit.ordersList[index].senderPostalCode!,
-                              senderAddress: cubit.ordersList[index].senderAddress!,
-                              receiverName: cubit.ordersList[index].receivedName!,
-                              receiverPhone: cubit.ordersList[index].receivedPhone!,
-                              receiverEmail: cubit.ordersList[index].receivedEmail!,
-                              receiverPostalCode: cubit.ordersList[index].receivedPostalCode!,
-                              receiverAddress: cubit.ordersList[index].receivedAddress!,
-                              selectedService: cubit.ordersList[index].services!,
-                              trackId: cubit.ordersList[index].trackId!,
+                              senderName: cubit.ordersList[originalIndex].senderName!,
+                              senderPhone: cubit.ordersList[originalIndex].senderPhone!,
+                              senderEmail: cubit.ordersList[originalIndex].senderEmail!,
+                              senderPostalCode: cubit.ordersList[originalIndex].senderPostalCode!,
+                              senderAddress: cubit.ordersList[originalIndex].senderAddress!,
+                              receiverName: cubit.ordersList[originalIndex].receivedName!,
+                              receiverPhone: cubit.ordersList[originalIndex].receivedPhone!,
+                              receiverEmail: cubit.ordersList[originalIndex].receivedEmail!,
+                              receiverPostalCode: cubit.ordersList[originalIndex].receivedPostalCode!,
+                              receiverAddress: cubit.ordersList[originalIndex].receivedAddress!,
+                              selectedService: cubit.ordersList[originalIndex].services!,
+                              trackId: cubit.ordersList[originalIndex].trackId!,
+                              status: cubit.ordersList[originalIndex].status!,
                             ),
                           );
                         },
@@ -622,7 +625,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                             child: FaIcon(
                               orders.status == "Pending"
                                   ? FontAwesomeIcons.moneyCheck
-                                  : orders.status == "Completed"
+                                  : orders.status == "Delivered"
                                       ? FontAwesomeIcons.boxOpen
                                       : FontAwesomeIcons.truckFast,
                               color: myFavColor,
@@ -641,7 +644,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                             Text(
                               orders.status == "Pending"
                                   ? "Your request is under\nreview,please wait"
-                                  : orders.status == "Completed"
+                                  : orders.status == "Delivered"
                                       ? "Package Received"
                                       : "On the way in delivery",
                               style: Theme.of(context)
@@ -666,8 +669,8 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                         child: Text(
                           orders.status == "Pending"
                               ? "Pending"
-                              : orders.status == "Completed"
-                                  ? "Completed"
+                              : orders.status == "Delivered"
+                                  ? "Delivered"
                                   : "Prepared",
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                 color: myFavColor7,
@@ -819,7 +822,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                     ),
                     child: Center(
                       child: Text(
-                        "Completed",
+                        "Delivered",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: myFavColor7,
                               fontSize: 12,

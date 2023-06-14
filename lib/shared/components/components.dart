@@ -1055,3 +1055,22 @@ Widget customTextFormFieldForCardNumber({
         ),
       ),
     );
+
+void showProgressIndicator(BuildContext context) {
+  AlertDialog alertDialog = AlertDialog(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    content: Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(myFavColor),
+      ),
+    ),
+  );
+  showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.2),
+      barrierDismissible: false,
+      builder: (context) {
+        return alertDialog;
+      });
+}

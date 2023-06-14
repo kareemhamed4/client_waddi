@@ -109,6 +109,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/rive/
+    - assets/map_style/
 
 
   # assets:

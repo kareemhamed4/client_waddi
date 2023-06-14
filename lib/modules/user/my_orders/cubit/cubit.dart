@@ -25,6 +25,10 @@ class GetUserOrdersCubit extends Cubit<GetUserOrdersStates> {
       ordersList = ordersJson
           .map((orderJson) => UserOrders.fromJson(orderJson))
           .toList();
+      for (int i = 0; i < ordersList.length; i++) {
+        userOrders = ordersList[i];
+        userOrders!.originalIndex = i;
+      }
       emit(GetUserOrdersSuccessState(ordersList));
     }).catchError((error) {
       if (error is DioError) {

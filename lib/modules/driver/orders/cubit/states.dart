@@ -78,3 +78,13 @@ class DeliveredOrderErrorState extends DriverOrdersStates {
   final String error;
   DeliveredOrderErrorState(this.error);
 }
+
+class UserUIdsLoaded extends DriverOrdersStates {
+  final List<String?> userUIds;
+  UserUIdsLoaded(this.userUIds);
+}
+class UserNotFound extends DriverOrdersStates {}
+class UserFetchError extends DriverOrdersStates {
+  final String error;
+  UserFetchError(this.error);
+}

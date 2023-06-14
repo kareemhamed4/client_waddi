@@ -19,6 +19,7 @@ class EReceiptScreenForDiscovery extends StatelessWidget {
   final int selectedService;
 
   final String trackId;
+  final String status;
   const EReceiptScreenForDiscovery(
       {Key? key,
       required this.senderName,
@@ -31,6 +32,7 @@ class EReceiptScreenForDiscovery extends StatelessWidget {
       required this.receiverEmail,
       required this.receiverPostalCode,
       required this.receiverAddress,
+      required this.status,
       required this.selectedService, required this.trackId,})
       : super(key: key);
 
@@ -421,7 +423,7 @@ class EReceiptScreenForDiscovery extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Pending",
+                        status,
                         style:
                         Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: myFavColor,

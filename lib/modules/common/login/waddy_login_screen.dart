@@ -48,30 +48,27 @@ class WaddyLoginScreen extends StatelessWidget {
                 });
               }
             }
-          }
-          else if (state is UserLoginErrorState) {
+          } else if (state is UserLoginErrorState) {
             buildErrorToast(
               title: "Oops!",
               context: context,
               description: state.error,
             );
-          }
-          else if (state is LoginWithFBSuccessState) {
+          } else if (state is LoginWithFBSuccessState) {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               uId = state.uId;
             }).then((value) {
-              if(userToken != null){
+              if (userToken != null) {
                 context.read<UserLayoutCubit>().getUserData().then((value) {
                   navigateToAndFinish(context, const UserLayoutScreen());
                 });
-              }else if(driverToken != null){
+              } else if (driverToken != null) {
                 context.read<DriverLayoutCubit>().getDelegateData().then((value) {
                   navigateToAndFinish(context, const DriverLayoutScreen());
                 });
               }
             });
-          }
-          else if (state is LoginWithFBErrorState) {
+          } else if (state is LoginWithFBErrorState) {
             buildErrorToast(
               title: "Oops!",
               context: context,
@@ -92,8 +89,7 @@ class WaddyLoginScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Login to your Account',
-                            style: Theme.of(context).textTheme.titleLarge),
+                        Text('Login to your Account', style: Theme.of(context).textTheme.titleLarge),
                         const SizedBox(
                           height: 30.0,
                         ),
@@ -155,11 +151,8 @@ class WaddyLoginScreen extends StatelessWidget {
                               },
                             ),
                             Text('Remember me',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: myFavColor2, fontSize: 16)),
+                                style:
+                                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor2, fontSize: 16)),
                           ],
                         ),
                         mySizedBox(size: size, myHeight: 16),
@@ -202,15 +195,11 @@ class WaddyLoginScreen extends StatelessWidget {
                         Center(
                           child: TextButton(
                             onPressed: () {
-                              navigateTo(
-                                  context, const WaddyForgetPasswordScreen());
+                              navigateTo(context, const WaddyForgetPasswordScreen());
                             },
                             child: Text(
                               'Forget the password ?',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(color: myFavColor, fontSize: 16),
+                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor, fontSize: 16),
                             ),
                           ),
                         ),
@@ -219,21 +208,19 @@ class WaddyLoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Don\'t have account ?',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: myFavColor4, fontSize: 16)),
+                                style:
+                                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4, fontSize: 16)),
                             TextButton(
                               onPressed: () {
                                 navigateTo(context, const NewRegisterScreen());
                               },
-                              child: Text('Register',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                          color: myFavColor, fontSize: 16)),
+                              child: Text(
+                                'Register',
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: myFavColor,
+                                      fontSize: 16,
+                                    ),
+                              ),
                             ),
                           ],
                         ),

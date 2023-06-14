@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,12 +50,13 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
     });
   }
 
+  int currentCityIndex = 0;
   DelegateGetHisOrders? delegateGetHisOrders;
   Map<String, List<Orders>> ordersByCity = {};
   List<String> emails = [];
-  void getOrdersRelatedToDelegate() {
+  Future<void> getOrdersRelatedToDelegate() async{
     emit(GetOrdersRelatedToDelegateLoadingState());
-    DioHelper.getData(
+    await DioHelper.getData(
       url: DELEGATEGETHISORDERS,
       baseUrl: BASEURL,
       token: driverToken,
@@ -63,7 +65,7 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
       if(delegateGetHisOrders != null && delegateGetHisOrders!.orders!.isNotEmpty){
         for (int i = 0; i < delegateGetHisOrders!.orders!.length; i++) {
           Orders order = delegateGetHisOrders!.orders![i];
-          emails.add(order.senderEmail!);
+          emails.add(order.receivedEmail!);
           // Store the order's city in a variable
           String city = order.receivedAddress ?? '';
 
@@ -76,6 +78,7 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
             ordersByCity[city] = [order];
           }
         }
+        getUIdsForUsersFromFB(emails);
       }
       emit(GetOrdersRelatedToDelegateSuccessState(delegateGetHisOrders!));
     }).catchError((error) {
@@ -135,11 +138,11 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
   }
 
   DelegateOrderDetails? delegateOrderDetails;
-  void delegateGetOrderById({
+  Future<void> delegateGetOrderById({
     required String orderId,
-  }) {
+  }) async{
     emit(GetDriverOrderLoadingState());
-    DioHelper.getData(
+    await DioHelper.getData(
       url: "$DELEGATEGETORDERBYID$orderId",
       baseUrl: BASEURL,
       token: driverToken,
@@ -159,9 +162,7 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
           emit(GetDriverOrderErrorState(errorMessage));
         }
       } else {
-        final responseData = error.response?.data;
-        final errorMessage = responseData['msg'];
-        emit(GetDriverOrdersErrorState(errorMessage));
+        emit(GetDriverOrdersErrorState(error.toString()));
       }
     });
   }
@@ -189,10 +190,55 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
           emit(DriverConfirmOrderErrorState(errorMessage));
         }
       } else {
-        final responseData = error.response?.data;
-        final errorMessage = responseData['msg'];
-        emit(DriverConfirmOrderErrorState(errorMessage));
+        emit(DriverConfirmOrderErrorState(error.toString()));
       }
+    });
+  }
+
+  Map<String, String> emailToUidMap = {};
+  Future<void> getUIdsForUsersFromFB(List<String> emails) async {
+    await Future.wait(emails.map((email) async {
+      return await FirebaseFirestore.instance
+          .collectionGroup('Users')
+          .where('email', isEqualTo: email)
+          .get()
+          .then((querySnapshot) {
+        if (querySnapshot.size > 0) {
+          final document = querySnapshot.docs.first;
+          final uId = document.id;
+          emailToUidMap[email] = uId;
+        }
+      });
+    })).then((_) async {
+      if (emailToUidMap.isNotEmpty) {
+        final List<String?> uIds = emails.map((email) => emailToUidMap[email]).toList();
+        emit(UserUIdsLoaded(uIds));
+      } else {
+        await Future.wait(emails.map((email) async {
+          return await FirebaseFirestore.instance
+              .collectionGroup('Delegates')
+              .where('email', isEqualTo: email)
+              .get()
+              .then((querySnapshot) {
+            if (querySnapshot.size > 0) {
+              final document = querySnapshot.docs.first;
+              final uId = document.id;
+              emailToUidMap[email] = uId;
+            }
+          });
+        })).then((_) {
+          if (emailToUidMap.isNotEmpty) {
+            final List<String?> uIds = emails.map((email) => emailToUidMap[email]).toList();
+            emit(UserUIdsLoaded(uIds));
+          } else {
+            emit(UserNotFound());
+          }
+        }).catchError((error) {
+          emit(UserFetchError(error.toString()));
+        });
+      }
+    }).catchError((error) {
+      emit(UserFetchError(error.toString()));
     });
   }
 }

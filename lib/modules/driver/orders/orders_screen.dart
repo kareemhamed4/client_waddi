@@ -28,7 +28,15 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DriverOrdersCubit, DriverOrdersStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is GetDriverOrderLoadingState) {
+          showProgressIndicator(context);
+        }
+        if (state is GetDriverOrderErrorState) {
+          Navigator.pop(context);
+          buildErrorToast(context: context, title: "Oops", description: state.error);
+        }
+      },
       builder: (context, state) {
         DriverOrdersCubit cubit = BlocProvider.of(context);
         return Scaffold(
@@ -94,7 +102,11 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) => buildOrderRelatedToDelegateItem(
-                          context: context, index: index, model: cubit.delegateGetHisOrders!),
+                        context: context,
+                        index: index,
+                        model: cubit.delegateGetHisOrders!,
+                        cubit: cubit,
+                      ),
                       separatorBuilder: (context, index) => const SizedBox(
                         height: 16,
                       ),
@@ -149,6 +161,7 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
 
   Container buildOrderRelatedToDelegateItem({
     required BuildContext context,
+    required DriverOrdersCubit cubit,
     required DelegateGetHisOrders model,
     required int index,
   }) {
@@ -166,7 +179,7 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
         color: myFavColor7,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -219,7 +232,20 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                 child: myMaterialButton(
                   context: context,
                   onPressed: () {
-                    navigateTo(context, const DriverViewOnMapScreen());
+                    cubit
+                        .delegateGetOrderById(
+                      orderId: model.orders![index].sId!,
+                    )
+                        .then((value) {
+                      Navigator.pop(context);
+                      navigateTo(
+                        context,
+                        DriverViewOnMapScreen(
+                          uId: cubit.emailToUidMap[model.orders![index].receivedEmail!],
+                          chatUserName: cubit.delegateOrderDetails!.order!.receivedName!,
+                        ),
+                      );
+                    });
                   },
                   height: 35.h,
                   radius: 20,
@@ -299,7 +325,8 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                               width: 190,
                               child: Text(
                                 "${model.orders![index].category} - ${model.orders![index].weight} KG",
-                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14, color: myFavColor4),
+                                style:
+                                    Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14, color: myFavColor4),
                               ),
                             ),
                             SizedBox(height: 12.h),
@@ -361,7 +388,7 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                       labelWidget: Text("Details",
                           style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 15.sp, color: myFavColor)),
                       onPressed: () {
-                        navigateTo(context, OrderDetailsScreen(index: index,orderId: model.orders![index].sId!));
+                        navigateTo(context, OrderDetailsScreen(index: index, orderId: model.orders![index].sId!));
                       },
                     ),
                   ),

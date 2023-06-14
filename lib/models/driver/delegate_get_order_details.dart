@@ -22,7 +22,7 @@ class Order {
   String? receivedPostalCode;
   String? receivedAddress;
   String? category;
-  double? weight;
+  num? weight;
   List<int>? dimension;
   int? services;
   String? deliverTime;

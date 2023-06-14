@@ -1,5 +1,6 @@
 class UserOrders {
   String? sId;
+  int? originalIndex;
   User? user;
   String? trackId;
   String? senderName;
@@ -27,6 +28,7 @@ class UserOrders {
   UserOrders(
       {this.sId,
         this.user,
+        this.originalIndex,
         this.trackId,
         this.senderName,
         this.senderPhone,

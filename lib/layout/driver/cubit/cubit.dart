@@ -13,6 +13,8 @@ import 'package:waddy_app/modules/driver/profile/profile_screen.dart';
 import 'package:waddy_app/network/end_point.dart';
 import 'package:waddy_app/network/remote/dio_helper.dart';
 import 'package:waddy_app/shared/constants/constants.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
   DriverLayoutCubit() : super(DriverInitialState());
@@ -88,7 +90,6 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
         }
         emit(GetAllUsersFromFBSuccessState());
       }).catchError((error) {
-        print(error.toString());
         emit(GetAllUsersFromFBErrorState(error.toString()));
       });
     }
@@ -202,5 +203,50 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     for(int i=0; i<usersWithChat.length ; i++){
       getMessages(receiverId: usersWithChat[i].uId!);
     }
+  }
+
+  final io.Socket socket = io.io("http://192.168.1.12:8080/", io.OptionBuilder().setTransports(['websocket']).build());
+
+  connectSocket() {
+    socket.onConnect((_) {
+      debugPrint("Socket.IO Connected");
+      // Emit updateLocation event
+      emitUpdateLocationEvent();
+    });
+
+    socket.onConnectError((data) {
+      debugPrint("Socket.IO Connection Error: $data");
+    });
+
+    socket.onDisconnect((_) {
+      debugPrint("Socket.IO Disconnected");
+    });
+
+    // Listen for updateLocation event
+    socket.on('updateLocation', (data) {
+      debugPrint('Received updateLocation event with data: $data');
+      // Handle the received data here
+      processUpdateLocationData(data);
+    });
+  }
+
+  Future<void> emitUpdateLocationEvent() async{
+    // Sample data for delegate information
+    await getDelegateData();
+    final data = {
+      'delegate': delegateInfo!.id,
+      'latitude': currentLatitude,
+      'longitude': currentLongitude,
+    };
+
+    socket.emit('updateLocation', data);
+    debugPrint('Sent updateLocation event with data: $data');
+  }
+
+  void processUpdateLocationData(dynamic data) {
+    // Process the received data here
+    debugPrint('Processing updateLocation data: $data');
+    // Update your app state or perform any necessary actions
+    // based on the received data
   }
 }

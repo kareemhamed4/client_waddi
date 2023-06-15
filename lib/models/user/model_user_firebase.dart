@@ -5,8 +5,11 @@ class UserModelFB {
   String? email;
   String? phone;
   String? uId;
+  num? latitude;
+  num? longitude;
 
-  UserModelFB({this.name,this.email,this.uId,this.companyName,this.image,this.phone});
+  UserModelFB({this.name,this.email,this.uId,this.companyName,this.image,this.phone,this.latitude,
+    this.longitude,});
 
   UserModelFB.fromJson(Map<String,dynamic> json){
     name = json["name"];
@@ -15,6 +18,8 @@ class UserModelFB {
     image = json["image"];
     phone = json["phone"];
     uId = json["uId"];
+    latitude = json["latitude"];
+    longitude = json["longitude"];
   }
 
   Map<String,dynamic> toMap(){
@@ -25,6 +30,8 @@ class UserModelFB {
       "image": image,
       "phone": phone,
       "uId": uId,
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 }

@@ -8,6 +8,7 @@ import 'package:waddy_app/modules/common/login/waddy_login_screen.dart';
 import 'package:waddy_app/modules/user/new_register/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/new_register/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class NewRegisterScreen extends StatefulWidget {
@@ -17,8 +18,7 @@ class NewRegisterScreen extends StatefulWidget {
   State<NewRegisterScreen> createState() => _NewRegisterScreenState();
 }
 
-class _NewRegisterScreenState extends State<NewRegisterScreen>
-    with TickerProviderStateMixin {
+class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProviderStateMixin {
   late TabController tabController;
 
   final List<ExpansionItem> data = [
@@ -44,35 +44,33 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
       listener: (context, state) {
         if (state is UserSignUpSuccessState) {
           cubit.userRegisterWithFB(
-              name:
-                  "${cubit.personalFirstNameController.text} ${cubit.personalLastNameController.text}",
-              email: cubit.personalEmailController.text,
-              phone: cubit.personalPhoneController.text,
-              image:
-                  "https://img.freepik.com/free-photo/pleased-european-woman-with-curly-hair-keeps-hands-cheeks-smiles-pleasantly-keeps-eyes-closed-recalls-pleasant-memories-wears-shirt-isolated-beige-background-happy-feelings-concept_273609-62609.jpg",
-              password: cubit.personalPasswordController.text,
-              context: context);
+            name: "${cubit.personalFirstNameController.text} ${cubit.personalLastNameController.text}",
+            email: cubit.personalEmailController.text,
+            phone: cubit.personalPhoneController.text,
+            image:
+                "https://img.freepik.com/free-photo/pleased-european-woman-with-curly-hair-keeps-hands-cheeks-smiles-pleasantly-keeps-eyes-closed-recalls-pleasant-memories-wears-shirt-isolated-beige-background-happy-feelings-concept_273609-62609.jpg",
+            password: cubit.personalPasswordController.text,
+            context: context,
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+          );
           Navigator.pop(context);
-          buildSuccessToast(
-              context: context,
-              title: "Account Created",
-              description: "Can login now!");
+          buildSuccessToast(context: context, title: "Account Created", description: "Can login now!");
         } else if (state is CompanySignUpSuccessState) {
           cubit.userRegisterWithFB(
-              name:
-                  "${cubit.companyFirstNameController.text} ${cubit.companyLastNameController.text}",
-              companyName: cubit.companyNameController.text,
-              email: cubit.companyEmailController.text,
-              phone: cubit.companyPhoneController.text,
-              image:
-                  "https://img.freepik.com/free-photo/pleased-european-woman-with-curly-hair-keeps-hands-cheeks-smiles-pleasantly-keeps-eyes-closed-recalls-pleasant-memories-wears-shirt-isolated-beige-background-happy-feelings-concept_273609-62609.jpg",
-              password: cubit.companyPasswordController.text,
-              context: context);
+            name: "${cubit.companyFirstNameController.text} ${cubit.companyLastNameController.text}",
+            companyName: cubit.companyNameController.text,
+            email: cubit.companyEmailController.text,
+            phone: cubit.companyPhoneController.text,
+            image:
+                "https://img.freepik.com/free-photo/pleased-european-woman-with-curly-hair-keeps-hands-cheeks-smiles-pleasantly-keeps-eyes-closed-recalls-pleasant-memories-wears-shirt-isolated-beige-background-happy-feelings-concept_273609-62609.jpg",
+            password: cubit.companyPasswordController.text,
+            context: context,
+            latitude: currentLatitude,
+            longitude: currentLongitude,
+          );
           Navigator.pop(context);
-          buildSuccessToast(
-              context: context,
-              title: "Account Created",
-              description: "Can login now!");
+          buildSuccessToast(context: context, title: "Account Created", description: "Can login now!");
         } else if (state is UserSignUpErrorState) {
           buildErrorToast(
             title: "Oops!",
@@ -97,10 +95,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               children: [
                 Text(
                   "Create your account",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: myFavColor8, fontSize: 28),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 28),
                 ),
                 mySizedBox(
                   size: size,
@@ -118,9 +113,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                       splashFactory: NoSplash.splashFactory,
                       overlayColor: MaterialStateProperty.resolveWith<Color?>(
                         (Set<MaterialState> states) {
-                          return states.contains(MaterialState.focused)
-                              ? null
-                              : Colors.transparent;
+                          return states.contains(MaterialState.focused) ? null : Colors.transparent;
                         },
                       ),
                       onTap: (index) {
@@ -136,22 +129,14 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                           child: Container(
                             width: size.width * 164 / 375,
                             decoration: BoxDecoration(
-                              color: cubit.currentIndexForTabBar == 0
-                                  ? myFavColor
-                                  : myFavColor5,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
+                              color: cubit.currentIndexForTabBar == 0 ? myFavColor : myFavColor5,
+                              borderRadius: const BorderRadius.all(Radius.circular(20)),
                             ),
                             child: Center(
                               child: Text(
                                 "Personal Account",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(
-                                      color: cubit.currentIndexForTabBar == 0
-                                          ? myFavColor7
-                                          : myFavColor4,
+                                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                      color: cubit.currentIndexForTabBar == 0 ? myFavColor7 : myFavColor4,
                                       fontSize: 16,
                                     ),
                               ),
@@ -162,22 +147,14 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                           child: Container(
                             width: size.width * 164 / 375,
                             decoration: BoxDecoration(
-                              color: cubit.currentIndexForTabBar == 1
-                                  ? myFavColor
-                                  : myFavColor5,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
+                              color: cubit.currentIndexForTabBar == 1 ? myFavColor : myFavColor5,
+                              borderRadius: const BorderRadius.all(Radius.circular(20)),
                             ),
                             child: Center(
                               child: Text(
                                 "Company Account",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(
-                                      color: cubit.currentIndexForTabBar == 1
-                                          ? myFavColor7
-                                          : myFavColor4,
+                                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                                      color: cubit.currentIndexForTabBar == 1 ? myFavColor7 : myFavColor4,
                                       fontSize: 16,
                                     ),
                               ),
@@ -199,26 +176,19 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                           cubit: cubit,
                         ),
                         ConditionalBuilder(
-                          condition: (state is! UserSignUpLoadingState &&
-                              state is! SignUpWithFBLoadingState),
+                          condition: (state is! UserSignUpLoadingState && state is! SignUpWithFBLoadingState),
                           builder: (context) => myMaterialButton(
                             context: context,
                             height: 50,
                             onPressed: () {
-                              if (cubit.personalAccountFormKey.currentState!
-                                  .validate()) {
-                                cubit.personalAccountFormKey.currentState!
-                                    .save();
+                              if (cubit.personalAccountFormKey.currentState!.validate()) {
+                                cubit.personalAccountFormKey.currentState!.save();
                                 cubit.userRegister(
-                                  firstName:
-                                      cubit.personalFirstNameController.text,
-                                  lastName:
-                                      cubit.personalLastNameController.text,
+                                  firstName: cubit.personalFirstNameController.text,
+                                  lastName: cubit.personalLastNameController.text,
                                   email: cubit.personalEmailController.text,
-                                  password:
-                                      cubit.personalPasswordController.text,
-                                  confirmPassword: cubit
-                                      .personalConfirmPasswordController.text,
+                                  password: cubit.personalPasswordController.text,
+                                  confirmPassword: cubit.personalConfirmPasswordController.text,
                                   phone: "0${(cubit.personalPhoneController.text).replaceAll(" ", "")}",
                                   address: cubit.personalAddressController.text,
                                 );
@@ -251,11 +221,8 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Already have an account?',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                        color: myFavColor4, fontSize: 16)),
+                                style:
+                                    Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16)),
                             myTextButton(
                                 context: context,
                                 textColor: myFavColor,
@@ -277,28 +244,20 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Column(
                       children: [
-                        buildCompanyAccountForm(
-                            context: context,
-                            size: size,
-                            data: data,
-                            cubit: cubit),
+                        buildCompanyAccountForm(context: context, size: size, data: data, cubit: cubit),
                         mySizedBox(size: size, myHeight: size.height / 2 - 100),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: ConditionalBuilder(
-                            condition: (state is! CompanySignUpLoadingState &&
-                                state is! SignUpWithFBLoadingState),
+                            condition: (state is! CompanySignUpLoadingState && state is! SignUpWithFBLoadingState),
                             builder: (context) => myMaterialButton(
                               context: context,
                               height: 50,
                               onPressed: () {
-                                if (cubit.companyPersonalInformationFormKey.currentState!
-                                    .validate() && cubit.companyInformationFormKey.currentState!
-                                    .validate()) {
-                                  cubit.companyPersonalInformationFormKey.currentState!
-                                      .save();
-                                  cubit.companyInformationFormKey.currentState!
-                                      .save();
+                                if (cubit.companyPersonalInformationFormKey.currentState!.validate() &&
+                                    cubit.companyInformationFormKey.currentState!.validate()) {
+                                  cubit.companyPersonalInformationFormKey.currentState!.save();
+                                  cubit.companyInformationFormKey.currentState!.save();
                                   cubit.companyRegister(
                                     firstName: cubit.companyFirstNameController.text,
                                     lastName: cubit.companyLastNameController.text,
@@ -341,11 +300,8 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Already have an account?',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
-                                        color: myFavColor4, fontSize: 16)),
+                                style:
+                                    Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16)),
                             myTextButton(
                                 context: context,
                                 textColor: myFavColor,
@@ -382,10 +338,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
           ),
           Text(
             "Email",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 17),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 17),
           ),
           mySizedBox(
             size: size,
@@ -423,10 +376,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               Expanded(
                 child: Text(
                   "First Name",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: myFavColor8, fontSize: 16),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
                 ),
               ),
               const SizedBox(
@@ -435,10 +385,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               Expanded(
                 child: Text(
                   "Last Name",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: myFavColor8, fontSize: 16),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
                 ),
               ),
             ],
@@ -500,10 +447,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
           ),
           Text(
             "Password",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -528,7 +472,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               size: 20,
             ),
             suffixIcon: IconButton(
-              onPressed: (){
+              onPressed: () {
                 cubit.changePasswordSuffixIcon();
               },
               icon: Icon(
@@ -543,10 +487,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
           ),
           Text(
             "Confirm Password",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -571,7 +512,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               size: 20,
             ),
             suffixIcon: IconButton(
-              onPressed: (){
+              onPressed: () {
                 cubit.changeConfirmPasswordSuffixIcon();
               },
               icon: Icon(
@@ -586,25 +527,17 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
           ),
           Text(
             "Phone Number",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
             myHeight: 6,
           ),
           InternationalPhoneNumberInput(
-            selectorTextStyle:
-                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-            initialValue: PhoneNumber(
-                isoCode: "EG",
-                dialCode: "+20",
-                phoneNumber: cubit.personalPhoneController.text),
+            selectorTextStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            initialValue: PhoneNumber(isoCode: "EG", dialCode: "+20", phoneNumber: cubit.personalPhoneController.text),
             textFieldController: cubit.personalPhoneController,
-            textStyle:
-                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
             maxLength: 12,
             validator: (value) {
               if (value!.length < 12) {
@@ -617,10 +550,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
             inputDecoration: InputDecoration(
               contentPadding: EdgeInsets.zero,
               hintText: "1X-XXXX-XXXX",
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontSize: 16, color: myFavColor4),
+              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor4),
               filled: true,
               fillColor: myFavColor5,
             ),
@@ -629,8 +559,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               trailingSpace: true,
             ),
             onSaved: (phoneNumber) {
-              cubit.personalPhoneController.text ==
-                  "0${phoneNumber.phoneNumber.toString()}";
+              cubit.personalPhoneController.text == "0${phoneNumber.phoneNumber.toString()}";
             },
           ),
           mySizedBox(
@@ -639,10 +568,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
           ),
           Text(
             "Address",
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: myFavColor8, fontSize: 16),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
           ),
           mySizedBox(
             size: size,
@@ -715,16 +641,13 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                   ExpansionPanel(
                     headerBuilder: (BuildContext context, bool isExpanded) {
                       return Container(
-                        color:
-                            data[index].isExpanded ? myFavColor5 : myFavColor7,
+                        color: data[index].isExpanded ? myFavColor5 : myFavColor7,
                         child: ListTile(
                           leading: CircleAvatar(
                             radius: 10,
                             backgroundColor: myFavColor,
                             child: FaIcon(
-                              index == 0
-                                  ? cubit.companyPersonalInformationIcon
-                                  : cubit.companyInformationIcon,
+                              index == 0 ? cubit.companyPersonalInformationIcon : cubit.companyInformationIcon,
                               color: myFavColor7,
                               size: 10,
                             ),
@@ -734,19 +657,14 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge!
-                                .copyWith(
-                                    fontSize: 20,
-                                    color: myFavColor8,
-                                    height: 1.8),
+                                .copyWith(fontSize: 20, color: myFavColor8, height: 1.8),
                           ),
                         ),
                       );
                     },
                     body: index == 0
-                        ? buildBodyOfCompanyPersonalInformation(
-                            size: size, context: context, cubit: cubit)
-                        : buildBodyOfCompanyInformation(
-                            size: size, context: context, cubit: cubit),
+                        ? buildBodyOfCompanyPersonalInformation(size: size, context: context, cubit: cubit)
+                        : buildBodyOfCompanyInformation(size: size, context: context, cubit: cubit),
                     isExpanded: data[index].isExpanded,
                     canTapOnHeader: true,
                   ),
@@ -777,10 +695,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Email",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 17),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 17),
               ),
               mySizedBox(
                 size: size,
@@ -818,10 +733,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                   Expanded(
                     child: Text(
                       "First Name",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: myFavColor8, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
                     ),
                   ),
                   const SizedBox(
@@ -830,10 +742,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                   Expanded(
                     child: Text(
                       "Last Name",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(color: myFavColor8, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
                     ),
                   ),
                 ],
@@ -895,10 +804,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Password",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
@@ -923,7 +829,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                   size: 20,
                 ),
                 suffixIcon: IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     cubit.changePasswordSuffixIconCompany();
                   },
                   icon: Icon(
@@ -938,10 +844,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Confirm Password",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
@@ -966,7 +869,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                   size: 20,
                 ),
                 suffixIcon: IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     cubit.changeConfirmPasswordSuffixIconCompany();
                   },
                   icon: Icon(
@@ -991,10 +894,8 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                     onPressed: () {
-                      if (cubit.companyPersonalInformationFormKey.currentState!
-                          .validate()) {
-                        cubit.companyPersonalInformationFormKey.currentState!
-                            .save();
+                      if (cubit.companyPersonalInformationFormKey.currentState!.validate()) {
+                        cubit.companyPersonalInformationFormKey.currentState!.save();
                         setState(() {
                           data[0].isExpanded = false;
                           data[1].isExpanded = true;
@@ -1032,10 +933,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Company Name",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
@@ -1070,10 +968,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Industry",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
@@ -1099,29 +994,18 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Phone Number",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
                 myHeight: 6,
               ),
               InternationalPhoneNumberInput(
-                selectorTextStyle: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontSize: 18),
-                initialValue: PhoneNumber(
-                    isoCode: "EG",
-                    dialCode: "+20",
-                    phoneNumber: cubit.companyPhoneController.text),
+                selectorTextStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+                initialValue:
+                    PhoneNumber(isoCode: "EG", dialCode: "+20", phoneNumber: cubit.companyPhoneController.text),
                 textFieldController: cubit.companyPhoneController,
-                textStyle: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontSize: 18),
+                textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
                 maxLength: 12,
                 validator: (value) {
                   if (value!.length < 12) {
@@ -1134,10 +1018,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                 inputDecoration: InputDecoration(
                   contentPadding: EdgeInsets.zero,
                   hintText: "1X-XXXX-XXXX",
-                  hintStyle: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(fontSize: 16, color: myFavColor4),
+                  hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor4),
                   filled: true,
                   fillColor: myFavColor5,
                 ),
@@ -1146,8 +1027,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                   trailingSpace: true,
                 ),
                 onSaved: (phoneNumber) {
-                  cubit.companyPhoneController.text ==
-                      "0${phoneNumber.phoneNumber.toString()}";
+                  cubit.companyPhoneController.text == "0${phoneNumber.phoneNumber.toString()}";
                 },
               ),
               mySizedBox(
@@ -1156,10 +1036,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Governorate",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
@@ -1194,10 +1071,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
               ),
               Text(
                 "Postal Code",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: myFavColor8, fontSize: 16),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor8, fontSize: 16),
               ),
               mySizedBox(
                 size: size,
@@ -1242,8 +1116,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen>
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                     onPressed: () {
-                      if (cubit.companyInformationFormKey.currentState!
-                          .validate()) {
+                      if (cubit.companyInformationFormKey.currentState!.validate()) {
                         cubit.companyInformationFormKey.currentState!.save();
                         setState(() {
                           data[0].isExpanded = false;

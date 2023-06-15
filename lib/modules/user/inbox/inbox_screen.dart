@@ -297,6 +297,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                             context: context,
                                             onPressed: () {
                                               cubit.changeInboxIndex(0);
+                                              UserLayoutCubit.get(context).getAllDelegatesFromFB();
                                             },
                                             labelWidget: Text(
                                               "Chats",

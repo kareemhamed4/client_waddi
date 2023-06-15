@@ -10,6 +10,7 @@ import 'package:waddy_app/modules/common/login/cubit/states.dart';
 import 'package:waddy_app/network/end_point.dart';
 import 'package:waddy_app/network/remote/dio_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
@@ -42,6 +43,8 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
             password: password,
             phone: clientModel!.user!.phone!,
             image: "assets/images/splash-1.png",
+            latitude: currentLatitude,
+            longitude: currentLongitude,
           ).then((value) async {
             await userLoginWithFB(email: email, password: password);
             emit(UserLoginSuccessState(clientModel!));
@@ -97,6 +100,8 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
     required String name,
     required String image,
     required String phone,
+    num? longitude,
+    num? latitude,
   }) async {
     emit(DelegateSignUpWithFBLoadingState());
     FirebaseAuth.instance
@@ -111,6 +116,8 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
         email: email,
         phone: phone,
         image: image,
+        latitude: latitude,
+        longitude: longitude,
       );
     }).catchError((error) {
       buildErrorToast(
@@ -128,6 +135,8 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
     required String name,
     required String image,
     required String phone,
+    num? latitude,
+    num? longitude,
   }) {
     UserModelFB model = UserModelFB(
       uId: uId,
@@ -135,6 +144,8 @@ class WaddyLoginCubit extends Cubit<WaddyLoginStates> {
       email: email,
       phone: phone,
       image: image,
+      latitude: latitude,
+      longitude: longitude,
     );
     FirebaseFirestore.instance.collection('Delegates').doc(uId).set(model.toMap()).then((value) {
       emit(DelegateCreateWithFBSuccessState());

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
@@ -357,6 +358,7 @@ class UserProfileScreen extends StatelessWidget {
                                         await FirebaseFirestore.instance
                                             .terminate()
                                             .then((value) {
+                                          MainCubit.get(context).stopLocationUpdates();
                                           UserLayoutCubit.get(context)
                                               .delegatesWithChat = [];
                                           UserLayoutCubit.get(context)

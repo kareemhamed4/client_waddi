@@ -25,6 +25,8 @@ class ChooseLoginOrSignupScreen extends StatelessWidget {
               onTap: (){
                 print(uId);
                 print(userToken);
+                print(currentLongitude);
+                print(currentLatitude);
               },
               child: Text(
                 "Let’s You In",

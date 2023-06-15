@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
@@ -36,8 +37,7 @@ class DriverProfileScreen extends StatelessWidget {
         return Scaffold(
           body: SafeArea(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -46,10 +46,7 @@ class DriverProfileScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 30),
                     child: Text(
                       "Profile",
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelLarge!
-                          .copyWith(fontSize: 28, color: myFavColor2),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 28, color: myFavColor2),
                     ),
                   ),
                   mySizedBox(size: size, myHeight: 22),
@@ -79,8 +76,7 @@ class DriverProfileScreen extends StatelessWidget {
                             DriverProfileCubit.get(context).getProfileImage();
                           },
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(right: 4.0, bottom: 4.0),
+                            padding: const EdgeInsets.only(right: 4.0, bottom: 4.0),
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -90,8 +86,7 @@ class DriverProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: myFavColor7,
                                     shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
                                   ),
                                 ),
                                 Container(
@@ -100,8 +95,7 @@ class DriverProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: myFavColor,
                                     shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5)),
+                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
                                   ),
                                   child: Center(
                                       child: FaIcon(
@@ -129,8 +123,8 @@ class DriverProfileScreen extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       email,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: 16, color: myFavColor2, height: 1),
+                      style:
+                          Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor2, height: 1),
                     ),
                   ),
                   SizedBox(height: 22.h),
@@ -162,10 +156,7 @@ class DriverProfileScreen extends StatelessWidget {
                     ),
                     title: Text(
                       "Edit Profile",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 20, color: myFavColor2),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, color: myFavColor2),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -191,10 +182,7 @@ class DriverProfileScreen extends StatelessWidget {
                     ),
                     title: Text(
                       "Notification",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 20, color: myFavColor2),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, color: myFavColor2),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -220,10 +208,7 @@ class DriverProfileScreen extends StatelessWidget {
                     ),
                     title: Text(
                       "Security",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 20, color: myFavColor2),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, color: myFavColor2),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -249,10 +234,7 @@ class DriverProfileScreen extends StatelessWidget {
                     ),
                     title: Text(
                       "Privacy Policy",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 20, color: myFavColor2),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, color: myFavColor2),
                     ),
                     trailing: Icon(
                       Icons.arrow_forward_ios_outlined,
@@ -277,27 +259,22 @@ class DriverProfileScreen extends StatelessWidget {
                                 height: 4,
                                 decoration: BoxDecoration(
                                   color: myFavColor4,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20)),
+                                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                                 ),
                               ),
                               mySizedBox(size: size, myHeight: 30),
                               Text(
                                 "Logout",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge!
-                                    .copyWith(fontSize: 28, color: myFavColor),
+                                style:
+                                    Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 28, color: myFavColor),
                               ),
                               SizedBox(height: 24.h),
                               myDivider(),
                               SizedBox(height: 20.h),
                               Text(
                                 "Are you sure you want to logout ?",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(fontSize: 24, color: myFavColor8),
+                                style:
+                                    Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 24, color: myFavColor8),
                               ),
                               mySizedBox(size: size, myHeight: 30),
                               Row(
@@ -311,10 +288,7 @@ class DriverProfileScreen extends StatelessWidget {
                                       height: 50,
                                       bgColor: rose,
                                       labelWidget: Text("Cancel",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelLarge!
-                                              .copyWith(color: myFavColor)),
+                                          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: myFavColor)),
                                     ),
                                   ),
                                   mySizedBox(size: size, myWidth: 28),
@@ -322,33 +296,26 @@ class DriverProfileScreen extends StatelessWidget {
                                     child: myMaterialButton(
                                       context: context,
                                       onPressed: () async {
-                                        await CacheHelper.removeData(
-                                            key: "driverToken");
-                                        await CacheHelper.removeData(
-                                            key: "uId");
+                                        await CacheHelper.removeData(key: "driverToken");
+                                        await CacheHelper.removeData(key: "uId");
                                         uId = null;
                                         driverToken = null;
-                                        await FirebaseFirestore.instance
-                                            .terminate()
-                                            .then((value) {
-                                          DriverLayoutCubit.get(context)
-                                              .changeBottom(0);
+                                        await FirebaseFirestore.instance.terminate().then((value) {
+                                          MainCubit.get(context).stopLocationUpdates();
+                                          DriverLayoutCubit.get(context).changeBottom(0);
                                           Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                              const ChooseLoginOrSignupScreen(),
+                                              builder: (BuildContext context) => const ChooseLoginOrSignupScreen(),
                                             ),
-                                                (Route<dynamic> route) => false,
+                                            (Route<dynamic> route) => false,
                                           );
                                         });
                                       },
                                       height: 50,
                                       labelWidget: Text(
                                         "Yes, Logout",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge,
+                                        style: Theme.of(context).textTheme.labelLarge,
                                       ),
                                     ),
                                   ),
@@ -371,10 +338,7 @@ class DriverProfileScreen extends StatelessWidget {
                     ),
                     title: Text(
                       "Logout",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 20, color: myFavColor),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, color: myFavColor),
                     ),
                   ),
                 ],

@@ -60,7 +60,7 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
   }
 
   UserModelFB? delegateModelFB;
-  void getDelegateDataFromFB() async {
+  Future<void> getDelegateDataFromFB() async {
     emit(GetDelegateFromFBLoadingState());
     await getDelegateData();
     if (delegateInfo == null) {
@@ -76,9 +76,10 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
   }
 
   List<UserModelFB> users = [];
-  void getAllUsersFromFB() {
+  Future<void> getAllUsersFromFB() async{
     emit(GetAllUsersFromFBLoadingState());
-    if (users.isEmpty) {
+    await getDelegateDataFromFB();
+    if (delegateModelFB != null) {
       FirebaseFirestore.instance.collection('Users').get().then((value) {
         for (var element in value.docs) {
           if (element.data()["uId"] != delegateModelFB!.uId) {
@@ -87,6 +88,7 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
         }
         emit(GetAllUsersFromFBSuccessState());
       }).catchError((error) {
+        print(error.toString());
         emit(GetAllUsersFromFBErrorState(error.toString()));
       });
     }

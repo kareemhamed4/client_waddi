@@ -122,13 +122,15 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
   }
 
   void userRegisterWithFB({
+    required BuildContext context,
     required String email,
     required String password,
     required String name,
     required String image,
     required String phone,
     String? companyName,
-    required BuildContext context,
+    num? latitude,
+    num? longitude,
   }) {
     emit(SignUpWithFBLoadingState());
     FirebaseAuth.instance
@@ -144,6 +146,8 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
         phone: phone,
         image: image,
         companyName: companyName??"",
+        latitude: latitude,
+        longitude: longitude,
       );
     }).catchError((error) {
       buildErrorToast(
@@ -162,6 +166,8 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
     required String phone,
     required String uId,
     String? companyName,
+    num? latitude,
+    num? longitude,
   }) {
     UserModelFB model = UserModelFB(
       uId: uId,
@@ -170,6 +176,8 @@ class NewRegisterCubit extends Cubit<NewRegisterStates> {
       email: email,
       phone: phone,
       image: image,
+      latitude: latitude,
+      longitude: longitude,
     );
     FirebaseFirestore.instance
         .collection('Users')

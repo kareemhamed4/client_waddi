@@ -104,7 +104,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   }
 
   UserModelFB? userModelFB;
-  void getUserDataFromFB() async {
+  Future<void> getUserDataFromFB() async {
     emit(GetUserFromFBLoadingState());
     await getUserData();
     if (userInfo == null) {
@@ -115,14 +115,16 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
       userModelFB = UserModelFB.fromJson(value.data()!);
       emit(GetUserFromFBSuccessState());
     }).catchError((error) {
+      print(error.toString());
       emit(GetUserFromFBErrorState(error.toString()));
     });
   }
 
   List<UserModelFB> delegates = [];
-  void getAllDelegatesFromFB() {
+  Future<void> getAllDelegatesFromFB() async {
     emit(GetAllDelegatesFromFBLoadingState());
-    if (delegates.isEmpty) {
+    await getUserDataFromFB();
+    if (userModelFB != null) {
       FirebaseFirestore.instance.collection('Delegates').get().then((value) {
         for (var element in value.docs) {
           if (element.data()["uId"] != userModelFB!.uId) {
@@ -131,6 +133,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         }
         emit(GetAllDelegatesFromFBSuccessState());
       }).catchError((error) {
+        print(error.toString());
         emit(GetAllDelegatesFromFBErrorState(error.toString()));
       });
     }
@@ -162,7 +165,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
 
     //set receiver chats
     FirebaseFirestore.instance
-        .collection("Delegates")
+        .collection(receiverId != "ekkODsmM09YBM8FggBbRw078Qfv1" ? "Delegates" : "Users")
         .doc(receiverId)
         .collection("Chats")
         .doc(userModelFB!.uId)
@@ -176,14 +179,11 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   }
 
   List<UserModelFB> delegatesWithChat = [];
-  Future<void> getDelegatesWithChat() async{
+  Future<void> getDelegatesWithChat() async {
     emit(GetDelegatesWithChatLoadingState());
     await getAllMessages();
     if (delegates.isEmpty) {
-      FirebaseFirestore.instance
-          .collection('Delegates')
-          .get()
-          .then((value) {
+      FirebaseFirestore.instance.collection('Delegates').get().then((value) {
         for (var element in value.docs) {
           if (element.data()["uId"] != userModelFB!.uId) {
             delegates.add(UserModelFB.fromJson(element.data()));
@@ -227,9 +227,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
         .orderBy("dateTime")
         .snapshots()
         .listen((event) {
-      messages = event.docs
-          .map((element) => MessageModel.fromJson(element.data()))
-          .toList();
+      messages = event.docs.map((element) => MessageModel.fromJson(element.data())).toList();
 
       if (messages.isNotEmpty) {
         lastMessages[receiverId] = messages.last;
@@ -241,7 +239,7 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
   }
 
   Future<void> getAllMessages() async {
-    for(int i=0; i<delegatesWithChat.length ; i++){
+    for (int i = 0; i < delegatesWithChat.length; i++) {
       getMessages(receiverId: delegatesWithChat[i].uId!);
     }
   }

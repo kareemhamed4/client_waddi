@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waddy_app/bloc_observer.dart';
 import 'package:waddy_app/cubit/common/cubit.dart';
+import 'package:waddy_app/cubit/common/states.dart';
 import 'package:waddy_app/cubit/driver/cubit.dart';
 import 'package:waddy_app/cubit/user/cubit.dart';
 import 'package:waddy_app/cubit/user/states.dart';
@@ -98,7 +99,7 @@ class MyApp extends StatelessWidget {
               ..getDelegateDataFromFB()
               ..getAllUsersFromFB()
               ..getUsersWithChat()),
-        BlocProvider(create: (BuildContext context) => MainCubit()),
+        BlocProvider(create: (BuildContext context) => MainCubit()..startLocationUpdates()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
         BlocProvider(create: (BuildContext context) => SignUpCubit()),
@@ -143,12 +144,17 @@ class MyApp extends StatelessWidget {
                 minTextAdapt: true,
                 splitScreenMode: true,
                 builder: (context, child) {
-                  return MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    theme: lightTheme,
-                    darkTheme: darkTheme,
-                    themeMode: UserCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-                    home: startWidget,
+                  return BlocConsumer<MainCubit, MainStates>(
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      return MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        theme: lightTheme,
+                        darkTheme: darkTheme,
+                        themeMode: UserCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+                        home: startWidget,
+                      );
+                    },
                   );
                 }),
           );

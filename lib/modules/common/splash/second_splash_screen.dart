@@ -29,15 +29,6 @@ class _SecondSplashScreenState extends State<SecondSplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Hide the system navigation bar
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  }
-
-  @override
-  void dispose() {
-    // Restore the system navigation bar
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
-    super.dispose();
   }
   @override
   Widget build(BuildContext context) {

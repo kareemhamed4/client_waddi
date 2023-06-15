@@ -25,11 +25,6 @@ class FirstSplashScreen extends StatefulWidget {
 
 class _FirstSplashScreenState extends State<FirstSplashScreen> {
   @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  }
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return AnnotatedRegion<SystemUiOverlayStyle>(

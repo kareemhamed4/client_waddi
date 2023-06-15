@@ -322,7 +322,7 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                               style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
                             ),
                             SizedBox(
-                              width: 190,
+                              width: 150.w,
                               child: Text(
                                 "${model.orders![index].category} - ${model.orders![index].weight} KG",
                                 style:
@@ -331,13 +331,23 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                             ),
                             SizedBox(height: 12.h),
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.circleDot,
-                                      color: myFavColor,
-                                      size: 15,
+                                    Column(
+                                      children: [
+                                        FaIcon(
+                                          FontAwesomeIcons.circleDot,
+                                          color: myFavColor,
+                                          size: 15,
+                                        ),
+                                        Container(
+                                          width: 1,
+                                          height: 20,
+                                          color: myFavColor4,
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(width: 4.w),
                                     Text(
@@ -349,27 +359,25 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  width: 1,
-                                  height: 20,
-                                  color: myFavColor4,
-                                ),
-                                Row(
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.locationPin,
-                                      color: myFavColor,
-                                      size: 15,
-                                    ),
-                                    SizedBox(width: 4.w),
-                                    Text(
-                                      model.orders![index].receivedAddress!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(fontSize: 12, color: myFavColor4),
-                                    ),
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 2),
+                                  child: Row(
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.locationPin,
+                                        color: myFavColor,
+                                        size: 15,
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Text(
+                                        model.orders![index].receivedAddress!,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium!
+                                            .copyWith(fontSize: 12, color: myFavColor4),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

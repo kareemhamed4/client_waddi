@@ -304,6 +304,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                               context: context,
                               size: size,
                               orders: cubit.searchedOrderDetails!,
+                              cubit: cubit,
                             ),
                           ],
                         ),
@@ -366,7 +367,8 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
           itemBuilder: (context, index) {
             UserOrders order = filteredOrders[index];
             int originalIndex = order.originalIndex!;
-            return buildOrdersItem(context: context, size: size, orders: order, cubit: cubit, index: index,originalIndex: originalIndex);
+            return buildOrdersItem(
+                context: context, size: size, orders: order, cubit: cubit, index: index, originalIndex: originalIndex);
           },
           separatorBuilder: (context, index) => const SizedBox(
             height: 12,
@@ -542,7 +544,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                         child: myMaterialButton(
                           context: context,
                           onPressed: () {
-                            navigateTo(context, const TrackingScreen());
+                            navigateTo(context, TrackingScreen(userOrders: cubit.ordersList[originalIndex]));
                           },
                           height: 35,
                           radius: 20,
@@ -566,6 +568,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
     required Size size,
     required BuildContext context,
     required UserOrders orders,
+    required GetUserOrdersCubit cubit,
   }) {
     return Slidable(
       startActionPane: ActionPane(motion: const StretchMotion(), children: [
@@ -588,7 +591,6 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
       ]),
       enabled: orders.status == "Pending" ? true : false,
       child: Container(
-        height: size.height * 167 / 780,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -602,7 +604,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
           color: myFavColor7,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(22),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -657,8 +659,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                       ],
                     ),
                     Container(
-                      width: 60,
-                      height: 15,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
                         color: myFavColor,
                         borderRadius: const BorderRadius.all(
@@ -683,12 +684,32 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                 ),
                 SizedBox(height: 17.h),
                 myDivider(),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(
                       child: myMaterialButton(
                         context: context,
-                        onPressed: () {},
+                        onPressed: () {
+                          navigateTo(
+                            context,
+                            EReceiptScreenForDiscovery(
+                              senderName: cubit.searchedOrderDetails!.senderName!,
+                              senderPhone: cubit.searchedOrderDetails!.senderPhone!,
+                              senderEmail: cubit.searchedOrderDetails!.senderEmail!,
+                              senderPostalCode: cubit.searchedOrderDetails!.senderPostalCode!,
+                              senderAddress: cubit.searchedOrderDetails!.senderAddress!,
+                              receiverName: cubit.searchedOrderDetails!.receivedName!,
+                              receiverPhone: cubit.searchedOrderDetails!.receivedPhone!,
+                              receiverEmail: cubit.searchedOrderDetails!.receivedEmail!,
+                              receiverPostalCode: cubit.searchedOrderDetails!.receivedPostalCode!,
+                              receiverAddress: cubit.searchedOrderDetails!.receivedAddress!,
+                              selectedService: cubit.searchedOrderDetails!.services!,
+                              trackId: cubit.searchedOrderDetails!.trackId!,
+                              status: cubit.searchedOrderDetails!.status!,
+                            ),
+                          );
+                        },
                         height: 35,
                         radius: 20,
                         labelWidget: Text(
@@ -707,7 +728,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                         child: myMaterialButton(
                           context: context,
                           onPressed: () {
-                            navigateTo(context, const TrackingScreen());
+                            navigateTo(context, TrackingScreen(userOrders: cubit.searchedOrderDetails!));
                           },
                           height: 35,
                           radius: 20,
@@ -852,7 +873,11 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
     );
   }
 
-  Widget buildOnProcessItem(Size size, BuildContext context) {
+  Widget buildOnProcessItem(
+      {required Size size,
+      required BuildContext context,
+      required GetUserOrdersCubit cubit,
+      required int originalIndex}) {
     return Container(
       height: size.height * 167 / 780,
       width: size.width * 330 / 360,
@@ -951,7 +976,7 @@ class _UserMyOrderScreenState extends State<UserMyOrderScreen> with TickerProvid
                     child: myMaterialButton(
                       context: context,
                       onPressed: () {
-                        navigateTo(context, const TrackingScreen());
+                        navigateTo(context, TrackingScreen(userOrders: cubit.ordersList[originalIndex]));
                       },
                       height: 35,
                       radius: 20,

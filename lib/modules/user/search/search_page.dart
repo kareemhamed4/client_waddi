@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/models/user/get_user_orders.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/states.dart';
-import 'package:waddy_app/modules/user/tracking/tracking_screen.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -276,7 +274,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: myMaterialButton(
                           context: context,
                           onPressed: () {
-                            navigateTo(context, const TrackingScreen());
+
                           },
                           height: 35,
                           radius: 20,

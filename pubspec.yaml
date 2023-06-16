@@ -69,6 +69,7 @@ dependencies:
   rate: ^0.0.2
   flutter_screenutil: ^5.7.0
   socket_io_client: ^2.0.2
+  url_launcher: ^6.1.11
 
   #firebase
   firebase_core: ^2.12.0

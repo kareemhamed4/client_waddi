@@ -1,7 +1,7 @@
 class UserOrders {
   String? sId;
-  int? originalIndex;
   User? user;
+  int? originalIndex;
   String? trackId;
   String? senderName;
   String? senderPhone;
@@ -24,6 +24,8 @@ class UserOrders {
   String? createdAt;
   String? updatedAt;
   int? iV;
+  User? delegate;
+  String? supervisor;
 
   UserOrders(
       {this.sId,
@@ -50,7 +52,9 @@ class UserOrders {
         this.notes,
         this.createdAt,
         this.updatedAt,
-        this.iV});
+        this.iV,
+        this.delegate,
+        this.supervisor});
 
   UserOrders.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -77,6 +81,9 @@ class UserOrders {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+    delegate =
+    json['delegate'] != null ? User.fromJson(json['delegate']) : null;
+    supervisor = json['supervisor'];
   }
 }
 
@@ -88,13 +95,7 @@ class User {
   String? phone;
   String? address;
 
-  User(
-      {this.sId,
-        this.firstName,
-        this.lastName,
-        this.email,
-        this.phone,
-        this.address});
+  User({this.sId, this.firstName, this.lastName, this.email, this.phone});
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

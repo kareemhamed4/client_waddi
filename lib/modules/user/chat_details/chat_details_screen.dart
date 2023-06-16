@@ -11,8 +11,10 @@ import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class UserChatDetailsScreen extends StatefulWidget {
-  final UserModelFB userModelFB;
-  const UserChatDetailsScreen({Key? key,required this.userModelFB}) : super(key: key);
+  final UserModelFB? userModelFB;
+  final String? chatUserName;
+  final String? uId;
+  const UserChatDetailsScreen({Key? key,this.userModelFB,this.uId,this.chatUserName}) : super(key: key);
 
   @override
   State<UserChatDetailsScreen> createState() => _UserChatDetailsScreenState();
@@ -35,7 +37,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context){
-        UserLayoutCubit.get(context).getMessages(receiverId: widget.userModelFB.uId!);
+        UserLayoutCubit.get(context).getMessages(receiverId: widget.userModelFB != null ? widget.userModelFB!.uId! : widget.uId!);
         return BlocConsumer<UserLayoutCubit,UserLayoutStates>(
             listener: (context,state){},
             builder: (context,state){
@@ -68,7 +70,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                                   width: 20,
                                 ),
                                 Text(
-                                  widget.userModelFB.name!,
+                                  widget.userModelFB != null ? widget.userModelFB!.name! : widget.chatUserName!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge!
@@ -272,7 +274,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
               GestureDetector(
                 onTap:(){
                   cubit.sendMessage(
-                    receiverId: widget.userModelFB.uId!,
+                    receiverId: widget.userModelFB != null ? widget.userModelFB!.uId! : widget.uId!,
                     text: messageController.text,
                   );
                   messageController.clear();

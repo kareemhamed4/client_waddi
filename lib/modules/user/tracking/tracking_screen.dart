@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/models/user/get_user_orders.dart';
+import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
+import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/network/local/cache_helper.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/constants/constants.dart';
@@ -8,7 +11,8 @@ import 'package:waddy_app/shared/components/my_google_map.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class TrackingScreen extends StatefulWidget {
-  const TrackingScreen({Key? key}) : super(key: key);
+  final UserOrders userOrders;
+  const TrackingScreen({Key? key,required this.userOrders}) : super(key: key);
 
   @override
   State<TrackingScreen> createState() => _TrackingScreenState();
@@ -139,7 +143,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                               children: [
                                 const CircleAvatar(
                                   radius: 27,
-                                  backgroundImage: AssetImage("assets/images/ahmed.jpg"),
+                                  backgroundImage: AssetImage("assets/images/splash-1.png"),
                                 ),
                                 const SizedBox(
                                   width: 13,
@@ -148,7 +152,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Mohammed Reda",
+                                      "${widget.userOrders.delegate!.firstName} ${widget.userOrders.delegate!.lastName}",
                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 20),
                                     ),
                                     Row(
@@ -177,7 +181,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
                             Row(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    String phoneNumber = widget.userOrders.delegate!.phone!; // Replace with your actual phone number
+                                    launchPhoneApp(phoneNumber);
+                                  },
                                   icon: Image.asset(
                                     "assets/icons/call.png",
                                     width: 22,
@@ -185,7 +192,9 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    navigateTo(context, UserChatDetailsScreen(uId: GetUserOrdersCubit.get(context).emailToUidMap[widget.userOrders.delegate!.email],chatUserName: "${widget.userOrders.delegate!.firstName} ${widget.userOrders.delegate!.lastName}"));
+                                  },
                                   icon: Image.asset(
                                     "assets/icons/chat.png",
                                     width: 22,
@@ -237,7 +246,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                               steps: <Step>[
                                 Step(
                                   title: Text(
-                                    'Benha train station street',
+                                    widget.userOrders.senderAddress!,
                                     style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: true,
@@ -249,14 +258,15 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    'December 22, 2023 | 09:44 AM',
+                                    "${widget.userOrders.createdAt!.substring(0,9)} at ${widget.userOrders.createdAt!.substring(11,16)}",
+                                    //'December 22, 2023 | 09:44 AM',
                                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                   ),
                                   state: StepState.indexed,
                                 ),
                                 Step(
                                     title: Text(
-                                      'El-Galaa, Shebeen El-Koum, Menoufia',
+                                      widget.userOrders.receivedAddress!,
                                       style: Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
@@ -268,7 +278,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     ),
                                     isActive: true,
                                     subtitle: Text(
-                                      'December 22, 2023 | 10:30 AM',
+                                      widget.userOrders.deliverTime!,
                                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                     ),
                                     state: StepState.indexed),
@@ -499,6 +509,35 @@ class _TrackingScreenState extends State<TrackingScreen> {
                             ),
                           ),
                       ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 25, left: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(boxShadow: [
+                      BoxShadow(
+                        color: myFavColor8.withAlpha(20),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset: const Offset(0, 0),
+                      ),
+                    ]),
+                    child: CircleAvatar(
+                      backgroundColor: myFavColor7,
+                      radius: 18,
+                      child: Icon(
+                        Icons.arrow_back_outlined,
+                        color: myFavColor,
+                      ),
                     ),
                   ),
                 ),

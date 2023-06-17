@@ -1,4 +1,4 @@
-# waddy_app
+# Waddi
 
 A new Flutter project.
 

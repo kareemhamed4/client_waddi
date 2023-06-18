@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/shared/components/components.dart';
@@ -128,21 +129,26 @@ class DriverNotificationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontSize: 20),
+                  SizedBox(
+                    width: 192.w,
+                    child: Text(
+                      title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 16),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   SizedBox(
-                    width: size.width * 192/ size.width,
+                    width: 192.w,
                     child: Text(
                       subTitle,
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
-                          .copyWith(color: myFavColor4),
+                          .copyWith(color: myFavColor4,fontSize: 12),
                     ),
                   ),
                 ],

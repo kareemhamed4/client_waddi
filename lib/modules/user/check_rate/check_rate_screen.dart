@@ -139,7 +139,7 @@ class CheckRateScreen extends StatelessWidget {
                   ),
                   mySizedBox(size: size, myHeight: 20),
                   Text(
-                    "Dimension",
+                    "Weight",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           fontSize: 18,
                           color: myFavColor8,

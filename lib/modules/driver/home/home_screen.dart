@@ -8,6 +8,7 @@ import 'package:waddy_app/modules/driver/attach_bill/attach_bill_screen.dart';
 import 'package:waddy_app/modules/driver/create_route/create_route_screen.dart';
 import 'package:waddy_app/modules/driver/notification/notification_screen.dart';
 import 'package:waddy_app/modules/driver/reports/reports_screen.dart';
+import 'package:waddy_app/modules/user/help_center/help_center.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -147,8 +148,7 @@ class DriverHomeScreen extends StatelessWidget {
                                     context, const DriverCreateRouteScreen());
                               },
                               child: Container(
-                                width: size.width * 150 / size.width,
-                                height: size.height * 100 / size.height,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
                                 decoration: BoxDecoration(
                                     color: myFavColor7,
                                     border: Border.all(
@@ -190,6 +190,7 @@ class DriverHomeScreen extends StatelessWidget {
                                           .labelLarge!
                                           .copyWith(
                                           fontSize: 20, color: myFavColor8),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
@@ -203,8 +204,7 @@ class DriverHomeScreen extends StatelessWidget {
                                 navigateTo(context, const DriverReportScreen());
                               },
                               child: Container(
-                                width: size.width * 150 / size.width,
-                                height: size.height * 100 / size.height,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
                                 decoration: BoxDecoration(
                                     color: myFavColor7,
                                     border: Border.all(
@@ -246,6 +246,7 @@ class DriverHomeScreen extends StatelessWidget {
                                           .labelLarge!
                                           .copyWith(
                                           fontSize: 20, color: myFavColor8),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
@@ -266,8 +267,7 @@ class DriverHomeScreen extends StatelessWidget {
                                     context, const DeliveryAttachBillScreen());
                               },
                               child: Container(
-                                width: size.width * 150 / size.width,
-                                height: size.height * 100 / size.height,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
                                 decoration: BoxDecoration(
                                     color: myFavColor7,
                                     border: Border.all(
@@ -309,6 +309,7 @@ class DriverHomeScreen extends StatelessWidget {
                                           .labelLarge!
                                           .copyWith(
                                           fontSize: 20, color: myFavColor8),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
@@ -318,10 +319,11 @@ class DriverHomeScreen extends StatelessWidget {
                           mySizedBox(size: size, myWidth: 30),
                           Expanded(
                             child: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                navigateTo(context, const HelpCenterScreen());
+                              },
                               child: Container(
-                                width: size.width * 150 / size.width,
-                                height: size.height * 100 / size.height,
+                                padding: const EdgeInsets.symmetric(vertical: 4),
                                 decoration: BoxDecoration(
                                     color: myFavColor7,
                                     border: Border.all(
@@ -363,6 +365,7 @@ class DriverHomeScreen extends StatelessWidget {
                                           .labelLarge!
                                           .copyWith(
                                           fontSize: 20, color: myFavColor8),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),

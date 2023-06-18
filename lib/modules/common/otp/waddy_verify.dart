@@ -65,7 +65,7 @@ class WaddyVerifyScreen extends StatelessWidget {
                       ),
                       mySizedBox(size: size, myHeight: 8),
                       Text(
-                        'A 4-digit code has been sent to your\nemail address k*************@gmail.com',
+                        'A 6-digit code has been sent to your\nemail address ${emailAddress.substring(0,2)}************@gmail.com',
                         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: myFavColor4, fontSize: 18,height: 1),
                       ),

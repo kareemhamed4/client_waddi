@@ -41,7 +41,6 @@ class DriverProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  mySizedBox(size: size, myHeight: 20),
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: Text(
@@ -274,7 +273,7 @@ class DriverProfileScreen extends StatelessWidget {
                               Text(
                                 "Are you sure you want to logout ?",
                                 style:
-                                    Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 24, color: myFavColor8),
+                                    Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20, color: myFavColor8),
                               ),
                               mySizedBox(size: size, myHeight: 30),
                               Row(

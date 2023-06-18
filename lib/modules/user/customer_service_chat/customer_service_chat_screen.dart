@@ -24,6 +24,7 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
     super.initState();
     userLayoutCubit = context.read<UserLayoutCubit>();
   }
+
   @override
   void dispose() {
     userLayoutCubit!.messages = [];
@@ -33,7 +34,7 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
   @override
   Widget build(BuildContext context) {
     return Builder(
-      builder: (BuildContext context){
+      builder: (BuildContext context) {
         UserLayoutCubit.get(context).getMessages(receiverId: "ekkODsmM09YBM8FggBbRw078Qfv1");
         return BlocConsumer<UserLayoutCubit, UserLayoutStates>(
           listener: (context, state) {},
@@ -42,41 +43,37 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
             return Scaffold(
               body: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20, left: 16, right: 16, bottom: 12),
+                  padding: const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 12),
                   child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  cubit.messages = [];
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_outlined,
-                                  color: myFavColor8,
-                                  size: 25,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                "Customer Service",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge!
-                                    .copyWith(
+                          GestureDetector(
+                            onTap: () {
+                              cubit.messages = [];
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_outlined,
+                              color: myFavColor8,
+                              size: 25,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Text(
+                              "Customer Service",
+                              style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                     color: myFavColor8,
-                                    fontSize: 28,
-                                    height: 1),
-                              ),
-                            ],
+                                    fontSize: 22,
+                                    height: 1,
+                                  ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,9 +90,8 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
                                 width: 30,
                                 height: 30,
                                 padding: EdgeInsets.zero,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: myFavColor2)),
+                                decoration:
+                                BoxDecoration(shape: BoxShape.circle, border: Border.all(color: myFavColor2)),
                                 child: Center(
                                   child: FaIcon(
                                     FontAwesomeIcons.ellipsis,
@@ -114,15 +110,16 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
                       Expanded(
                         child: ListView.separated(
                           physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context,index)
-                          {
+                          itemBuilder: (context, index) {
                             var message = cubit.messages[index];
-                            if(cubit.userModelFB!.uId == message.senderId){
-                              return buildMyMessage(context: context,model: message);
+                            if (cubit.userModelFB!.uId == message.senderId) {
+                              return buildMyMessage(context: context, model: message);
                             }
-                            return buildReceivedMessage(context: context,model: message);
+                            return buildReceivedMessage(context: context, model: message);
                           },
-                          separatorBuilder: (context,index) => const SizedBox(height: 15,),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 15,
+                          ),
                           itemCount: cubit.messages.length,
                         ),
                       ),
@@ -166,13 +163,12 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 16.0, bottom: 16, left: 16, right: 60),
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 16, left: 16, right: 60),
                   child: Text(
                     model.text!,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: myFavColor7,
-                          fontSize: 16,
+                          fontSize: 14,
                           height: 1.3,
                         ),
                   ),
@@ -184,7 +180,7 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
                   DateFormat.jm().format(DateTime.parse(model.dateTime!)),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: myFavColor7,
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                 ),
               )
@@ -219,13 +215,12 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 16.0, bottom: 16, left: 16, right: 60),
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 16, left: 16, right: 60),
                   child: Text(
                     model.text!,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: myFavColor8,
-                          fontSize: 16,
+                          fontSize: 14,
                           height: 1.3,
                         ),
                   ),
@@ -237,7 +232,7 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
                   DateFormat.jm().format(DateTime.parse(model.dateTime!)),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: myFavColor8,
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                 ),
               )
@@ -269,10 +264,10 @@ class _CustomerServiceChatDetailsScreenState extends State<CustomerServiceChatDe
             mainAxisSize: MainAxisSize.min,
             children: [
               GestureDetector(
-                onTap:(){
+                onTap: () {
                   cubit.sendMessage(
-                      receiverId: "ekkODsmM09YBM8FggBbRw078Qfv1",
-                      text: messageController.text,
+                    receiverId: "ekkODsmM09YBM8FggBbRw078Qfv1",
+                    text: messageController.text,
                   );
                   messageController.clear();
                 },

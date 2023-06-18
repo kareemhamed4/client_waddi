@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
@@ -99,7 +100,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProvid
                 ),
                 mySizedBox(
                   size: size,
-                  myHeight: 10,
+                  myHeight: 12,
                 ),
                 Container(
                   clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -127,7 +128,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProvid
                       tabs: [
                         Tab(
                           child: Container(
-                            width: size.width * 164 / 375,
+                            width: 167.w,
                             decoration: BoxDecoration(
                               color: cubit.currentIndexForTabBar == 0 ? myFavColor : myFavColor5,
                               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -137,7 +138,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProvid
                                 "Personal Account",
                                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                                       color: cubit.currentIndexForTabBar == 0 ? myFavColor7 : myFavColor4,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                               ),
                             ),
@@ -145,7 +146,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProvid
                         ),
                         Tab(
                           child: Container(
-                            width: size.width * 164 / 375,
+                            width: 167.w,
                             decoration: BoxDecoration(
                               color: cubit.currentIndexForTabBar == 1 ? myFavColor : myFavColor5,
                               borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -155,7 +156,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProvid
                                 "Company Account",
                                 style: Theme.of(context).textTheme.labelLarge!.copyWith(
                                       color: cubit.currentIndexForTabBar == 1 ? myFavColor7 : myFavColor4,
-                                      fontSize: 16,
+                                      fontSize: 14,
                                     ),
                               ),
                             ),
@@ -617,7 +618,7 @@ class _NewRegisterScreenState extends State<NewRegisterScreen> with TickerProvid
       children: [
         mySizedBox(
           size: size,
-          myHeight: 60,
+          myHeight: 12,
         ),
         ListView.builder(
           physics: const NeverScrollableScrollPhysics(),

@@ -50,36 +50,36 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    cubit.messages = [];
-                                    Navigator.pop(context);
-                                  },
-                                  child: Icon(
-                                    Icons.arrow_back_outlined,
+                            GestureDetector(
+                              onTap: () {
+                                cubit.messages = [];
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_outlined,
+                                color: myFavColor8,
+                                size: 25,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Text(
+                                widget.userModelFB != null ? widget.userModelFB!.name! : widget.chatUserName!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
                                     color: myFavColor8,
-                                    size: 25,
-                                  ),
+                                    fontSize: 22,
+                                    height: 1,
                                 ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  widget.userModelFB != null ? widget.userModelFB!.name! : widget.chatUserName!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge!
-                                      .copyWith(
-                                      color: myFavColor8,
-                                      fontSize: 28,
-                                      height: 1),
-                                ),
-                              ],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                             ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +175,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                     model.text!,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: myFavColor7,
-                      fontSize: 16,
+                      fontSize: 14,
                       height: 1.3,
                     ),
                   ),
@@ -187,7 +187,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                   DateFormat.jm().format(DateTime.parse(model.dateTime!)),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: myFavColor7,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               )
@@ -228,7 +228,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                     model.text!,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: myFavColor8,
-                      fontSize: 16,
+                      fontSize: 14,
                       height: 1.3,
                     ),
                   ),
@@ -240,7 +240,7 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                   DateFormat.jm().format(DateTime.parse(model.dateTime!)),
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: myFavColor8,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               )

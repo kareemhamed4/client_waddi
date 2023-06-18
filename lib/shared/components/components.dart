@@ -555,7 +555,7 @@ Widget buildChatItem({
                           ? Icons.check_circle_outline_outlined
                           : null,
                       color: myFavColor4,
-                      size: 15,
+                      size: 14,
                     ),
                     if(driverToken != null)
                       Icon(
@@ -563,7 +563,7 @@ Widget buildChatItem({
                             ? Icons.check_circle_outline_outlined
                             : null,
                         color: myFavColor4,
-                        size: 15,
+                        size: 14,
                       ),
                     SizedBox(width: 10),
                     SizedBox(
@@ -573,7 +573,7 @@ Widget buildChatItem({
                         style: Theme.of(context)
                             .textTheme
                             .labelLarge!
-                            .copyWith(color: myFavColor4, fontSize: 14),
+                            .copyWith(color: myFavColor4, fontSize: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -584,8 +584,7 @@ Widget buildChatItem({
           ),
         ),
         Container(
-          width: 60,
-          height: 15,
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
             color: rose,
             borderRadius: const BorderRadius.all(

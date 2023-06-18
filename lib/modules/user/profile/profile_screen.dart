@@ -51,7 +51,6 @@ class UserProfileScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  mySizedBox(size: size, myHeight: 20),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
@@ -324,7 +323,7 @@ class UserProfileScreen extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
-                                    .copyWith(fontSize: 24, color: myFavColor8),
+                                    .copyWith(fontSize: 20, color: myFavColor8),
                               ),
                               mySizedBox(size: size, myHeight: 30),
                               Row(

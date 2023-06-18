@@ -44,7 +44,7 @@ class _DriverPrivacyScreenState extends State<DriverPrivacyScreen> {
     ExpansionItem(
       headerText: "How long do we keep your information?",
       expandedText: "bla bla bla",
-      icon: FontAwesomeIcons.infoCircle,
+      icon: FontAwesomeIcons.circleInfo,
     ),
     ExpansionItem(
       headerText: "How can you manage or delete your information?",
@@ -64,7 +64,7 @@ class _DriverPrivacyScreenState extends State<DriverPrivacyScreen> {
     ExpansionItem(
       headerText: "How will you know the policy has changed?",
       expandedText: "bla bla bla",
-      icon: FontAwesomeIcons.infoCircle,
+      icon: FontAwesomeIcons.circleInfo,
     ),
   ];
 
@@ -101,11 +101,11 @@ class _DriverPrivacyScreenState extends State<DriverPrivacyScreen> {
                       ExpansionPanel(
                         headerBuilder: (BuildContext context, bool isExpanded) {
                           return ListTile(
-                            title: Text(data[index].headerText,style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 20,color: myFavColor2,height: 1.8),),
+                            title: Text(data[index].headerText,style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 16,color: myFavColor2,height: 1.8),),
                           );
                         },
                         body: ListTile(
-                          title: Text(data[index].expandedText,style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 16,color: myFavColor8),),
+                          title: Text(data[index].expandedText,style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 14,color: myFavColor8),),
                         ),
                         isExpanded: data[index].isExpanded,
                         canTapOnHeader: true,

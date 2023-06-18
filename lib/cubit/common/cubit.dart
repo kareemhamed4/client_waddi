@@ -21,7 +21,9 @@ class MainCubit extends Cubit<MainStates> {
       ),
     ).listen((Position position) {
       // Call the update method with the new latitude and longitude values
-      updateLocationInFirebase(position.latitude, position.longitude);
+      if(uId != null){
+        updateLocationInFirebase(position.latitude, position.longitude);
+      }
     });
   }
 

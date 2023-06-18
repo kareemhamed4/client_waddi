@@ -169,8 +169,7 @@ class UserHomeScreen extends StatelessWidget {
                             );
                           },
                           child: Container(
-                            width: size.width * 150 / size.width,
-                            height: size.height * 100 / size.height,
+                            padding: const EdgeInsets.symmetric(vertical: 4),
                             decoration: BoxDecoration(
                               color: myFavColor7,
                               border: Border.all(
@@ -217,6 +216,7 @@ class UserHomeScreen extends StatelessWidget {
                                         fontSize: 20,
                                         color: myFavColor8,
                                       ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
@@ -230,8 +230,7 @@ class UserHomeScreen extends StatelessWidget {
                             navigateTo(context, CheckRateScreen());
                           },
                           child: Container(
-                            width: size.width * 150 / size.width,
-                            height: size.height * 100 / size.height,
+                            padding: const EdgeInsets.symmetric(vertical: 4),
                             decoration: BoxDecoration(
                               color: myFavColor7,
                               border: Border.all(
@@ -278,6 +277,7 @@ class UserHomeScreen extends StatelessWidget {
                                         fontSize: 20,
                                         color: myFavColor8,
                                       ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
@@ -295,8 +295,7 @@ class UserHomeScreen extends StatelessWidget {
                             navigateTo(context, const SizedBox());
                           },
                           child: Container(
-                            width: size.width * 150 / size.width,
-                            height: size.height * 100 / size.height,
+                            padding: const EdgeInsets.symmetric(vertical: 4),
                             decoration: BoxDecoration(
                               color: myFavColor7,
                               border: Border.all(
@@ -345,6 +344,7 @@ class UserHomeScreen extends StatelessWidget {
                                         fontSize: 20,
                                         color: myFavColor8,
                                       ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
@@ -358,8 +358,7 @@ class UserHomeScreen extends StatelessWidget {
                             navigateTo(context, const HelpCenterScreen());
                           },
                           child: Container(
-                            width: size.width * 150 / size.width,
-                            height: size.height * 100 / size.height,
+                            padding: const EdgeInsets.symmetric(vertical: 4),
                             decoration: BoxDecoration(
                               color: myFavColor7,
                               border: Border.all(
@@ -403,6 +402,7 @@ class UserHomeScreen extends StatelessWidget {
                                       .labelLarge!
                                       .copyWith(
                                           fontSize: 20, color: myFavColor8),
+                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),

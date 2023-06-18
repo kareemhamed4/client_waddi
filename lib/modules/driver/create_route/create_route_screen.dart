@@ -140,7 +140,14 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                         child: isSheetExpanded
                             ? Column(
                                 children: [
-                                  buildBottomSheetWithExpanded(size: size, currentStepIndex: currentStepRouteIndex),
+                                  buildBottomSheetWithExpanded(
+                                    size: size,
+                                    currentStepIndex: currentStepRouteIndex,
+                                    startPoint: cubit
+                                        .ordersByCity[cubit.ordersByCity.keys.toList()[cubit.currentCityIndex]]![
+                                            currentStepRouteIndex]
+                                        .receivedAddress!,
+                                  ),
                                   Expanded(
                                     child: Stepper(
                                       physics: const ClampingScrollPhysics(),
@@ -234,7 +241,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                                                             style: Theme.of(context)
                                                                                 .textTheme
                                                                                 .labelLarge!
-                                                                                .copyWith(fontSize: 12),
+                                                                                .copyWith(fontSize: 10),
                                                                           ),
                                                                         ),
                                                                         fallback: (context) =>
@@ -280,7 +287,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                                                                 .textTheme
                                                                                 .labelLarge!
                                                                                 .copyWith(
-                                                                                    fontSize: 12, color: myFavColor),
+                                                                                    fontSize: 10, color: myFavColor),
                                                                           ),
                                                                         ),
                                                                         fallback: (context) =>
@@ -326,7 +333,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                                                   radius: 9,
                                                                   labelWidget: FaIcon(
                                                                     FontAwesomeIcons.pen,
-                                                                    size: 16,
+                                                                    size: 14,
                                                                     color: myFavColor7,
                                                                   )),
                                                             ),
@@ -367,285 +374,6 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                       ),
                                     ),
                                   ),
-                                  /*Expanded(
-                                    child: Stepper(
-                                      physics: const ClampingScrollPhysics(),
-                                      key: Key(Random.secure().nextDouble().toString()),
-                                      currentStep: currentStepRouteIndex,
-                                      onStepCancel: () {
-                                        if (currentStepRouteIndex > 0) {
-                                          setState(() {
-                                            currentStepRouteIndex -= 1;
-                                          });
-                                        }
-                                      },
-                                      onStepContinue: () {
-                                        if (currentStepRouteIndex <= 0) {
-                                          setState(() {
-                                            currentStepRouteIndex += 1;
-                                          });
-                                        }
-                                      },
-                                      controlsBuilder: (context, s) {
-                                        return const SizedBox.shrink();
-                                      },
-                                      onStepTapped: (int index) {
-                                        setState(() {
-                                          currentStepRouteIndex = index;
-                                        });
-                                      },
-                                      steps: [
-                                        Step(
-                                          title: Text(
-                                            'عزبة أبو باشا',
-                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-                                          ),
-                                          isActive: true,
-                                          content: Container(
-                                            alignment: Alignment.centerLeft,
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  '3:00 PM - 3:15 PM',
-                                                  style: Theme.of(context).textTheme.bodySmall,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: myMaterialButton(
-                                                        context: context,
-                                                        onPressed: () {},
-                                                        height: 40,
-                                                        radius: 9,
-                                                        labelWidget: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              "Start",
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(fontSize: 12),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            FaIcon(
-                                                              FontAwesomeIcons.paperPlane,
-                                                              size: 16,
-                                                              color: myFavColor7,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Expanded(
-                                                        flex: 4,
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: myCustomMaterialButtonLeft(
-                                                                context: context,
-                                                                onPressed: () {},
-                                                                height: 40,
-                                                                radius: 5,
-                                                                labelWidget: Text(
-                                                                  "DELIVERED",
-                                                                  style: Theme.of(context)
-                                                                      .textTheme
-                                                                      .labelLarge!
-                                                                      .copyWith(fontSize: 12),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child: myCustomMaterialButtonRight(
-                                                                context: context,
-                                                                bgColor: myFavColorWithOpacity,
-                                                                onPressed: () {},
-                                                                height: 40,
-                                                                radius: 5,
-                                                                labelWidget: Text(
-                                                                  "FAILED",
-                                                                  style: Theme.of(context)
-                                                                      .textTheme
-                                                                      .labelLarge!
-                                                                      .copyWith(fontSize: 12, color: myFavColor),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: myMaterialButton(
-                                                          context: context,
-                                                          onPressed: () {},
-                                                          height: 40,
-                                                          radius: 9,
-                                                          labelWidget: FaIcon(
-                                                            FontAwesomeIcons.pen,
-                                                            size: 16,
-                                                            color: myFavColor7,
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          subtitle: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'عزبة أبو باشا، كفر بطا، بنها، القليوبية، مصر',
-                                                style:
-                                                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios_outlined,
-                                                color: currentStepRouteIndex == 0 ? myFavColor2 : myFavColor4,
-                                                size: 20,
-                                              )
-                                            ],
-                                          ),
-                                          state: StepState.indexed,
-                                        ),
-                                        Step(
-                                          title: Text(
-                                            'عزبة أبو باشا',
-                                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
-                                          ),
-                                          isActive: true,
-                                          content: Container(
-                                            alignment: Alignment.centerLeft,
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  '3:00 PM - 3:15 PM',
-                                                  style: Theme.of(context).textTheme.bodySmall,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: myMaterialButton(
-                                                        context: context,
-                                                        onPressed: () {},
-                                                        height: 40,
-                                                        radius: 9,
-                                                        labelWidget: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Text(
-                                                              "Start",
-                                                              style: Theme.of(context)
-                                                                  .textTheme
-                                                                  .labelLarge!
-                                                                  .copyWith(fontSize: 12),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            FaIcon(
-                                                              FontAwesomeIcons.paperPlane,
-                                                              size: 16,
-                                                              color: myFavColor7,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Expanded(
-                                                        flex: 4,
-                                                        child: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child: myCustomMaterialButtonLeft(
-                                                                context: context,
-                                                                onPressed: () {},
-                                                                height: 40,
-                                                                radius: 5,
-                                                                labelWidget: Text(
-                                                                  "DELIVERED",
-                                                                  style: Theme.of(context)
-                                                                      .textTheme
-                                                                      .labelLarge!
-                                                                      .copyWith(fontSize: 12),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child: myCustomMaterialButtonRight(
-                                                                context: context,
-                                                                bgColor: myFavColorWithOpacity,
-                                                                onPressed: () {},
-                                                                height: 40,
-                                                                radius: 5,
-                                                                labelWidget: Text(
-                                                                  "FAILED",
-                                                                  style: Theme.of(context)
-                                                                      .textTheme
-                                                                      .labelLarge!
-                                                                      .copyWith(fontSize: 12, color: myFavColor),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Expanded(
-                                                      flex: 1,
-                                                      child: myMaterialButton(
-                                                          context: context,
-                                                          onPressed: () {},
-                                                          height: 40,
-                                                          radius: 9,
-                                                          labelWidget: FaIcon(
-                                                            FontAwesomeIcons.pen,
-                                                            size: 16,
-                                                            color: myFavColor7,
-                                                          )),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          subtitle: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                'عزبة أبو باشا، كفر بطا، بنها، القليوبية، مصر',
-                                                style:
-                                                    Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios_outlined,
-                                                color: currentStepRouteIndex == 0 ? myFavColor2 : myFavColor4,
-                                                size: 20,
-                                              )
-                                            ],
-                                          ),
-                                          state: StepState.indexed,
-                                        ),
-                                      ],
-                                    ),
-                                  ),*/
                                 ],
                               )
                             : buildBottomSheetWithoutExpanded(
@@ -752,6 +480,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
   Widget buildBottomSheetWithExpanded({
     required Size size,
     required int currentStepIndex,
+    required String startPoint,
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -807,7 +536,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Start from Istanha, Albagour  \n, Almonfeia ",
+                "Start from $startPoint",
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14, color: myFavColor2, height: 1),
               ),
               const SizedBox(
@@ -900,9 +629,13 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      ordersByCity.keys.toList()[index],
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor2),
+                    Expanded(
+                      child: Text(
+                        ordersByCity.keys.toList()[index],
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor2),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -948,7 +681,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                         children: [
                           Text(
                             "Start Route",
-                            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 20),
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
                             width: 5,
@@ -975,7 +708,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                         children: [
                           Text(
                             "Optimize",
-                            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 20),
+                            style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
                             width: 5,

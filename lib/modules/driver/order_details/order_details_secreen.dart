@@ -53,7 +53,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Text(
                     "Additional info such as phone number for sender and receiver are exist and we will provide you by them only if you accept this order.",
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor4, fontSize: 14),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor4, fontSize: 12),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -113,11 +113,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Sender name",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].senderName!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -129,11 +129,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Sender Postel code",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].senderPostalCode!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -145,11 +145,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Sender Address",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].senderAddress!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -170,11 +170,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Receiver name",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].receivedName!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -186,11 +186,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Receiver Postel code",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].receivedPostalCode!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -202,11 +202,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Receiver Address",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].receivedAddress!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -227,11 +227,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Package Category",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       model.orders![index].category!,
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -243,11 +243,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Package weight",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       "${model.orders![index].weight} KG",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),
@@ -259,11 +259,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Package Dimension",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor4, fontSize: 14),
                     ),
                     Text(
                       "Length: ${model.orders![index].dimension![0]} cm\nWidth: ${model.orders![index].dimension![1]} cm\nHeight: ${model.orders![index].dimension![2]} cm",
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 16),
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 14),
                     ),
                   ],
                 ),

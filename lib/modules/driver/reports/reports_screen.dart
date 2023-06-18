@@ -90,8 +90,8 @@ class DriverReportScreen extends StatelessWidget {
     required int unCompleted,
   }) =>
       Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
         width: double.infinity,
-        height: 90,
         decoration: BoxDecoration(
           color: myFavColor4.withOpacity(0.4),
         ),
@@ -106,7 +106,7 @@ class DriverReportScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(color: myFavColor2, fontSize: 48, height: 1),
+                      .copyWith(color: myFavColor2, fontSize: 44, height: 1),
                 ),
                 Text(
                   "Completed",
@@ -125,7 +125,7 @@ class DriverReportScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(color: myFavColor2, fontSize: 48, height: 1),
+                      .copyWith(color: myFavColor2, fontSize: 44, height: 1),
                 ),
                 Text(
                   "Uncompleted",
@@ -144,7 +144,7 @@ class DriverReportScreen extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .bodyLarge!
-                      .copyWith(color: myFavColor2, fontSize: 48, height: 1),
+                      .copyWith(color: myFavColor2, fontSize: 44, height: 1),
                 ),
                 Text(
                   "Completed",
@@ -166,8 +166,8 @@ class DriverReportScreen extends StatelessWidget {
     required int unCompleted,
   }) =>
       Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
         width: double.infinity,
-        height: 90,
         decoration: BoxDecoration(
           color: myFavColor4.withOpacity(0.4),
         ),
@@ -183,7 +183,7 @@ class DriverReportScreen extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(color: myFavColor2, fontSize: 48, height: 1),
+                        .copyWith(color: myFavColor2, fontSize: 44, height: 1),
                   ),
                   Text(
                     percentage == 500 ? "" : "Completed",
@@ -204,7 +204,7 @@ class DriverReportScreen extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(color: myFavColor2, fontSize: 48, height: 1),
+                        .copyWith(color: myFavColor2, fontSize: 44, height: 1),
                   ),
                   Text(
                     percentage == 500 ? "" : "Uncompleted",
@@ -225,7 +225,7 @@ class DriverReportScreen extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(color: myFavColor2, fontSize: 48, height: 1),
+                        .copyWith(color: myFavColor2, fontSize: 44, height: 1),
                   ),
                   Text(
                     percentage == 500

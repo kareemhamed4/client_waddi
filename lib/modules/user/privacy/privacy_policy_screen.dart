@@ -101,11 +101,11 @@ class _UserPrivacyScreenState extends State<UserPrivacyScreen> {
                       ExpansionPanel(
                         headerBuilder: (BuildContext context, bool isExpanded) {
                           return ListTile(
-                            title: Text(data[index].headerText,style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 20,color: myFavColor2,height: 1.8),),
+                            title: Text(data[index].headerText,style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 16,color: myFavColor2,height: 1.8),),
                           );
                         },
                         body: ListTile(
-                          title: Text(data[index].expandedText,style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 16,color: myFavColor8),),
+                          title: Text(data[index].expandedText,style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 14,color: myFavColor8),),
                         ),
                         isExpanded: data[index].isExpanded,
                         canTapOnHeader: true,

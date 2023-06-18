@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
-import 'package:waddy_app/tsp.dart';
 
 class UserNotificationScreen extends StatelessWidget {
   const UserNotificationScreen({Key? key}) : super(key: key);
@@ -24,22 +23,10 @@ class UserNotificationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20,),
-              GestureDetector(
-                onTap: (){
-                  tspNearestNeighbor(
-                    [
-                      Location(0, 30.7883, 30.9995), //tanta
-                      Location(1, 31.0122, 31.3752), //mansora
-                      Location(2, 30.0232, 31.2433), //cairo
-                      Location(3, 31.2285, 32.3584), //portsaeid
-                    ],
-                  );
-                },
-                child: Text(
-                  "Today",
-                  style:
-                  Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 22),
-                ),
+              Text(
+                "Today",
+                style:
+                Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 22),
               ),
               const SizedBox(height: 20,),
               buildNotificationItem(

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
@@ -51,64 +50,18 @@ class DriverProfileScreen extends StatelessWidget {
                   mySizedBox(size: size, myHeight: 22),
                   Align(
                     alignment: Alignment.center,
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        if (model != null)
-                          CircleAvatar(
-                            radius: 55,
-                            backgroundImage: model.userImg == "false"
-                                ? const AssetImage("assets/images/ahmed.jpg")
-                                : AssetImage(model.userImg!),
-                          ),
-                        if (model == null)
-                          CircleAvatar(
-                            radius: 55,
-                            backgroundColor: rose,
-                            child: Icon(
-                              FontAwesomeIcons.spinner,
-                              color: myFavColor7,
-                            ),
-                          ),
-                        GestureDetector(
-                          onTap: () {
-                            DriverProfileCubit.get(context).getProfileImage();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 4.0, bottom: 4.0),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  width: 24,
-                                  height: 24,
-                                  decoration: BoxDecoration(
-                                    color: myFavColor7,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                  ),
-                                ),
-                                Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: myFavColor,
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: const BorderRadius.all(Radius.circular(5)),
-                                  ),
-                                  child: Center(
-                                      child: FaIcon(
-                                    FontAwesomeIcons.pen,
-                                    color: myFavColor7,
-                                    size: 10,
-                                  )),
-                                ),
-                              ],
-                            ),
-                          ),
+                    child: CircleAvatar(
+                      radius: 55,
+                      backgroundColor: myFavColor,
+                      child: Center(
+                        child: Image.asset(
+                          "assets/images/splash-1.png",
+                          width: 70,
+                          height: 70,
+                          fit: BoxFit.cover,
                         ),
-                      ],
-                    ),
+                      ),
+                    )
                   ),
                   mySizedBox(size: size, myHeight: 16),
                   Align(

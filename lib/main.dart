@@ -141,23 +141,24 @@ class MyApp extends StatelessWidget {
                     statusBarBrightness: Brightness.light,
                   ),
             child: ScreenUtilInit(
-                designSize: const Size(375, 812),
-                minTextAdapt: true,
-                splitScreenMode: true,
-                builder: (context, child) {
-                  return BlocConsumer<MainCubit, MainStates>(
-                    listener: (context, state) {},
-                    builder: (context, state) {
-                      return MaterialApp(
-                        debugShowCheckedModeBanner: false,
-                        theme: lightTheme,
-                        darkTheme: darkTheme,
-                        themeMode: UserCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
-                        home: startWidget,
-                      );
-                    },
-                  );
-                }),
+              designSize: const Size(375, 812),
+              minTextAdapt: true,
+              splitScreenMode: true,
+              builder: (context, child) {
+                return BlocConsumer<MainCubit, MainStates>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    return MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      theme: lightTheme,
+                      darkTheme: darkTheme,
+                      themeMode: UserCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+                      home: startWidget,
+                    );
+                  },
+                );
+              },
+            ),
           );
         },
       ),

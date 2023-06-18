@@ -1,18 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:waddy_app/models/driver/cities_latlang_model.dart';
 
-class Location {
-  final int id;
-  final double latitude;
-  final double longitude;
-
-  Location(this.id, this.latitude, this.longitude);
-}
-
-List<int> tspNearestNeighbor(List<Location> locations) {
+List<int> tspRoute = [];
+Future<List<int>> tspNearestNeighbor(List<CitiesLatLong> locations) async{
+  tspRoute.clear();
   final int numLocations = locations.length;
-  final List<int> tspRoute = [];
 
   // Choose a random starting location
   final Random random = Random();
@@ -47,11 +41,11 @@ List<int> tspNearestNeighbor(List<Location> locations) {
   return tspRoute;
 }
 
-double calculateDistance(Location location1, Location location2) {
-  final double lat1 = location1.latitude;
-  final double lon1 = location1.longitude;
-  final double lat2 = location2.latitude;
-  final double lon2 = location2.longitude;
+double calculateDistance(CitiesLatLong location1, CitiesLatLong location2) {
+  final double lat1 = location1.cityLat;
+  final double lon1 = location1.cityLong;
+  final double lat2 = location2.cityLat;
+  final double lon2 = location2.cityLong;
 
   const double earthRadius = 6371; // Earth's radius in kilometers
 

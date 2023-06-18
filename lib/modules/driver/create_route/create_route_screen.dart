@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/models/driver/cities_latlang_model.dart';
 import 'package:waddy_app/models/driver/delegate_get_his_orders_model.dart';
 import 'package:waddy_app/modules/driver/attach_bill/attach_bill_screen.dart';
 import 'package:waddy_app/modules/driver/chat_details/chat_details_screen.dart';
@@ -12,6 +13,7 @@ import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/components/my_google_map.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
+import 'package:waddy_app/tsp.dart';
 
 class DriverCreateRouteScreen extends StatefulWidget {
   const DriverCreateRouteScreen({Key? key}) : super(key: key);
@@ -363,13 +365,16 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                                                                   Navigator.pop(context);
                                                                                 },
                                                                                 height: 40,
-                                                                                labelWidget: Text("Send",
-                                                                                    style: Theme.of(context)
-                                                                                        .textTheme
-                                                                                        .bodyLarge!
-                                                                                        .copyWith(
-                                                                                            fontSize: 16,
-                                                                                            color: myFavColor7)),
+                                                                                labelWidget: Text(
+                                                                                  "Send",
+                                                                                  style: Theme.of(context)
+                                                                                      .textTheme
+                                                                                      .bodyLarge!
+                                                                                      .copyWith(
+                                                                                        fontSize: 16,
+                                                                                        color: myFavColor7,
+                                                                                      ),
+                                                                                ),
                                                                               ),
                                                                             ],
                                                                           ),
@@ -665,44 +670,46 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
           ),
           Expanded(
             child: ListView.separated(
-              itemBuilder: (context, index) => GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  setState(() {
-                    isSheetExpanded = true;
-                    sheetHeight = 480;
-                    cubit.currentCityIndex = index;
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        ordersByCity.keys.toList()[index],
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor2),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      decoration: BoxDecoration(
-                        color: myFavColor,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(4),
-                        ),
-                      ),
-                      child: Center(
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    setState(() {
+                      isSheetExpanded = true;
+                      sheetHeight = 480;
+                      cubit.currentCityIndex = index;
+                    });
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          "Home",
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor7, fontSize: 14),
+                          ordersByCity.keys.toList()[index],
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor2),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          color: myFavColor,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(4),
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Home",
+                            style: Theme.of(context).textTheme.titleSmall!.copyWith(color: myFavColor7, fontSize: 14),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
               separatorBuilder: (context, index) => Divider(
                 height: 12,
                 thickness: 1,
@@ -748,7 +755,13 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                 Expanded(
                   child: myMaterialButton(
                       context: context,
-                      onPressed: () {},
+                      onPressed: () async {
+                        cubit.tspRouteResult.clear();
+                        await tspNearestNeighbor(citiesLatLong);
+                        if(tspRoute.isNotEmpty){
+                          buildOptimizationDialog(context: context, ordersByCity: ordersByCity, cubit: cubit);
+                        }
+                      },
                       height: 47,
                       radius: 9,
                       labelWidget: Row(
@@ -777,4 +790,66 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
           ),
         ],
       );
+
+  void buildOptimizationDialog({
+    required BuildContext context,
+    required Map<String, List<Orders>> ordersByCity,
+    required DriverOrdersCubit cubit,
+  }) {
+    showDialog<String>(
+      context: context,
+      builder: (dialogContext) => Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Container(
+              decoration: BoxDecoration(color: myFavColor7, borderRadius: const BorderRadius.all(Radius.circular(20))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundColor: myFavColor,
+                    child: FaIcon(
+                      FontAwesomeIcons.route,
+                      size: 22,
+                      color: myFavColor7,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Optimization Result",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor, fontSize: 20),
+                  ),
+                  const SizedBox(height: 12),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        index == 0
+                            ? "${index + 1}st City: ${ordersByCity.keys.toList()[tspRoute[index]]}"
+                            : index == 1
+                                ? "${index + 1}nd City: ${ordersByCity.keys.toList()[tspRoute[index]]}"
+                                : index == 2
+                                    ? "${index + 1}rd City: ${ordersByCity.keys.toList()[tspRoute[index]]}"
+                                    : "${index + 1}th City: ${ordersByCity.keys.toList()[tspRoute[index]]}",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(color: myFavColor2, fontSize: 18),
+                      ),
+                    ),
+                    separatorBuilder: (context, index) => const SizedBox(height: 10),
+                    itemCount: ordersByCity.keys.toList().length,
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -15,7 +15,7 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
   DriverOrdersCubit() : super(DriverOrdersInitialState());
 
   static DriverOrdersCubit get(context) => BlocProvider.of(context);
-
+  List<int> tspRouteResult = [];
   late TabController tabController;
   int currentIndexForTabBar = 0;
   void changeFirstTabBarIndex(int index) {

@@ -7,6 +7,7 @@ import 'package:waddy_app/layout/user/cubit/cubit.dart';
 import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/models/user/model_user_firebase.dart';
+import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
 import 'package:waddy_app/shared/components/components.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
@@ -84,10 +85,16 @@ class _UserChatDetailsScreenState extends State<UserChatDetailsScreen> {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Icon(
-                                  FluentIcons.call_16_regular,
-                                  color: myFavColor,
-                                  size: 30,
+                                GestureDetector(
+                                  onTap: (){
+                                    String phoneNumber = widget.userModelFB!.phone!; // Replace with your actual phone number
+                                    launchPhoneApp(phoneNumber);
+                                  },
+                                  child: Icon(
+                                    FluentIcons.call_16_regular,
+                                    color: myFavColor,
+                                    size: 30,
+                                  ),
                                 ),
                                 const SizedBox(
                                   width: 16,

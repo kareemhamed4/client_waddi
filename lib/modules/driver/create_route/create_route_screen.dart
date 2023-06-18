@@ -21,6 +21,7 @@ class DriverCreateRouteScreen extends StatefulWidget {
 }
 
 class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
+  TextEditingController messageController = TextEditingController();
   int currentStepRouteIndex = 0;
   double sheetHeight = 360.0;
   bool isSheetExpanded = false;
@@ -322,12 +323,59 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                                               child: myMaterialButton(
                                                                   context: context,
                                                                   onPressed: () {
-                                                                    navigateTo(
-                                                                        context,
-                                                                        DriverChatDetailsScreen(
-                                                                            uId: cubit
-                                                                                .emailToUidMap[stepData.receivedEmail!],
-                                                                            chatUserName: stepData.receivedName));
+                                                                    if (cubit.emailToUidMap[stepData.receivedEmail!] !=
+                                                                        null) {
+                                                                      navigateTo(
+                                                                          context,
+                                                                          DriverChatDetailsScreen(
+                                                                              uId: cubit.emailToUidMap[
+                                                                                  stepData.receivedEmail!],
+                                                                              chatUserName: stepData.receivedName));
+                                                                    } else {
+                                                                      showDialog(
+                                                                        context: context,
+                                                                        builder: (context) => AlertDialog(
+                                                                          shape: const OutlineInputBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.all(Radius.circular(20)),
+                                                                          ),
+                                                                          icon: Icon(Icons.info, color: myFavColor),
+                                                                          title: Text(
+                                                                              "User Doesn't Register in our APP\n leave your message and we will send it across mail",
+                                                                              style: Theme.of(context)
+                                                                                  .textTheme
+                                                                                  .titleMedium!
+                                                                                  .copyWith(fontSize: 14)),
+                                                                          content: Column(
+                                                                            mainAxisSize: MainAxisSize.min,
+                                                                            children: [
+                                                                              myTextFormField(
+                                                                                context: context,
+                                                                                hint: "Type your message here",
+                                                                                controller: messageController,
+                                                                              ),
+                                                                              const SizedBox(
+                                                                                height: 12,
+                                                                              ),
+                                                                              myMaterialButton(
+                                                                                context: context,
+                                                                                onPressed: () {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                height: 40,
+                                                                                labelWidget: Text("Send",
+                                                                                    style: Theme.of(context)
+                                                                                        .textTheme
+                                                                                        .bodyLarge!
+                                                                                        .copyWith(
+                                                                                            fontSize: 16,
+                                                                                            color: myFavColor7)),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }
                                                                   },
                                                                   height: 40,
                                                                   radius: 9,

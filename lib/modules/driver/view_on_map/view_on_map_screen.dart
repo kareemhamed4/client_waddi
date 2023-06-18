@@ -13,13 +13,14 @@ import 'package:waddy_app/shared/styles/colors.dart';
 class DriverViewOnMapScreen extends StatefulWidget {
   final String chatUserName;
   final String? uId;
-  const DriverViewOnMapScreen({Key? key,required this.chatUserName,required this.uId}) : super(key: key);
+  const DriverViewOnMapScreen({Key? key, required this.chatUserName, required this.uId}) : super(key: key);
 
   @override
   State<DriverViewOnMapScreen> createState() => _DriverViewOnMapScreenState();
 }
 
 class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
+  TextEditingController messageController = TextEditingController();
   double sheetHeight = 146.0;
   bool isSheetExpanded = false;
   double startPos = 0.0;
@@ -34,9 +35,9 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<DriverOrdersCubit,DriverOrdersStates>(
-      listener: (context,state){},
-      builder: (context,state){
+    return BlocConsumer<DriverOrdersCubit, DriverOrdersStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         DriverOrdersCubit cubit = BlocProvider.of(context);
         return Scaffold(
           appBar: buildAppBarForOnlyStatusBar(),
@@ -130,13 +131,17 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                                     children: [
                                       Text(
                                         "Scheduled at : ",
-                                        style:
-                                        Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14, color: myFavColor2),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(fontSize: 14, color: myFavColor2),
                                       ),
                                       Text(
                                         "08:30 pm ",
-                                        style:
-                                        Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14, color: myFavColor),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(fontSize: 14, color: myFavColor),
                                       ),
                                       FaIcon(
                                         FontAwesomeIcons.clock,
@@ -338,7 +343,42 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            navigateTo(context, DriverChatDetailsScreen(uId: widget.uId,chatUserName: widget.chatUserName));
+                            if (widget.uId != null) {
+                              navigateTo(
+                                  context, DriverChatDetailsScreen(uId: widget.uId, chatUserName: widget.chatUserName));
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  shape: const OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                  ),
+                                  icon: Icon(Icons.info, color: myFavColor),
+                                  title: Text(
+                                      "User Doesn't Register in our APP\n leave your message and we will send it across mail",
+                                      style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14)),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      myTextFormField(
+                                        context: context,
+                                        hint: "Type your message here",
+                                        controller: messageController,
+                                      ),
+                                      const SizedBox(height: 12,),
+                                      myMaterialButton(
+                                        context: context,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        height: 40,
+                                        labelWidget: Text("Send",style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16,color: myFavColor7)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
                           },
                           child: Container(
                             decoration: BoxDecoration(boxShadow: [

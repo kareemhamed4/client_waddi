@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:waddy_app/cubit/common/states.dart';
 import 'package:waddy_app/shared/constants/constants.dart';
 
@@ -21,7 +22,7 @@ class MainCubit extends Cubit<MainStates> {
       ),
     ).listen((Position position) {
       // Call the update method with the new latitude and longitude values
-      if(uId != null){
+      if (uId != null) {
         updateLocationInFirebase(position.latitude, position.longitude);
       }
     });
@@ -37,9 +38,26 @@ class MainCubit extends Cubit<MainStates> {
       'latitude': latitude,
       'longitude': longitude,
     }).then((value) {
-      emit(UpdateLocationSuccessState(latitude: latitude,longitude: longitude));
+      emit(UpdateLocationSuccessState(latitude: latitude, longitude: longitude));
     }).catchError((error) {
       emit(UpdateLocationErrorState(error.toString()));
     });
+  }
+
+  void sendEmail() async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'kareemhamed818@gmail.com',
+      queryParameters: {
+        'subject': 'Test Subject :: 😀 :: ${DateTime.now()}',
+        'body': 'Test Body',
+      },
+    );
+
+    if (await canLaunch(emailUri.toString())) {
+      await launch(emailUri.toString());
+    } else {
+      throw 'Could not launch email';
+    }
   }
 }

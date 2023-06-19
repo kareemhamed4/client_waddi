@@ -292,7 +292,7 @@ class UserHomeScreen extends StatelessWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            navigateTo(context, const SizedBox());
+
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 4),

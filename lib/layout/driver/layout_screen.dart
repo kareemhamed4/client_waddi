@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/driver/cubit/states.dart';
@@ -160,14 +161,7 @@ class DriverLayoutScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: myFavColor,
             onPressed: () {
-              print(DriverOrdersCubit.get(context).ordersByCity.keys);
-              final Iterable<String> cities = DriverOrdersCubit.get(context).ordersByCity.keys;
-              print(cities.first);
-              print(DriverOrdersCubit.get(context).ordersByCity["Benha"]!.first.sId);
-              /*print(DriverOrdersCubit.get(context).emails);
-              MainCubit.get(context).getUIdsForUsersFromFB(["monge@gmail.com","manarmohamed@gmail.com","3b8ny@gmail.com"]).then((value){
-                print(MainCubit.get(context).emailToUidMap);
-              });*/
+             MainCubit.get(context).sendEmail();
             },
             child: Icon(
               Icons.add,

@@ -103,7 +103,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
       markers.add(
         Marker(
           markerId: const MarkerId("destination"),
-          position: LatLng(widget.destination!.latitude, widget.destination!.latitude,),
+          position: LatLng(widget.destination!.latitude, widget.destination!.longitude,),
           draggable: true,
           onDragEnd: (value) {},
           icon: destinationMarkerIcon,

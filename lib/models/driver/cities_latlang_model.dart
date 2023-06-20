@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class CitiesLatLong {
   final String cityName;
   final double cityLat;
@@ -40,4 +42,25 @@ List<CitiesLatLong> citiesLatLong = [
     cityLat: 30.6858,
     cityLong: 31.1450,
   ),
+  CitiesLatLong(
+    cityName: "Alexandria",
+    cityLat: 31.200594477167297,
+    cityLong: 29.9191836197526,
+  ),
+  CitiesLatLong(
+    cityName: "التحرير",
+    cityLat: 30.044612917780256,
+    cityLong: 31.236190890814655,
+  ),
+];
+
+List<LatLng> destinationLatLong = const [
+  LatLng(30.4660, 31.1848),
+  LatLng(30.0444, 31.2357),
+  LatLng(30.7865, 31.0004),
+  LatLng(41.8719, 12.5674),
+  LatLng(51.1657, 10.4515),
+  LatLng(30.6858, 31.1450),
+  LatLng(31.200594477167297, 29.9191836197526),
+  LatLng(30.044612917780256, 31.236190890814655),
 ];

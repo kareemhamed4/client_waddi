@@ -312,17 +312,20 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                           ),
                         ),
                         const SizedBox(
-                          width: 20,
+                          width: 16,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              model.orders![index].senderName!,
-                              style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
+                            SizedBox(
+                              width: 142.w,
+                              child: Text(
+                                model.orders![index].senderName!,
+                                style: Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18, color: myFavColor8),
+                              ),
                             ),
                             SizedBox(
-                              width: 150.w,
+                              width: 142.w,
                               child: Text(
                                 "${model.orders![index].category} - ${model.orders![index].weight} KG",
                                 style:

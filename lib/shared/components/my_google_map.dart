@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -12,12 +11,16 @@ class MyGoogleMap extends StatefulWidget {
   final bool isTracking;
   final bool isPlaces;
   final double zoom;
+  final List<LatLng>? destinations;
+  final LatLng? destination;
   const MyGoogleMap({
     Key? key,
     required this.isGoToMyLocationEnabled,
     required this.isTracking,
     required this.isPlaces,
     this.zoom = 14,
+    this.destinations,
+    this.destination,
   }) : super(key: key);
 
   @override
@@ -29,36 +32,34 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
   late bool isTracking;
   late bool isPlaces;
   double zoom = 14;
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
-
-  static LatLng sourceLocation =
-      LatLng(currentLocation!.latitude, currentLocation!.longitude);
-  static const LatLng destination = LatLng(30.7924168532, 30.9987951871);
+  Set<Marker> markers = {};
+  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  static LatLng sourceLocation = LatLng(currentLocation!.latitude, currentLocation!.longitude);
+  List<LatLng> destinations = [];
 
   List<LatLng> polylineCoordinates = [];
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
-    if (currentLocation != null) {
-      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        googleApiKey,
-        PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
-        PointLatLng(destination.latitude, destination.longitude),
-      );
-      if (result.points.isNotEmpty) {
-        for (var point in result.points) {
-          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+    if (currentLocation != null && destinations.isNotEmpty) {
+      for (int i = 0; i < destinations.length - 1; i++) {
+        PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+          googleApiKey,
+          PointLatLng(destinations[i].latitude, destinations[i].longitude),
+          PointLatLng(destinations[i + 1].latitude, destinations[i + 1].longitude),
+        );
+        if (result.points.isNotEmpty) {
+          for (var point in result.points) {
+            polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+          }
         }
-        setState(() {});
       }
+      setState(() {});
     }
   }
 
   BitmapDescriptor destinationMarkerIcon = BitmapDescriptor.defaultMarker;
-  void addCustomIconForPatient() {
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(), "assets/icons/destination.png")
-        .then((icon) {
+  Future<void> addCustomIconForClients() async {
+    BitmapDescriptor.fromAssetImage(const ImageConfiguration(), "assets/icons/icontest96.png").then((icon) {
       setState(() {
         destinationMarkerIcon = icon;
       });
@@ -66,10 +67,8 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
   }
 
   BitmapDescriptor currentMarkerIcon = BitmapDescriptor.defaultMarker;
-  void addCustomIconForAmbulance() {
-    BitmapDescriptor.fromAssetImage(
-            const ImageConfiguration(), "assets/icons/current.png")
-        .then((icon) {
+  Future<void> addCustomIconForDelegate() async {
+    BitmapDescriptor.fromAssetImage(const ImageConfiguration(), "assets/icons/myicontest96.png").then((icon) {
       setState(() {
         currentMarkerIcon = icon;
       });
@@ -83,28 +82,56 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
   Future loadMapStyles() async {
     darkMapStyle = await rootBundle.loadString('assets/map_style/night.json');
     lightMapStyle = await rootBundle.loadString('assets/map_style/light.json');
-    darkMapStyleWithoutPlaces = await rootBundle
-        .loadString('assets/map_style/dark_without_landmark_and_places.json');
-    lightMapStyleWithoutPlaces = await rootBundle
-        .loadString('assets/map_style/light_without_landmark_and_places.json');
+    darkMapStyleWithoutPlaces = await rootBundle.loadString('assets/map_style/dark_without_landmark_and_places.json');
+    lightMapStyleWithoutPlaces = await rootBundle.loadString('assets/map_style/light_without_landmark_and_places.json');
   }
 
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var a = 0.5 -
-        cos((lat2 - lat1) * p) / 2 +
-        cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2;
-    return distance = double.parse((12742 * asin(sqrt(a))).toStringAsFixed(2));
+  Future<void> setupMarkers() async {
+    await addCustomIconForDelegate();
+    await addCustomIconForClients();
+    // Add the destination marker
+    markers.add(
+      Marker(
+        markerId: const MarkerId("source"),
+        position: LatLng(currentLocation!.latitude, currentLocation!.longitude),
+        draggable: true,
+        onDragEnd: (value) {},
+        icon: currentMarkerIcon,
+      ),
+    );
+    if(widget.destination != null){
+      markers.add(
+        Marker(
+          markerId: const MarkerId("destination"),
+          position: LatLng(widget.destination!.latitude, widget.destination!.latitude,),
+          draggable: true,
+          onDragEnd: (value) {},
+          icon: destinationMarkerIcon,
+        ),
+      );
+    }
+    if (destinations.isNotEmpty) {
+      for (int i = 0; i < destinations.length; i++) {
+        markers.add(
+          Marker(
+            markerId: MarkerId('destination_$i'),
+            position: destinations[i],
+            draggable: true,
+            onDragEnd: (value) {},
+            icon: destinationMarkerIcon,
+          ),
+        );
+      }
+    }
   }
 
   @override
   void initState() {
+    destinations = widget.destinations != null ? widget.destinations! : [];
+    addCustomIconForDelegate();
+    addCustomIconForClients();
     loadMapStyles();
-    calculateDistance(sourceLocation.latitude, sourceLocation.longitude,
-        destination.latitude, destination.longitude);
-    debugPrint(distance.toString());
-    addCustomIconForAmbulance();
-    addCustomIconForPatient();
+    setupMarkers();
     getPolyPoints();
     super.initState();
   }
@@ -143,22 +170,7 @@ class _MyGoogleMapState extends State<MyGoogleMap> {
             points: polylineCoordinates,
           ),
         },
-        markers: {
-          Marker(
-              markerId: const MarkerId("source"),
-              position: destination,
-              draggable: true,
-              onDragEnd: (value) {},
-              icon: destinationMarkerIcon),
-          if (isTracking)
-            Marker(
-              markerId: const MarkerId("destination"),
-              position: sourceLocation,
-              draggable: true,
-              onDragEnd: (value) {},
-              icon: currentMarkerIcon,
-            ),
-        },
+        markers: markers,
       ),
     );
   }

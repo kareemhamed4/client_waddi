@@ -78,11 +78,12 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
               children: [
                 currentLocation == null
                     ? const Text("Loading")
-                    : const MyGoogleMap(
+                    : MyGoogleMap(
                         isGoToMyLocationEnabled: false,
                         isTracking: false,
                         zoom: 11,
                         isPlaces: false,
+                        destinations: destinationLatLong,
                       ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -149,6 +150,10 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                                     startPoint: cubit
                                         .ordersByCity[cubit.ordersByCity.keys.toList()[cubit.currentCityIndex]]![
                                             currentStepRouteIndex]
+                                        .senderAddress!,
+                                    endPoint: cubit
+                                        .ordersByCity[cubit.ordersByCity.keys.toList()[cubit.currentCityIndex]]![
+                                    currentStepRouteIndex]
                                         .receivedAddress!,
                                   ),
                                   Expanded(
@@ -534,6 +539,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
     required Size size,
     required int currentStepIndex,
     required String startPoint,
+    required String endPoint,
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -589,7 +595,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Start from $startPoint",
+                "Start from $startPoint to $endPoint",
                 style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14, color: myFavColor2, height: 1),
               ),
               const SizedBox(
@@ -841,7 +847,7 @@ class _DriverCreateRouteScreenState extends State<DriverCreateRouteScreen> {
                       ),
                     ),
                     separatorBuilder: (context, index) => const SizedBox(height: 10),
-                    itemCount: ordersByCity.keys.toList().length,
+                    itemCount: /*ordersByCity.keys.toList().length*/ 8,
                   ),
                   const SizedBox(height: 20),
                 ],

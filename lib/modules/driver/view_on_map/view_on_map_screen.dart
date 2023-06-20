@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/models/driver/cities_latlang_model.dart';
 import 'package:waddy_app/modules/driver/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/modules/driver/orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/orders/cubit/states.dart';
@@ -50,11 +51,17 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                   replacement: const Center(
                     child: Text("Loading"),
                   ),
-                  child: const MyGoogleMap(
+                  child: MyGoogleMap(
                     isGoToMyLocationEnabled: false,
                     isTracking: false,
                     zoom: 11,
                     isPlaces: false,
+                    destination: citiesLatLong.indexWhere(
+                                (city) => city.cityName == cubit.delegateOrderDetails!.order!.receivedAddress!) !=
+                            -1
+                        ? destinationLatLong[citiesLatLong
+                            .indexWhere((city) => city.cityName == cubit.delegateOrderDetails!.order!.receivedAddress!)]
+                        : null,
                   ),
                 ),
                 Align(
@@ -365,14 +372,20 @@ class _DriverViewOnMapScreenState extends State<DriverViewOnMapScreen> {
                                         hint: "Type your message here",
                                         controller: messageController,
                                       ),
-                                      const SizedBox(height: 12,),
+                                      const SizedBox(
+                                        height: 12,
+                                      ),
                                       myMaterialButton(
                                         context: context,
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
                                         height: 40,
-                                        labelWidget: Text("Send",style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 16,color: myFavColor7)),
+                                        labelWidget: Text("Send",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(fontSize: 16, color: myFavColor7)),
                                       ),
                                     ],
                                   ),

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/models/driver/cities_latlang_model.dart';
 import 'package:waddy_app/models/user/get_user_orders.dart';
 import 'package:waddy_app/modules/user/chat_details/chat_details_screen.dart';
 import 'package:waddy_app/modules/user/my_orders/cubit/cubit.dart';
@@ -12,7 +13,7 @@ import 'package:waddy_app/shared/styles/colors.dart';
 
 class TrackingScreen extends StatefulWidget {
   final UserOrders userOrders;
-  const TrackingScreen({Key? key,required this.userOrders}) : super(key: key);
+  const TrackingScreen({Key? key, required this.userOrders}) : super(key: key);
 
   @override
   State<TrackingScreen> createState() => _TrackingScreenState();
@@ -41,10 +42,15 @@ class _TrackingScreenState extends State<TrackingScreen> {
           children: [
             currentLocation == null
                 ? const Text("Loading")
-                : const MyGoogleMap(
+                : MyGoogleMap(
                     isGoToMyLocationEnabled: false,
                     isTracking: false,
                     isPlaces: false,
+                    destination:
+                        citiesLatLong.indexWhere((city) => city.cityName == widget.userOrders.receivedAddress!) != -1
+                            ? destinationLatLong[
+                                citiesLatLong.indexWhere((city) => city.cityName == widget.userOrders.receivedAddress!)]
+                            : null,
                   ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -116,14 +122,16 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         mySizedBox(size: size, myHeight: 30),
                         Text(
                           "Your package is on the way",
-                          style: Theme.of(context).textTheme.titleSmall,
+                          style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 18),
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(
                           height: 6,
                         ),
                         Text(
                           "Arriving at pick up point in 3 mins",
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16, color: myFavColor4),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 14, color: myFavColor4),
+                          textAlign: TextAlign.center,
                         ),
                         if (!isSheetExpanded) mySizedBox(size: size, myHeight: 30),
                         if (sheetHeight == size.height - 40 && isSheetExpanded) mySizedBox(size: size, myHeight: 15),
@@ -139,50 +147,57 @@ class _TrackingScreenState extends State<TrackingScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  radius: 27,
-                                  backgroundImage: AssetImage("assets/images/splash-1.png"),
-                                ),
-                                const SizedBox(
-                                  width: 13,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${widget.userOrders.delegate!.firstName} ${widget.userOrders.delegate!.lastName}",
-                                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 20),
-                                    ),
-                                    Row(
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  const CircleAvatar(
+                                    radius: 27,
+                                    backgroundImage: AssetImage("assets/images/splash-1.png"),
+                                  ),
+                                  const SizedBox(
+                                    width: 13,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Image.asset(
-                                          "assets/icons/star.png",
-                                          width: 16,
-                                          height: 16,
-                                        ),
-                                        const SizedBox(
-                                          width: 6,
-                                        ),
                                         Text(
-                                          "4.8",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .copyWith(fontSize: 14, color: myFavColor4),
+                                          "${widget.userOrders.delegate!.firstName} ${widget.userOrders.delegate!.lastName}",
+                                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 18),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/icons/star.png",
+                                              width: 16,
+                                              height: 16,
+                                            ),
+                                            const SizedBox(
+                                              width: 6,
+                                            ),
+                                            Text(
+                                              "4.8",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge!
+                                                  .copyWith(fontSize: 14, color: myFavColor4),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                             Row(
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    String phoneNumber = widget.userOrders.delegate!.phone!; // Replace with your actual phone number
+                                    String phoneNumber =
+                                        widget.userOrders.delegate!.phone!; // Replace with your actual phone number
                                     launchPhoneApp(phoneNumber);
                                   },
                                   icon: Image.asset(
@@ -193,7 +208,13 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    navigateTo(context, UserChatDetailsScreen(uId: GetUserOrdersCubit.get(context).emailToUidMap[widget.userOrders.delegate!.email],chatUserName: "${widget.userOrders.delegate!.firstName} ${widget.userOrders.delegate!.lastName}"));
+                                    navigateTo(
+                                        context,
+                                        UserChatDetailsScreen(
+                                            uId: GetUserOrdersCubit.get(context)
+                                                .emailToUidMap[widget.userOrders.delegate!.email],
+                                            chatUserName:
+                                                "${widget.userOrders.delegate!.firstName} ${widget.userOrders.delegate!.lastName}"));
                                   },
                                   icon: Image.asset(
                                     "assets/icons/chat.png",
@@ -258,7 +279,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    "${widget.userOrders.createdAt!.substring(0,9)} at ${widget.userOrders.createdAt!.substring(11,16)}",
+                                    "${widget.userOrders.createdAt!.substring(0, 9)} at ${widget.userOrders.createdAt!.substring(11, 16)}",
                                     //'December 22, 2023 | 09:44 AM',
                                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                   ),
@@ -303,7 +324,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "SK26273729",
+                                    widget.userOrders.trackId!,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -338,7 +359,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "2-3 days",
+                                    widget.userOrders.deliverTime!,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -373,7 +394,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     height: 10,
                                   ),
                                   Text(
-                                    "2.4 kg",
+                                    "${widget.userOrders.weight!} Kg",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyLarge!
@@ -445,14 +466,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    'December 22, 2023 | 09:44 AM',
+                                    '${widget.userOrders.createdAt!.substring(0,9)} | ${widget.userOrders.createdAt!.substring(11,16)}',
                                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: myFavColor4),
                                   ),
                                   state: StepState.complete,
                                 ),
                                 Step(
                                     title: Text(
-                                      'Benha train station street',
+                                      widget.userOrders.senderAddress!,
                                       style: Theme.of(context).textTheme.bodyLarge,
                                     ),
                                     content: Container(
@@ -470,7 +491,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
                                     state: StepState.complete),
                                 Step(
                                   title: Text(
-                                    'El-Galaa, Shebeen El-Koum , Menoufia',
+                                    widget.userOrders.receivedAddress!,
                                     style: Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   isActive: false,

@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/layout/user/cubit/cubit.dart';
@@ -61,12 +60,12 @@ class WaddyLoginScreen extends StatelessWidget {
             }).then((value) {
               if (userToken != null) {
                 context.read<UserLayoutCubit>().getUserData().then((value) {
-                  MainCubit.get(context).startLocationUpdates();
+                  UserLayoutCubit.get(context).startLocationUpdates();
                   navigateToAndFinish(context, const UserLayoutScreen());
                 });
               } else if (driverToken != null) {
                 context.read<DriverLayoutCubit>().getDelegateData().then((value) {
-                  MainCubit.get(context).startLocationUpdates();
+                  DriverLayoutCubit.get(context).startLocationUpdates();
                   navigateToAndFinish(context, const DriverLayoutScreen());
                 });
               }

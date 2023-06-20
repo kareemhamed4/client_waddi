@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/modules/common/choose_login_signup/choose_login_signup_screen.dart';
@@ -253,7 +252,7 @@ class DriverProfileScreen extends StatelessWidget {
                                         uId = null;
                                         driverToken = null;
                                         await FirebaseFirestore.instance.terminate().then((value) {
-                                          MainCubit.get(context).stopLocationUpdates();
+                                          DriverLayoutCubit.get(context).stopLocationUpdates();
                                           DriverLayoutCubit.get(context).changeBottom(0);
                                           Navigator.pushAndRemoveUntil(
                                             context,

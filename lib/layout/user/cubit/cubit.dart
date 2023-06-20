@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/user/cubit/states.dart';
 import 'package:waddy_app/models/common/message_model.dart';
@@ -300,5 +303,38 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     for (int i = 0; i < delegatesWithChat.length; i++) {
       getMessages(receiverId: delegatesWithChat[i].uId!);
     }
+  }
+
+  StreamSubscription<Position>? _positionStreamSubscription;
+  Future<void> startLocationUpdates() async{
+    await getUserDataFromFB();
+    emit(UpdateLocationLoadingState());
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10, // Minimum distance (in meters) before receiving updates
+      ),
+    ).listen((Position position) {
+      // Call the update method with the new latitude and longitude values
+      if (uId != null) {
+        updateLocationInFirebase(position.latitude, position.longitude);
+      }
+    });
+  }
+
+  void stopLocationUpdates() {
+    _positionStreamSubscription?.cancel();
+    _positionStreamSubscription = null;
+  }
+
+  void updateLocationInFirebase(double latitude, double longitude) {
+    FirebaseFirestore.instance.collection(userToken != null ? 'Users' : 'Delegates').doc(uId).update({
+      'latitude': latitude,
+      'longitude': longitude,
+    }).then((value) {
+      emit(UpdateLocationSuccessState(latitude: latitude, longitude: longitude));
+    }).catchError((error) {
+      emit(UpdateLocationErrorState(error.toString()));
+    });
   }
 }

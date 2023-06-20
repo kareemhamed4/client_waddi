@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:waddy_app/layout/driver/cubit/states.dart';
 import 'package:waddy_app/models/common/message_model.dart';
 import 'package:waddy_app/models/user/get_user_data_model.dart';
@@ -205,13 +208,50 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     }
   }
 
+  StreamSubscription<Position>? _positionStreamSubscription;
+
   final io.Socket socket = io.io("http://192.168.1.12:8080/", io.OptionBuilder().setTransports(['websocket']).build());
+
+  Future<void> startLocationUpdates() async{
+    await getDelegateDataFromFB();
+    emit(UpdateLocationLoadingState());
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 10, // Minimum distance (in meters) before receiving updates
+      ),
+    ).listen((Position position) {
+      // Call the update method with the new latitude and longitude values
+      if (uId != null) {
+        updateLocationInFirebase(position.latitude, position.longitude);
+        emitUpdateLocationEvent(position.latitude, position.longitude);
+      }
+    });
+  }
+
+  void stopLocationUpdates() {
+    _positionStreamSubscription?.cancel();
+    _positionStreamSubscription = null;
+  }
+
+  void updateLocationInFirebase(double latitude, double longitude) {
+    FirebaseFirestore.instance.collection(userToken != null ? 'Users' : 'Delegates').doc(uId).update({
+      'latitude': latitude,
+      'longitude': longitude,
+    }).then((value) {
+      emit(UpdateLocationSuccessState(latitude: latitude, longitude: longitude));
+    }).catchError((error) {
+      emit(UpdateLocationErrorState(error.toString()));
+    });
+  }
 
   connectSocket() {
     socket.onConnect((_) {
       debugPrint("Socket.IO Connected");
       // Emit updateLocation event
-      emitUpdateLocationEvent();
+      if(delegateInfo != null){
+        emitUpdateLocationEvent(currentLatitude ?? 0, currentLongitude ??0);
+      }
     });
 
     socket.onConnectError((data) {
@@ -226,17 +266,16 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     socket.on('updateLocation', (data) {
       debugPrint('Received updateLocation event with data: $data');
       // Handle the received data here
+      emitUpdateLocationEvent(currentLatitude ?? 0, currentLongitude ??0);
       processUpdateLocationData(data);
     });
   }
 
-  Future<void> emitUpdateLocationEvent() async{
-    // Sample data for delegate information
-    await getDelegateData();
+  void emitUpdateLocationEvent(num latitude, num longitude) {
     final data = {
       'delegate': delegateInfo!.id,
-      'latitude': currentLatitude,
-      'longitude': currentLongitude,
+      'latitude': latitude,
+      'longitude': longitude,
     };
 
     socket.emit('updateLocation', data);
@@ -249,4 +288,5 @@ class DriverLayoutCubit extends Cubit<DriverLayoutStates> {
     // Update your app state or perform any necessary actions
     // based on the received data
   }
+
 }

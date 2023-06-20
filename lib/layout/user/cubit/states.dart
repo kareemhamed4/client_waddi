@@ -66,3 +66,15 @@ class GetUsersWithChatErrorState extends UserLayoutStates{
   final String error;
   GetUsersWithChatErrorState(this.error);
 }
+
+
+class UpdateLocationLoadingState extends UserLayoutStates {}
+
+class UpdateLocationSuccessState extends UserLayoutStates {
+  final double latitude,longitude;
+  UpdateLocationSuccessState({required this.latitude, required this.longitude});
+}
+class UpdateLocationErrorState extends UserLayoutStates {
+  final String error;
+  UpdateLocationErrorState(this.error);
+}

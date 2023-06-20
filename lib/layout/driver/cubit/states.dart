@@ -50,3 +50,14 @@ class GetAllUsersFromFBErrorState extends DriverLayoutStates{
   GetAllUsersFromFBErrorState(this.error);
 }
 
+class UpdateLocationLoadingState extends DriverLayoutStates {}
+
+class UpdateLocationSuccessState extends DriverLayoutStates {
+  final double latitude,longitude;
+  UpdateLocationSuccessState({required this.latitude, required this.longitude});
+}
+class UpdateLocationErrorState extends DriverLayoutStates {
+  final String error;
+  UpdateLocationErrorState(this.error);
+}
+

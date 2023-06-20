@@ -93,15 +93,14 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => UserLayoutCubit()
               ..getUserDataFromFB()
               ..getAllDelegatesFromFB()..getDelegatesWithChat()
-              ..getAllUsersFromFB()..getUsersWithChat()
+              ..getAllUsersFromFB()..getUsersWithChat()..startLocationUpdates()
               ),
         BlocProvider(
             create: (BuildContext context) => DriverLayoutCubit()
               ..getDelegateDataFromFB()
               ..getAllUsersFromFB()
-              ..getUsersWithChat()
-              ..connectSocket()),
-        BlocProvider(create: (BuildContext context) => MainCubit()..startLocationUpdates()),
+              ..getUsersWithChat()..startLocationUpdates()..connectSocket()),
+        BlocProvider(create: (BuildContext context) => MainCubit()),
         BlocProvider(create: (BuildContext context) => DriverInboxCubit()),
         BlocProvider(create: (BuildContext context) => UserInboxCubit()),
         BlocProvider(create: (BuildContext context) => SignUpCubit()),

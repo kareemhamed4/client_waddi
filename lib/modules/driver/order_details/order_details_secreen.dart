@@ -2,6 +2,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:waddy_app/layout/driver/cubit/cubit.dart';
+import 'package:waddy_app/layout/driver/layout_screen.dart';
 import 'package:waddy_app/models/driver/delegate_get_all_orders.dart';
 import 'package:waddy_app/modules/driver/orders/cubit/cubit.dart';
 import 'package:waddy_app/modules/driver/orders/cubit/states.dart';
@@ -18,7 +20,8 @@ class OrderDetailsScreen extends StatelessWidget {
     return BlocConsumer<DriverOrdersCubit, DriverOrdersStates>(
       listener: (context, state) {
         if (state is GetOrdersRelatedToDelegateSuccessState) {
-          Navigator.pop(context);
+          navigateToAndFinish(context, const DriverLayoutScreen());
+          DriverLayoutCubit.get(context).changeBottom(1);
           buildSuccessToast(
             context: context,
             title: "Done!",

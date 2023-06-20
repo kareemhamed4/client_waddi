@@ -25,7 +25,6 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
   GlobalKey<LiquidPullToRefreshState>();
   @override
   void initState(){
-
     super.initState();
   }
   @override
@@ -245,6 +244,7 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
     return Builder(
       builder: (BuildContext context) {
         UserLayoutCubit.get(context).getDelegatesWithChat();
+        UserLayoutCubit.get(context).getUsersWithChat();
         return BlocConsumer<UserInboxCubit, UserInboxStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -377,6 +377,30 @@ class _UserInboxScreenState extends State<UserInboxScreen> {
                                     ),
                                     itemCount:
                                         UserLayoutCubit.get(context).delegatesWithChat.length,
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                    cubit.currentIndex == 0
+                                        ? buildChatItem(
+                                      context: context,
+                                      modelFB:
+                                      UserLayoutCubit.get(context)
+                                          .usersWithChat[index],
+                                    )
+                                        : buildCallItem(
+                                        context: context,
+                                        icon: icons[index]),
+                                    separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    itemCount:
+                                    UserLayoutCubit.get(context).usersWithChat.length,
                                   ),
                                 ],
                               ),

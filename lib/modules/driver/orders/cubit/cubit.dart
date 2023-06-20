@@ -131,9 +131,7 @@ class DriverOrdersCubit extends Cubit<DriverOrdersStates> {
           emit(DelegateTakeOrderErrorState(errorMessage));
         }
       } else {
-        final responseData = error.response?.data;
-        final errorMessage = responseData['msg'];
-        emit(DelegateTakeOrderErrorState(errorMessage));
+        emit(DelegateTakeOrderErrorState(error.toString()));
       }
     });
   }

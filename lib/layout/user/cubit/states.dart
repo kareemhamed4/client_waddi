@@ -49,3 +49,20 @@ class GetDelegatesWithChatErrorState extends UserLayoutStates{
   final String error;
   GetDelegatesWithChatErrorState(this.error);
 }
+
+class GetAllUsersFromFBLoadingState extends UserLayoutStates{}
+class GetAllUsersFromFBSuccessState extends UserLayoutStates{}
+class GetAllUsersFromFBErrorState extends UserLayoutStates{
+  final String error;
+  GetAllUsersFromFBErrorState(this.error);
+}
+
+class GetUsersWithChatLoadingState extends UserLayoutStates{}
+class GetUsersWithChatSuccessState extends UserLayoutStates{
+  final List<UserModelFB> usersWithChat;
+  GetUsersWithChatSuccessState(this.usersWithChat);
+}
+class GetUsersWithChatErrorState extends UserLayoutStates{
+  final String error;
+  GetUsersWithChatErrorState(this.error);
+}

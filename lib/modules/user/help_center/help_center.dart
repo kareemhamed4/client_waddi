@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:waddy_app/modules/driver/customer_service_chat/customer_service_chat_screen.dart';
 import 'package:waddy_app/modules/user/customer_service_chat/customer_service_chat_screen.dart';
 import 'package:waddy_app/modules/user/help_center/cubit/cubit.dart';
 import 'package:waddy_app/modules/user/help_center/cubit/states.dart';
 import 'package:waddy_app/shared/components/components.dart';
+import 'package:waddy_app/shared/constants/constants.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class ExpansionItem {
@@ -130,6 +132,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
                     cubit.currentIndexForFirstTabBar = index;
                   },
                   indicatorWeight: 3,
+                  indicatorColor: myFavColor,
                   indicatorPadding: const EdgeInsets.symmetric(horizontal: 16),
                   tabs: [
                     Tab(
@@ -279,7 +282,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
               child: ListTile(
                 onTap: (){
                   if(index == 0){
-                    navigateTo(context, const CustomerServiceChatDetailsScreen());
+                    navigateTo(context, userToken != null ? const CustomerServiceChatDetailsScreen() : const CustomerServiceChatDetailsForDelegatesScreen());
                   }
                 },
                 leading: Image.asset(imageList[index]),

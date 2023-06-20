@@ -92,8 +92,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (BuildContext context) => UserLayoutCubit()
               ..getUserDataFromFB()
-              ..getAllDelegatesFromFB()
-              ..getDelegatesWithChat()),
+              ..getAllDelegatesFromFB()..getDelegatesWithChat()
+              ..getAllUsersFromFB()..getUsersWithChat()
+              ),
         BlocProvider(
             create: (BuildContext context) => DriverLayoutCubit()
               ..getDelegateDataFromFB()

@@ -215,6 +215,64 @@ class UserLayoutCubit extends Cubit<UserLayoutStates> {
     }
   }
 
+  List<UserModelFB> users = [];
+  Future<void> getAllUsersFromFB() async{
+    emit(GetAllUsersFromFBLoadingState());
+    await getUserDataFromFB();
+    if (userModelFB != null) {
+      FirebaseFirestore.instance.collection('Users').get().then((value) {
+        for (var element in value.docs) {
+          if (element.data()["uId"] != userModelFB!.uId) {
+            users.add(UserModelFB.fromJson(element.data()));
+          }
+        }
+        emit(GetAllUsersFromFBSuccessState());
+      }).catchError((error) {
+        emit(GetAllUsersFromFBErrorState(error.toString()));
+      });
+    }
+  }
+
+  List<UserModelFB> usersWithChat = [];
+  Future<void> getUsersWithChat() async{
+    emit(GetUsersWithChatLoadingState());
+    await getAllMessages();
+    if (users.isEmpty) {
+      FirebaseFirestore.instance
+          .collection('Users')
+          .get()
+          .then((value) {
+        for (var element in value.docs) {
+          if (element.data()["uId"] != userModelFB!.uId) {
+            users.add(UserModelFB.fromJson(element.data()));
+          }
+        }
+
+        for (var user in users) {
+          FirebaseFirestore.instance
+              .collection("Users")
+              .doc(userModelFB!.uId)
+              .collection("Chats")
+              .doc(user.uId)
+              .collection("Messages")
+              .get()
+              .then((value) {
+            if (value.docs.isNotEmpty) {
+              usersWithChat.add(user);
+            }
+          }).whenComplete(() {
+            getAllMessages();
+            emit(GetUsersWithChatSuccessState(usersWithChat));
+          }).catchError((error) {
+            emit(GetUsersWithChatErrorState(error.toString()));
+          });
+        }
+      }).catchError((error) {
+        emit(GetAllUsersFromFBErrorState(error.toString()));
+      });
+    }
+  }
+
   List<MessageModel> messages = [];
   Map<String, MessageModel?> lastMessages = {};
   void getMessages({required String receiverId}) {

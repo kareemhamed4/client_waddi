@@ -4,7 +4,6 @@ import 'package:waddy_app/cubit/common/cubit.dart';
 import 'package:waddy_app/custom_icons_icons.dart';
 import 'package:waddy_app/layout/driver/cubit/cubit.dart';
 import 'package:waddy_app/layout/driver/cubit/states.dart';
-import 'package:waddy_app/modules/driver/orders/cubit/cubit.dart';
 import 'package:waddy_app/shared/styles/colors.dart';
 
 class DriverLayoutScreen extends StatelessWidget {

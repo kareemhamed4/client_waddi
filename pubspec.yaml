@@ -67,7 +67,7 @@ dependencies:
   dropdown_button2: ^2.1.2
   liquid_pull_to_refresh: ^3.0.1
   rate: ^0.0.2
-  flutter_screenutil: ^5.7.0
+  flutter_screenutil: ^5.8.1
   socket_io_client: ^2.0.2
   url_launcher: ^6.1.11
   flutter_email_sender: ^5.2.0

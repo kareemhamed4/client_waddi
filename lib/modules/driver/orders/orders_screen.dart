@@ -68,6 +68,7 @@ class _DriverOrdersScreenState extends State<DriverOrdersScreen> with SingleTick
                     cubit.currentIndexForTabBar = index;
                   },
                   indicatorWeight: 3,
+                  indicatorColor: myFavColor,
                   indicatorPadding: const EdgeInsets.symmetric(horizontal: 16),
                   tabs: [
                     Tab(
